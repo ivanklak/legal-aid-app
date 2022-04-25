@@ -1,38 +1,30 @@
-import logo from './logo.svg';
+
 import './App.module.css';
-import {useContext} from "react";
 import Header from './components/header/Header';
 import Navbar from './components/navbar/Navbar';
-import Section from './components/section/Section';
-import myRequests from './MyRequests';
-import newRequests from './NewRequest';
-import Chat from './Chat';
-import Settings from './Settings';
-import Menu from './Menu';
+import MyRequests from './components/myRequests/MyRequests';
+import NewRequests from './components/newRequest/NewRequest';
+import Chat from './components/chat/Chat';
+import Settings from './components/settings/Settings';
+import Menu from './components/menu/Menu';
+import {BrowserRouter, Route} from 'react-router-dom';
 
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-
-import {NavbarContext} from "./context/NavbarContext";
-
-function App() {
+const App = (props) => {
 
     return (
-        <>
-            <Navbar/>
-            <NavbarContext.Provider value=>
+        <BrowserRouter>
+            <div>
                 <Header/>
-            </NavbarContext.Provider>
-            <Section/>
-            <Router>
-                <Switch>
-                    <Route path='/menu' component={Menu}/>
-                    <Route path='/myRequests' component={myRequests}/>
-                    <Route path='/newRequest' component={newRequests}/>
+                <Navbar/>
+                <div>
+                    <Route path='/menu' component={Menu}></Route>
+                    <Route path='/myRequests' component={MyRequests}/>
+                    <Route path='/newRequest' component={NewRequests}/>
                     <Route path='/chat' component={Chat}/>
                     <Route path='/settings' component={Settings}/>
-                </Switch>
-            </Router>
-        </>
+                </div>
+            </div>
+        </BrowserRouter>
     );
 }
 

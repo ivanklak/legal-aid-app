@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import navbar_styles from './Navbar.module.css';
 import Cock from '../img/cock.png';
 import {ImHammer2} from 'react-icons/im';
@@ -9,13 +9,20 @@ import {BsFileEarmarkPlus} from 'react-icons/bs';
 import {BsChatRightText} from 'react-icons/bs';
 import {FiSettings} from 'react-icons/fi';
 import {CgMenuGridO} from 'react-icons/cg';
+import {NavLink} from "react-router-dom";
 
 const Navbar = () => {
 
-    const clickHandler = (e) => {
-        let arrowParent = e.target.parentElement.parentElement;
-        arrowParent.classList.toggle("showMenu");
-    };
+    // const clickHandler = (e) => {
+    //     let arrowParent = e.target.parentElement.parentElement;
+    //     arrowParent.classList.toggle("showMenu");
+    // };
+
+    const [isActive, setActive] = useState(false);
+
+    const clickHandler = () => {
+        setActive(!isActive);
+    }
 
     return (
         <>
@@ -26,52 +33,56 @@ const Navbar = () => {
                 </div>
                 <ul className={`${navbar_styles.nav_links}`}>
                     <li>
-                        <a href="/menu">
+                        <NavLink to="/menu">
                             <i className={`${navbar_styles.navbar_icon}`}><CgMenuGridO/></i>
                             <span className={`${navbar_styles.link_name}`}>Меню</span>
-                        </a>
+                        </NavLink>
                         <ul className={navbar_styles.sub_menu + ' ' + navbar_styles.blank}>
-                            <li><a className={`${navbar_styles.link_name}`} href="/menu">Меню</a></li>
+                            <li><NavLink className={`${navbar_styles.link_name}`} to="/menu">Меню</NavLink></li>
                         </ul>
                     </li>
-                    <li>
+                    <li className={`${isActive ? navbar_styles.showMenu : ''}`}>
                         <div className={`${navbar_styles.icon_link}`}>
-                            <a href="/myRequests">
+                            <NavLink to="/myRequests">
                                 <i className={`${navbar_styles.navbar_icon}`}><BiCollection/></i>
                                 <span className={`${navbar_styles.link_name}`}>Мои&nbsp;обращения</span>
-                            </a>
-                            <i className={`${navbar_styles.navbar_icon}`} onClick={clickHandler}><IoIosArrowDown/></i>
+                            </NavLink>
+                            <i className={navbar_styles.navbar_icon + ' ' + navbar_styles.arrow} onClick={clickHandler}><IoIosArrowDown/></i>
                         </div>
                         <ul className={`${navbar_styles.sub_menu}`}>
-                            <li><a className={`${navbar_styles.link_name}`} href="/myRequests">Мои обращения</a></li>
-                            <li><a href="#">Жалобы</a></li>
+                            <li><NavLink className={`${navbar_styles.link_name}`} to="/myRequests">Мои
+                                обращения</NavLink></li>
+                            <li><NavLink to="#">Жалобы</NavLink></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="/newRequest">
+                        <NavLink to="/newRequest">
                             <i className={`${navbar_styles.navbar_icon}`}><BsFileEarmarkPlus/></i>
                             <span className={`${navbar_styles.link_name}`}>Новое&nbsp;обращение</span>
-                        </a>
+                        </NavLink>
                         <ul className={navbar_styles.sub_menu + ' ' + navbar_styles.blank}>
-                            <li><a className={`${navbar_styles.link_name}`} href="/newRequest">Новое обращение</a></li>
+                            <li><NavLink className={`${navbar_styles.link_name}`} to="/newRequest">Новое
+                                обращение</NavLink></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="/chat">
+                        <NavLink to="/chat">
                             <i className={`${navbar_styles.navbar_icon}`}><BsChatRightText/></i>
                             <span className={`${navbar_styles.link_name}`}>Чат&nbsp;с&nbsp;юристом</span>
-                        </a>
+                        </NavLink>
                         <ul className={navbar_styles.sub_menu + ' ' + navbar_styles.blank}>
-                            <li><a className={`${navbar_styles.link_name}`} href="/chat">Чат с юристом</a></li>
+                            <li><NavLink className={`${navbar_styles.link_name}`} to="/chat">Чат с юристом</NavLink>
+                            </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="/settings">
+                        <NavLink to="/settings">
                             <i className={`${navbar_styles.navbar_icon}`}><FiSettings/></i>
                             <span className={`${navbar_styles.link_name}`}>Настройки</span>
-                        </a>
+                        </NavLink>
                         <ul className={navbar_styles.sub_menu + ' ' + navbar_styles.blank}>
-                            <li><a className={`${navbar_styles.link_name}`} href="/settings">Настройки</a></li>
+                            <li><NavLink className={`${navbar_styles.link_name}`} to="/settings">Настройки</NavLink>
+                            </li>
                         </ul>
                     </li>
                     <li>

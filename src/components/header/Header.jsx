@@ -1,20 +1,14 @@
 import React, {useState} from "react";
 import header_styles from './Header.module.css';
 import { HiMenu } from 'react-icons/hi';
-import {NavbarContext} from "../../context/NavbarContext";
 
-const Header = () => {
+const Header = (props) => {
 
     const [isActive, setActive] = useState(false);
 
     const toggleClass = () => {
         setActive(!isActive);
     }
-
-    // const clickMenu = (e) => {
-    //     let sidebar = document.querySelector(".sidebar");
-    //     sidebar.classList.toggle("close");
-    // };
 
     return (
         <>
