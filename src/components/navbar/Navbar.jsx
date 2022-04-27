@@ -26,7 +26,7 @@ const Navbar = () => {
 
     return (
         <>
-            <div className={`${navbar_styles.sidebar}`}>
+            <div className={navbar_styles.sidebar + " " + navbar_styles.close}>
                 <div className={`${navbar_styles.logo_details}`}>
                     <i className={`${navbar_styles.logo_icon}`}><ImHammer2/></i>
                     <span className={`${navbar_styles.logo_name}`}>Svod&nbsp;Company</span>
