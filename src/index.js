@@ -1,13 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import NavbarContext from "./context/NavbarContext";
+
+function Main() {
+
+    const [isNavbarClose, setClose] = useState(true);
+
+    return (
+        <React.StrictMode>
+            <NavbarContext.Provider value={{isNavbarClose, setClose}}>
+                <App />
+            </NavbarContext.Provider>
+        </React.StrictMode>
+    );
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Main />,
   document.getElementById('root')
 );
 

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import navbar_styles from './Navbar.module.css';
 import Cock from '../img/cock.png';
 import {ImHammer2} from 'react-icons/im';
@@ -10,13 +10,9 @@ import {BsChatRightText} from 'react-icons/bs';
 import {FiSettings} from 'react-icons/fi';
 import {CgMenuGridO} from 'react-icons/cg';
 import {NavLink} from "react-router-dom";
+import NavbarContext from "../../context/NavbarContext";
 
 const Navbar = () => {
-
-    // const clickHandler = (e) => {
-    //     let arrowParent = e.target.parentElement.parentElement;
-    //     arrowParent.classList.toggle("showMenu");
-    // };
 
     const [isActive, setActive] = useState(false);
 
@@ -24,9 +20,11 @@ const Navbar = () => {
         setActive(!isActive);
     }
 
+    const {isNavbarClose} = useContext(NavbarContext);
+
     return (
         <>
-            <div className={navbar_styles.sidebar + " " + navbar_styles.close}>
+            <div className={`${navbar_styles.sidebar} ${+" " + isNavbarClose ? navbar_styles.close : ''}`}>
                 <div className={`${navbar_styles.logo_details}`}>
                     <i className={`${navbar_styles.logo_icon}`}><ImHammer2/></i>
                     <span className={`${navbar_styles.logo_name}`}>Svod&nbsp;Company</span>

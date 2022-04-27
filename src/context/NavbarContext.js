@@ -1,5 +1,5 @@
-import {createContext} from "react";
+import React from "react";
 
-export const NavbarContext = createContext({
-   sidebarClose: false
-});
+const NavbarContext = React.createContext();
+
+export default NavbarContext;

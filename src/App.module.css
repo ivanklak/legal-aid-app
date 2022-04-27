@@ -37,11 +37,6 @@
   }
 }
 
-.sidebarClose {
-  left: 78px;
-  width: calc(100% - 78px);
-}
-
 .home_content {
   position: relative;
   background: #E4E9F7;
