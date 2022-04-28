@@ -39,8 +39,11 @@
 }
 
 .home_content .menu_icon {
-    margin: 0 15px;
     cursor: pointer;
+    font-size: 35px;
+    height: 35px;
+    min-width: 78px;
+    text-align: center;
 }
 
 .home_content .text {

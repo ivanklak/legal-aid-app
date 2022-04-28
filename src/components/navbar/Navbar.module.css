@@ -35,10 +35,9 @@
 .sidebar .logo_details .logo_icon {
     font-size: 30px;
     color: #fff;
-    height: 50px;
+    height: 30px;
     min-width: 78px;
     text-align: center;
-    line-height: 50px;
 }
 
 .sidebar .logo_details .logo_name {
