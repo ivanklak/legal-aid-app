@@ -13,7 +13,7 @@ const Header = (props) => {
 
     return (
         <>
-            <div className={`${header_styles.home_content} ${+' ' + isNavbarClose ? header_styles.width : ''}`}>
+            <div className={`${header_styles.home_content} ${isNavbarClose ? header_styles.width : ''}`}>
                 <i className={`${header_styles.menu_icon}`} onClick={closeOpenNavbar}><HiMenu/></i>
                 <span className={`${header_styles.text}`}>Drop Down Sidebar</span>
             </div>

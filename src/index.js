@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import NavbarContext from "./context/NavbarContext";
+import {AuthProvider} from "./context/AuthProvider";
 
 function Main() {
 
@@ -11,16 +12,18 @@ function Main() {
 
     return (
         <React.StrictMode>
-            <NavbarContext.Provider value={{isNavbarClose, setClose}}>
-                <App />
-            </NavbarContext.Provider>
+            <AuthProvider>
+                <NavbarContext.Provider value={{isNavbarClose, setClose}}>
+                    <App/>
+                </NavbarContext.Provider>
+            </AuthProvider>
         </React.StrictMode>
     );
 }
 
 ReactDOM.render(
-  <Main />,
-  document.getElementById('root')
+    <Main/>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
