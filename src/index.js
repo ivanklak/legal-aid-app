@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import NavbarContext from "./context/NavbarContext";
 import {AuthProvider} from "./context/AuthProvider";
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 function Main() {
 
@@ -12,11 +13,15 @@ function Main() {
 
     return (
         <React.StrictMode>
-            <AuthProvider>
-                <NavbarContext.Provider value={{isNavbarClose, setClose}}>
-                    <App/>
-                </NavbarContext.Provider>
-            </AuthProvider>
+            <BrowserRouter>
+                <AuthProvider>
+                    <NavbarContext.Provider value={{isNavbarClose, setClose}}>
+                        <Routes>
+                            <Route path="/*" element={<App/>}/>
+                        </Routes>
+                    </NavbarContext.Provider>
+                </AuthProvider>
+            </BrowserRouter>
         </React.StrictMode>
     );
 }

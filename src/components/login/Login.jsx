@@ -1,5 +1,7 @@
 import React from "react";
-import {useState, useEffect, useRef, useContext} from "react";
+import {useState, useEffect, useRef} from "react";
+import {Link, useNavigate, useLocation} from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 import axios from "../../service/api/axios";
 import login_styles from './login.module.css';
 import {FiMail} from 'react-icons/fi';
@@ -8,13 +10,17 @@ import {FiUser} from 'react-icons/fi';
 import {FiUnlock} from 'react-icons/fi';
 import {FiEye} from 'react-icons/fi';
 import {FiEyeOff} from 'react-icons/fi';
-import AuthContext from "../../context/AuthProvider";
 
 const LOGIN_URL = '/auth/login';
 const REGISTER_URL = '/auth/registration';
 
 const Login = (props) => {
-    const {setAuth} = useContext(AuthContext);
+    const {setAuth} = useAuth();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.pathname || "/";
+
     const errRefLogin = useRef();
     const errRefReg = useRef();
 
@@ -66,7 +72,7 @@ const Login = (props) => {
             if (!err?.response) {
                 setErrMsgRegistration('Нет ответа от сервера');
             } else if (err.response?.status === 403) {
-                setErrMsgRegistration("Пользователь уже сущетсвует")
+                setErrMsgRegistration("Пользователь уже существует")
             } else {
                 setErrMsgRegistration('Registration Failed');
             }
@@ -85,12 +91,15 @@ const Login = (props) => {
                 }
             );
             console.log(response.data);
+            const accessToken = response?.data?.token;
+            setAuth({email, pwd, accessToken});
             setUserName('');
             setEmail('');
             setPwd('');
             setMatchPwd('');
             setCheckbox(false);
             e.target.reset();
+            navigate(from, {replace: true});
         } catch (err) {
             if (!err?.response) {
                 setErrMsgLogin('Нет ответа от сервера');
