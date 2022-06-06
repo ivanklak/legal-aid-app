@@ -19,7 +19,7 @@ const Login = (props) => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.pathname || "/";
+    const from = location.state?.from?.pathname || "/";
 
     const errRefLogin = useRef();
     const errRefReg = useRef();
