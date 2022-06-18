@@ -1,6 +1,6 @@
 import React from "react";
 import {useState, useEffect, useRef} from "react";
-import {Link, useNavigate, useLocation} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import axios from "../../service/api/axios";
 import login_styles from './login.module.css';
@@ -14,7 +14,7 @@ import {FiEyeOff} from 'react-icons/fi';
 const LOGIN_URL = '/auth/login';
 const REGISTER_URL = '/auth/registration';
 
-const Login = (props) => {
+const Login = () => {
     const {setAuth} = useAuth();
 
     const navigate = useNavigate();
@@ -90,9 +90,9 @@ const Login = (props) => {
                     'password': pwd
                 }
             );
-            console.log(response.data);
             const accessToken = response?.data?.token;
-            setAuth({email, pwd, accessToken});
+            const roles = response?.data?.role;
+            setAuth({email, pwd, roles, accessToken});
             setUserName('');
             setEmail('');
             setPwd('');
@@ -112,7 +112,7 @@ const Login = (props) => {
     }
 
     return (
-        <header className="header">
+        <header className={`${login_styles.header}`}>
             <div className={`${login_styles.container} ${isRegistrationFormShow ? login_styles.active : ""}`}>
                 <div className={`${login_styles.forms}`}>
                     {/*login */}

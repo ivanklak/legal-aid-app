@@ -1,31 +1,31 @@
 import './App.module.css';
-import {Routes, Route} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import Login from "./components/login/Login";
 import RequireAuth from "./components/RequireAuth";
 import Home from "./components/Home";
 import Missing from "./components/Missing";
-import Menu from "./components/menu/Menu";
-import MyRequests from "./components/myRequests/MyRequests";
-import NewRequests from "./components/newRequest/NewRequest";
-import Chat from "./components/chat/Chat";
-import Settings from "./components/settings/Settings";
+import Unauthorized from "./components/Unauthorized";
 import React from "react";
 
-const App = (props) => {
+const App = () => {
+
+    const ROLES = {
+        'User': 'USER',
+        'Editor': 'Editor',
+        'Admin': 'Admin'
+    }
 
     return (
         <Routes>
-            <Route path="login" element={<Login/>}/>
-            <Route element={<RequireAuth/>}>
-                <Route path='/' element={<Home/>}>
-                    <Route path='menu' element={<Menu/>}/>
-                    <Route path='myRequests' element={<MyRequests/>}/>
-                    <Route path='newRequest' element={<NewRequests/>}/>
-                    <Route path='chat' element={<Chat/>}/>
-                    <Route path='settings' element={<Settings/>}/>
-                    <Route path="*" element={<Missing/>}/>
-                </Route>
+            {/* public */}
+            <Route path="login" element={<Login/>}></Route>
+            <Route path="unauthorized" element={<Unauthorized/>}></Route>
+            {/* private */}
+            <Route element={<RequireAuth allowedRoles={[ROLES.User]}/>}>
+                <Route path='/*' element={<Home/>}/>
             </Route>
+
+            <Route path="*" element={<Missing/>}/>
         </Routes>
     )
 }

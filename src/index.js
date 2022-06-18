@@ -17,7 +17,7 @@ function Main() {
                 <AuthProvider>
                     <NavbarContext.Provider value={{isNavbarClose, setClose}}>
                         <Routes>
-                            <Route path="/*" element={<App/>}/>
+                            <Route path='/*' element={<App/>}/>
                         </Routes>
                     </NavbarContext.Provider>
                 </AuthProvider>
