@@ -41,12 +41,12 @@
   position: relative;
   background: #E4E9F7;
   height: 100vh;
-  left: 300px;
-  width: calc(100% - 300px);
+  left: 310px;
+  width: calc(100% - 310px);
   transition: all 0.5s ease;
 }
 
 .home_content.width {
-  left: 78px;
-  width: calc(100% - 78px);
+  left: 70px;
+  width: calc(100% - 70px);
 }

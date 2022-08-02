@@ -15,14 +15,14 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 300px;
+    width: 310px;
     background: #11101d;
     z-index: 100;
     transition: all 0.5s ease;
 }
 
 .sidebar.close {
-    width: 78px;
+    width: 70px;
 }
 
 .sidebar .logo_details {
@@ -36,7 +36,7 @@
     font-size: 30px;
     color: #fff;
     height: 30px;
-    min-width: 78px;
+    min-width: 70px;
     text-align: center;
 }
 
@@ -89,12 +89,12 @@
 }
 
 .sidebar .nav_links li .navbar_icon {
-    height: 50px;
-    min-width: 78px;
+    height: 60px;
+    min-width: 70px;
     text-align: center;
-    line-height: 55px;
+    line-height: 70px;
     color: #fff;
-    font-size: 20px;
+    font-size: 30px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -196,7 +196,7 @@
 .sidebar .profile_details {
     position: fixed;
     bottom: 0;
-    width: 300px;
+    width: 310px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -210,7 +210,7 @@
 }
 
 .sidebar.close .profile_details {
-    width: 78px;
+    width: 70px;
 }
 
 .sidebar .profile_details .profile_content {
@@ -219,11 +219,11 @@
 }
 
 .sidebar .profile_details img {
-    height: 52px;
-    width: 52px;
+    height: 50px;
+    width: 50px;
     object-fit: cover;
     border-radius: 16px;
-    margin: 0 14px 0 12px;
+    margin: 0 14px 0 10px;
     background: #1d1b31;
     transition: all 0.5s ease;
 }
@@ -256,7 +256,7 @@
     }
 
     .sidebar {
-        width: 78px;
+        width: 70px;
     }
 
     .sidebar.close {
