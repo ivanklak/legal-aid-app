@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import menu_styles from '../../App.module.css';
-import NavbarContext from "../../context/NavbarContext";
+import NavbarContext from "../../App/context/NavbarContext";
 
 const Menu = (props) => {
 
@@ -8,9 +8,11 @@ const Menu = (props) => {
 
     return (
         <>
-            <section className={`${menu_styles.home_content} ${+' ' + isNavbarClose ? menu_styles.width : ''}`}>
-                <h1>Menu</h1>
-            </section>
+            <div className={`${menu_styles.home_content} ${+' ' + isNavbarClose ? menu_styles.width : ''}`}>
+                <div></div>
+                <div></div>
+
+            </div>
         </>
     );
 }

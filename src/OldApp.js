@@ -1,3 +1,4 @@
+import React from "react";
 import './App.module.css';
 import {Route, Routes} from 'react-router-dom';
 import Login from "./components/login/Login";
@@ -5,9 +6,8 @@ import RequireAuth from "./components/RequireAuth";
 import Home from "./components/Home";
 import Missing from "./components/Missing";
 import Unauthorized from "./components/Unauthorized";
-import React from "react";
 
-const App = () => {
+const OldApp = () => {
 
     const ROLES = {
         'User': 'USER',
@@ -30,4 +30,4 @@ const App = () => {
     )
 }
 
-export default App;
+export default OldApp;

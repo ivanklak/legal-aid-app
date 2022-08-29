@@ -6,21 +6,19 @@ import {ImHammer2} from 'react-icons/im';
 import {IoIosLogOut} from 'react-icons/io';
 import {IoIosArrowDown} from 'react-icons/io';
 import {NavLink, useNavigate} from "react-router-dom";
-import NavbarContext from "../../context/NavbarContext";
+import NavbarContext from "../../App/context/NavbarContext";
 import axios from "../../service/api/axios";
 import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
-
     const auth = useAuth();
     const navigate = useNavigate();
     const [isActive, setActive] = useState(false);
+    const { isNavbarClose } = useContext(NavbarContext);
 
     const clickHandler = () => {
         setActive(!isActive);
     }
-
-    const {isNavbarClose} = useContext(NavbarContext);
 
     const clickLogOut = async () => {
         const userName = auth?.auth?.email
@@ -82,9 +80,13 @@ const Navbar = () => {
                             <div className={`${navbar_styles.profile_name}`}>Pavel Klak</div>
                             <div className={`${navbar_styles.job}`}>Developer</div>
                         </div>
-                        <i className={`${navbar_styles.navbar_icon}`} onClick={clickLogOut}><Icon icon="charm:sign-out"
-                                                                                                  color="#e4e9f7"
-                                                                                                  height="20"/></i>
+                        <i className={`${navbar_styles.navbar_icon}`} onClick={clickLogOut}>
+                            <Icon
+                                icon="charm:sign-out"
+                                color="#e4e9f7"
+                                height="20"
+                            />
+                        </i>
                     </div>
                 </li>
             </ul>

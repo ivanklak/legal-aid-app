@@ -1,14 +1,14 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import header_styles from './Header.module.css';
 import {HiMenu} from 'react-icons/hi';
-import NavbarContext from "../../context/NavbarContext";
+import NavbarContext from "../../App/context/NavbarContext";
 
-const Header = (props) => {
+const Header = () => {
 
-    const {isNavbarClose, setClose} = useContext(NavbarContext);
+    const {isNavbarClose, setIsNavbarClose} = useContext(NavbarContext);
 
     const closeOpenNavbar = () => {
-        setClose(!isNavbarClose);
+        setIsNavbarClose(!isNavbarClose);
     }
 
     return (

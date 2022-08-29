@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import styles from '../../App.module.css';
-import NavbarContext from "../../context/NavbarContext";
+import NavbarContext from "../../App/context/NavbarContext";
 
 const NewRequests = (props) => {
 
