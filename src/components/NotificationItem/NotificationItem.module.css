@@ -1,0 +1,57 @@
+.notificationItem {
+    display: flex;
+    margin-bottom: 40px;
+}
+
+.notificationItem:last-child {
+    margin-bottom: 0;
+}
+
+.itemIcon {
+    display: flex;
+    align-items: center;
+    width: 15%;
+}
+
+.itemSuccessIcon {
+    background: url("../../App/resources/flat-color-icons_ok.svg") center/cover no-repeat;
+    width: 30px;
+    height: 30px;
+}
+
+.itemNewStatusIcon {
+    background: url("../../App/resources/akar-icons_more-horizontal.svg") center/cover no-repeat;
+    width: 30px;
+    height: 30px;
+}
+
+.itemSentIcon {
+    background: url("../../App/resources/bi_send-check-fill.svg") center/cover no-repeat;
+    width: 30px;
+    height: 30px;
+}
+
+.itemDescription {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 65%;
+}
+
+.itemTitle {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.itemId {
+    font-size: 14px;
+    color: #999999;
+}
+
+.itemTime {
+    display: flex;
+    align-items: center;
+    width: 20%;
+    color: #999999;
+    font-size: 14px;
+}

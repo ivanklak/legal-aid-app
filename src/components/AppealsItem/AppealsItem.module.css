@@ -1,0 +1,93 @@
+.appealsItem {
+    background: #ffffff;
+    margin-bottom: 12px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 7px 14px rgba(197, 201, 206, 0.4);
+}
+
+.appealsContainer {
+    display: flex;
+    width: 100%;
+}
+
+.itemIcon {
+    display: flex;
+    align-items: center;
+    width: 10%;
+}
+
+.itemSuccessIcon {
+    background: url("../../App/resources/flat-color-icons_ok.svg") center/cover no-repeat;
+    width: 30px;
+    height: 30px;
+}
+
+.itemInProcessIcon {
+    background: url("../../App/resources/fa-solid_question-circle.svg") center/cover no-repeat;
+    width: 30px;
+    height: 30px;
+}
+
+.itemSentIcon {
+    background: url("../../App/resources/bi_send-check-fill.svg") center/cover no-repeat;
+    width: 30px;
+    height: 30px;
+}
+
+.itemData {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 15%;
+}
+
+.itemId {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.itemDate {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.itemDescription {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 55%;
+}
+
+.itemTitle {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.itemShortDescription {
+    font-size: 12px;
+    font-weight: 400;
+    color: #999999;
+}
+
+.itemStatus {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 15%;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.itemSuccessStatus {
+    color: #4CAF50;
+}
+
+.itemInProcessStatus {
+    color: #FECF56;
+}
+
+.itemSentStatus {
+    color: #85B6FF;
+}
