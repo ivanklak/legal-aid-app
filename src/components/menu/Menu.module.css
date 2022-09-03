@@ -47,7 +47,7 @@
 
 .shortNotificationsContainer {
     overflow: hidden;
-    max-height: 250px;
+    max-height: 245px;
     transition: max-height 0.5s ease 0s;
 }
 
