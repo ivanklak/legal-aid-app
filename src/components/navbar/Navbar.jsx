@@ -43,7 +43,7 @@ const Navbar = () => {
             </div>
             <ul className={`${navbar_styles.nav_links}`}>
                 <li>
-                    <NavLink to="/menu">
+                    <NavLink to="/">
                         <i className={`${navbar_styles.navbar_icon}`}><Icon icon="ep:menu" color="#e4e9f7" height="35"/></i>
                         <span className={`${navbar_styles.link_name}`}>Меню</span>
                     </NavLink>

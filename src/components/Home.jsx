@@ -11,7 +11,7 @@ const Home = () => (
         <Header/>
         <Navbar/>
         <Routes>
-            <Route path='menu' element={<Menu/>}/>
+            <Route path='/' element={<Menu/>}/>
             <Route path='myRequests' element={<MyRequests/>}/>
             <Route path='newRequest' element={<NewRequests/>}/>
         </Routes>
