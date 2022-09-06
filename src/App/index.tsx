@@ -1,4 +1,5 @@
 import React, {FC, useState} from "react";
+import styles from "./App.module.css";
 import AppRoutes from "./routes";
 import {AuthProvider} from "./Layers/AuthProvider";
 import NavbarDataLayer from "./Layers/NavbarDataLayer";
@@ -12,11 +13,13 @@ enum Roles {
 const App: FC = () => {
 
     return (
-        <AuthProvider>
-            <NavbarDataLayer>
-                <AppRoutes />
-            </NavbarDataLayer>
-        </AuthProvider>
+        <div className={styles.wrapper}>
+            <AuthProvider>
+                <NavbarDataLayer>
+                    <AppRoutes />
+                </NavbarDataLayer>
+            </AuthProvider>
+        </div>
     )
 }
 

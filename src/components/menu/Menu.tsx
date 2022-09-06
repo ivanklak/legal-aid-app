@@ -79,6 +79,11 @@ const Menu: FC = () => {
                             <AppealsItem item={item} />
                         ))}
                         <div className={styles.allAppeals} onClick={onAllAppealsClick}>Все обращения</div>
+                        <div className={styles.caption}>Новое обращение</div>
+                        <div className={styles.newAppeal}>
+                            <div className={styles.newAppealPlus}>+</div>
+                            <div className={styles.newAppealText}>Создать новое обращение</div>
+                        </div>
                     </div>
                     <div className={styles.notifications}>
                         <div className={styles.caption}>Уведомления</div>

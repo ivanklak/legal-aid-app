@@ -36,60 +36,44 @@ const Navbar = () => {
     }
 
     return (<>
-        <div className={`${navbar_styles.sidebar} ${+" " + isNavbarClose ? navbar_styles.close : ''}`}>
-            <div className={`${navbar_styles.logo_details}`}>
-                <i className={`${navbar_styles.logo_icon}`}><ImHammer2/></i>
-                <span className={`${navbar_styles.logo_name}`}>Juster</span>
+        <div className={`${navbar_styles.sidebar} ${isNavbarClose && navbar_styles.close}`}>
+            <div className={navbar_styles.logo_details}>
+                <i className={navbar_styles.logo_icon}><ImHammer2/></i>
+                <span className={navbar_styles.logo_name}>Juster</span>
             </div>
-            <ul className={`${navbar_styles.nav_links}`}>
-                <li>
-                    <NavLink to="/">
-                        <i className={`${navbar_styles.navbar_icon}`}><Icon icon="ep:menu" color="#e4e9f7" height="35"/></i>
-                        <span className={`${navbar_styles.link_name}`}>Меню</span>
-                    </NavLink>
-                    <ul className={navbar_styles.sub_menu + ' ' + navbar_styles.blank}>
-                        <li><NavLink className={`${navbar_styles.link_name}`} to="/menu">Меню</NavLink></li>
-                    </ul>
-                </li>
-                <li className={`${isActive ? navbar_styles.showMenu : ''}`}>
-                    <div className={`${navbar_styles.icon_link}`}>
-                        <NavLink to="/myRequests">
-                            <i className={`${navbar_styles.navbar_icon}`}><Icon
-                                icon="fluent:document-arrow-right-20-filled" color="#e4e9f7" height="35"/></i>
-                            <span className={`${navbar_styles.link_name}`}>Мои&nbsp;обращения</span>
-                        </NavLink>
-                    </div>
-                </li>
-                <li>
-                    <NavLink to="/newRequest">
-                        <i className={`${navbar_styles.navbar_icon}`}><Icon icon="fluent:document-add-20-filled"
-                                                                            color="#e4e9f7" height="35"/></i>
-                        <span className={`${navbar_styles.link_name}`}>Новое&nbsp;обращение</span>
-                    </NavLink>
-                    <ul className={navbar_styles.sub_menu + ' ' + navbar_styles.blank}>
-                        <li><NavLink className={`${navbar_styles.link_name}`} to="/newRequest">Новое
-                            обращение</NavLink></li>
-                    </ul>
-                </li>
-                <li>
-                    <div className={`${navbar_styles.profile_details}`}>
-                        <div className={`${navbar_styles.profile_content}`}>
-                            <img src={Cock} alt="profileImg"/>
+            <div className={navbar_styles.tabs_container}>
+                <NavLink to="/" className={navbar_styles.tab}>
+                    <i className={navbar_styles.tab_icon}><Icon icon="ep:menu" color="#e4e9f7" height="35"/></i>
+                    <div className={navbar_styles.tab_text}>Главная</div>
+                </NavLink>
+                <NavLink to="/myRequests" className={navbar_styles.tab}>
+                    <i className={`${navbar_styles.tab_icon}`}><Icon icon="fluent:document-arrow-right-20-filled" color="#e4e9f7" height="35"/></i>
+                    <div className={navbar_styles.tab_text}>Мои&nbsp;обращения</div>
+                </NavLink>
+                <NavLink to="/newRequest" className={navbar_styles.tab}>
+                    <i className={`${navbar_styles.tab_icon}`}><Icon icon="fluent:document-add-20-filled" color="#e4e9f7" height="35"/></i>
+                    <div className={navbar_styles.tab_text}>Новое&nbsp;сообщение</div>
+                </NavLink>
+            </div>
+            <div className={navbar_styles.navbar_footer}>
+                <div className={navbar_styles.footer_img}>
+                    <img src={Cock} alt="profileImg"/>
+                </div>
+                {!isNavbarClose && (
+                    <>
+                        <div className={navbar_styles.footer_name}>Пувел&nbsp;Диареевич</div>
+                        <div className={navbar_styles.footer_exit}>
+                            <i onClick={clickLogOut}>
+                                <Icon
+                                    icon="charm:sign-out"
+                                    color="#e4e9f7"
+                                    height="16"
+                                />
+                            </i>
                         </div>
-                        <div className="name_job">
-                            <div className={`${navbar_styles.profile_name}`}>Pavel Klak</div>
-                            <div className={`${navbar_styles.job}`}>Developer</div>
-                        </div>
-                        <i className={`${navbar_styles.navbar_icon}`} onClick={clickLogOut}>
-                            <Icon
-                                icon="charm:sign-out"
-                                color="#e4e9f7"
-                                height="20"
-                            />
-                        </i>
-                    </div>
-                </li>
-            </ul>
+                    </>
+                )}
+            </div>
         </div>
     </>);
 }

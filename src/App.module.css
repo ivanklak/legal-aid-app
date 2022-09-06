@@ -41,8 +41,8 @@
   position: relative;
   background: #E4E9F7;
   height: 100vh;
-  left: 310px;
-  width: calc(100% - 310px);
+  left: 240px;
+  width: calc(100% - 240px);
   transition: all 0.5s ease;
 }
 
