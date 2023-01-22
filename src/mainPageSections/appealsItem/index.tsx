@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import styles from "./AppealsItem.module.css";
-import {IAppeals, Status} from "../menu/Menu";
+import {IAppeals, Status} from "../mainPage/MainPage";
 
 interface IAppealsItemProps {
     item: IAppeals

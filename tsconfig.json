@@ -1,20 +1,46 @@
+// Глобальные настройки ts используемые во всех пакетах
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    // Путь до базовой папки для поиска не относительных путей до файлов.
+    "allowSyntheticDefaultImports": true,
+    // Использование декораторов
+    "experimentalDecorators": true,
+    // Разрешить импортировать модули не имеющие внутри себя "import default"
+    "noImplicitAny": true,
+    // Показывать ошибку, если где-то задан тип "any".
+    "moduleResolution": "node",
+    // Определить способ поиска модулей в папках: как в Node.js или классический, как в TypeScript 1.5 и ниже.
+    "module": "esnext",
+    // Определяет тип импорта кода в итоговом файле, прописанном в "outFile". Необходимо задавать при использовании опции "outFile".
+    "target": "es6",
+    // Тип кода создаваемого итогового файла.
+    "allowJs": true,
+    // Разрешать компилировать файлы с JavaScript-кодом
     "jsx": "react",
-    "files": ["./node_modules/wmr/types.d.ts"]
-  },
-  "include": ["src"]
+    // Включать ли поддержку ".tsx" файлов
+    "checkJs": false,
+    // Сообщить об ошибках в .js-файлах? Используйте совместно с "allowJs"
+    "pretty": true,
+    // Окрашивать в терминале сообщения об ошибках.
+    "charset": "utf8",
+    // Кодировка входных файлов.
+    "resolveJsonModule": true,
+    // Разрешаем импорт JSON модулей
+    "lib": [
+      // подключение доп библиотек, если нужны фичи из более новых версий чем таргет
+      "DOM",
+      "ES2020"
+      // Библиотека es2020 для новых вишек промисов
+    ],
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "customMatcher": "\\.(module\\.sass|variables\\.scss)$",
+          "classnameTransform": "asIs"
+        }
+      }
+    ]
+  }
 }

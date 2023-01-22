@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import styles from "./NotificationItem.module.css";
-import {INotifications, NotificationsTitle} from "../menu/Menu";
+import {INotifications, NotificationsTitle} from "../mainPage/MainPage";
 
 interface NotificationItemProps {
     item: INotifications
