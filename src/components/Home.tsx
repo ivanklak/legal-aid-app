@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC} from "react";
 import Header from "./header/Header";
 import Navbar from "./navbar/Navbar";
 import {Route, Routes} from "react-router-dom";
@@ -6,7 +6,7 @@ import MainPage from "../mainPageSections/mainPage/MainPage";
 import MyRequests from "./myRequests/MyRequests";
 import NewRequests from "./newRequest/NewRequest";
 
-const Home = () => (
+const Home: FC = () => (
     <>
         <Header/>
         <Navbar/>

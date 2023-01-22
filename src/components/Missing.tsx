@@ -1,6 +1,7 @@
+import React, {FC} from "react";
 import { Link } from "react-router-dom"
 
-const Missing = () => {
+const Missing: FC = () => {
     return (
         <article style={{ padding: "100px" }}>
             <h1>Oops!</h1>
