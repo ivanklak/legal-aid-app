@@ -5,14 +5,15 @@
     height: 60px;
     display: flex;
     align-items: center;
-    left: 240px;
-    width: calc(100% - 240px);
+    left: 260px;
+    width: calc(100% - 260px);
     transition: all 0.5s ease;
+    background: var(--base-color__white80);
 }
 
 .home_content.width {
-    left: 70px;
-    width: calc(100% - 70px);
+    left: 80px;
+    width: calc(100% - 80px);
 }
 
 .menu_icon {

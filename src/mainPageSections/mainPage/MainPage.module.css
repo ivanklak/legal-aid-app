@@ -1,6 +1,6 @@
 .home_content {
     position: relative;
-    /*background: var(--base-color__white);*/
+    background: var(--base-color__white80);
     height: calc(100vh - 60px);
     left: 260px;
     width: calc(100% - 260px);
