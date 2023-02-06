@@ -1,4 +1,4 @@
-import React, {FC, useState} from "react";
+import React, {FC} from "react";
 import styles from "./App.module.css";
 import AppRoutes from "./routes";
 import {AuthProvider} from "./Layers/AuthProvider";
@@ -14,6 +14,7 @@ const App: FC = () => {
 
     return (
         <div className={styles.wrapper}>
+            <div className={styles.bgImage}></div>
             <AuthProvider>
                 <NavbarDataLayer>
                     <AppRoutes />

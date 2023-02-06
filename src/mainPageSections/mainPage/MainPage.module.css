@@ -1,14 +1,14 @@
 .home_content {
     position: relative;
-    background: #E4E9F7;
+    /*background: var(--base-color__white);*/
     height: calc(100vh - 60px);
-    left: 240px;
-    width: calc(100% - 240px);
+    left: 260px;
+    width: calc(100% - 260px);
     transition: all 0.5s ease;
 }
 
 .home_content.width {
-    left: 70px;
+    left: 80px;
     width: calc(100% - 70px);
 }
 

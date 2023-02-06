@@ -11,35 +11,41 @@
     width: 100%;
 }
 
+/*.appealsContainer div {*/
+/*    margin-left: 10px*/
+/*}*/
+
 .itemIcon {
     display: flex;
     align-items: center;
-    width: 10%;
 }
 
 .itemSuccessIcon {
     background: url("../../App/resources/flat-color-icons_ok.svg") center/cover no-repeat;
     width: 30px;
     height: 30px;
+    /*filter: drop-shadow(3px 3px 2px rgba(0, 225, 139, 0.7));*/
 }
 
 .itemInProcessIcon {
     background: url("../../App/resources/fa-solid_question-circle.svg") center/cover no-repeat;
     width: 30px;
     height: 30px;
+    /*filter: drop-shadow(3px 3px 2px rgba(248, 192, 76, 0.7));*/
 }
 
 .itemSentIcon {
     background: url("../../App/resources/bi_send-check-fill.svg") center/cover no-repeat;
     width: 30px;
     height: 30px;
+    /*filter: drop-shadow(3px 3px 2px rgba(76, 130, 248, 0.7));*/
 }
 
 .itemData {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 15%;
+    margin-left: 12px;
 }
 
 .itemId {
@@ -56,7 +62,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 55%;
+    margin-left: 12px;
 }
 
 .itemTitle {
@@ -74,10 +80,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    width: 15%;
+    width: 14%;
     font-size: 14px;
     font-weight: 400;
+    margin-left: auto;
 }
 
 .itemSuccessStatus {

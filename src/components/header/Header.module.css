@@ -2,8 +2,9 @@
 
 .home_content {
     position: relative;
-    background: #E4E9F7;
-    height: 100vh;
+    height: 60px;
+    display: flex;
+    align-items: center;
     left: 240px;
     width: calc(100% - 240px);
     transition: all 0.5s ease;
@@ -14,27 +15,27 @@
     width: calc(100% - 70px);
 }
 
-.home_content {
-    height: 60px;
+.menu_icon {
     display: flex;
     align-items: center;
-}
-
-.home_content .menu_icon,
-.home_content .text {
-    color: #11101d;
-    font-size: 35px;
-}
-
-.home_content .menu_icon {
+    padding: 5px;
+    margin-left: 15px;
+    font-size: 25px;
+    color: var(--base-color__black);
     cursor: pointer;
-    font-size: 35px;
-    height: 35px;
-    min-width: 70px;
-    text-align: center;
+    transition: transform 0.7s ease;
 }
 
-.home_content .text {
+.menu_icon:hover {
+    color: rgba(40, 40, 40, 0.82);
+}
+
+.touched {
+    transform: rotate(180deg)
+}
+
+.text {
+    color: #11101d;
     font-size: 26px;
     font-weight: 600;
 }
