@@ -9,6 +9,14 @@
 }
 
 .tab:hover {
+    background: var(--base-color__white25);
+}
+
+.tab:hover i > svg {
+    fill: var(--base-color__white);
+}
+
+.active {
     background: var(--base-color__button);
     color: var(--base-color__white);
 }
@@ -17,6 +25,10 @@
     display: flex;
     align-items: center;
     margin: 0 10px 0 0;
+}
+
+.icon_active svg {
+    fill: var(--base-color__white);
 }
 
 .name {

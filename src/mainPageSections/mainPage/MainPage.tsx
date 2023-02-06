@@ -5,6 +5,7 @@ import AppealsItem from "../appealsItem";
 import NotificationItem from "../notificationItem";
 import {useNavigate} from "react-router-dom";
 import classNames from "classnames";
+import MainWrapper from "../../components/mainWrapper/MainWrapper";
 
 export enum Status {
     success = "Решено",
@@ -71,7 +72,7 @@ const MainPage: FC = () => {
     }
 
     return (
-        <>
+        <MainWrapper>
             <div className={classNames(styles.home_content, isNavbarClose && styles.width)}>
                 <div className={styles.menu}>
                     <div className={styles.appeals}>
@@ -104,7 +105,7 @@ const MainPage: FC = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </MainWrapper>
     );
 }
 

@@ -1,20 +1,13 @@
 .home_content {
-    position: relative;
-    background: var(--base-color__white80);
-    height: calc(100vh - 60px);
-    left: 260px;
-    width: calc(100% - 260px);
-    transition: all 0.5s ease;
+
 }
 
 .home_content.width {
-    left: 80px;
-    width: calc(100% - 70px);
+
 }
 
 .menu {
     display: flex;
-
     width: 100%;
     padding: 20px;
     height: inherit;

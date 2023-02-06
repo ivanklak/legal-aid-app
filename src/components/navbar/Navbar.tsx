@@ -1,10 +1,10 @@
-import React, {FC, useContext, useState} from "react";
+import React, {FC, useContext, useEffect, useState} from "react";
 import navbar_styles from './Navbar.module.css';
 // @ts-ignore
 import Cock from '../img/cock.png';
 import {Icon} from '@iconify/react';
 import {ImHammer2} from 'react-icons/im';
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import NavbarContext from "../../App/context/NavbarContext";
 import axios from "../../service/api/axios";
 import useAuth from "../hooks/useAuth";
@@ -12,15 +12,28 @@ import classNames from "classnames";
 import Tab from "./tab/Tab";
 import { IoIosArrowForward } from "react-icons/io";
 
+enum Pathname {
+    Home = "/",
+    MyRequests = '/myRequests',
+    NewRequest = '/newRequest',
+    Notifications = '/notifications'
+}
+
 const Navbar: FC = () => {
     const auth = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
     const [isActive, setActive] = useState(false);
     const { isNavbarClose, setIsNavbarClose } = useContext(NavbarContext);
+    const [currentPage, setCurrentPage] = useState<Pathname>(Pathname.Home)
 
     const clickHandler = () => {
         setActive(!isActive);
     }
+
+    useEffect(() => {
+        setCurrentPage(location.pathname as Pathname)
+    }, [location])
 
     const clickLogOut = async () => {
         const userName = auth?.auth?.email
@@ -64,26 +77,30 @@ const Navbar: FC = () => {
                 <Tab
                     path='/'
                     name='Главная'
-                    icon={<Icon icon="ep:menu" color="var(--base-color__text_light)" height="25"/>}
+                    icon={<Icon icon="ep:menu" height="25"/>}
                     isNavbarClose={isNavbarClose}
+                    isActive={currentPage === Pathname.Home}
                 />
                 <Tab
                     path='/myRequests'
                     name='Мои&nbsp;обращения'
-                    icon={<Icon icon="fluent:document-arrow-right-20-filled" color="var(--base-color__text_light)" height="25"/>}
+                    icon={<Icon icon="fluent:document-arrow-right-20-filled" height="25"/>}
                     isNavbarClose={isNavbarClose}
+                    isActive={currentPage === Pathname.MyRequests}
                 />
                 <Tab
                     path='/newRequest'
                     name='Новое&nbsp;сообщение'
-                    icon={<Icon icon="fluent:document-add-20-filled" color="var(--base-color__text_light)" height="25"/>}
+                    icon={<Icon icon="fluent:document-add-20-filled" height="25"/>}
                     isNavbarClose={isNavbarClose}
+                    isActive={currentPage === Pathname.NewRequest}
                 />
                 <Tab
-                    path={'/newRequest'}
+                    path={'/notifications'}
                     name={'Уведомления'}
-                    icon={<Icon icon="ion:notifications" color="var(--base-color__text_light)" height="25"/>}
+                    icon={<Icon icon="ion:notifications" height="25"/>}
                     isNavbarClose={isNavbarClose}
+                    isActive={currentPage === Pathname.Notifications}
                 />
             </div>
             <div className={navbar_styles.navbar_footer}>

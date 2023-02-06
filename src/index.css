@@ -1,3 +1,9 @@
+/* Google Fonts Import Link */
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -53,7 +59,7 @@ html, body {
   --base-color__yellow500: rgb(255, 212, 0);
 
   --base-color__background: rgb(238, 238, 238);
-  --base-color__text_light: rgb(74, 90, 110);
+  --base-color__text_light: rgb(74, 90, 110, 0.9);
   --base-color__button: rgb(43, 132, 239);
   --primary-color__background: rgb(183, 205, 241);
   --primary2-color__background: rgb(216, 231, 243);

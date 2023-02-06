@@ -5,6 +5,7 @@ import {Route, Routes} from "react-router-dom";
 import MainPage from "../mainPageSections/mainPage/MainPage";
 import MyRequests from "./myRequests/MyRequests";
 import NewRequests from "./newRequest/NewRequest";
+import Notifications from "../notifications/Notifications";
 
 const Home: FC = () => (
     <>
@@ -14,6 +15,7 @@ const Home: FC = () => (
             <Route path='/' element={<MainPage/>}/>
             <Route path='myRequests' element={<MyRequests/>}/>
             <Route path='newRequest' element={<NewRequests/>}/>
+            <Route path='notifications' element={<Notifications/>} />
         </Routes>
     </>
 )
