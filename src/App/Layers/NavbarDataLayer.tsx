@@ -3,7 +3,7 @@ import NavbarContext from "../context/NavbarContext";
 
 const NavbarDataLayer: FC = ({children}) => {
 
-    const [isNavbarClose, setIsNavbarClose] = useState(true);
+    const [isNavbarClose, setIsNavbarClose] = useState(false);
 
     return (
         <NavbarContext.Provider value={{isNavbarClose, setIsNavbarClose}}>

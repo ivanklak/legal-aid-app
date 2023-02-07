@@ -59,11 +59,13 @@ html, body {
   --base-color__yellow500: rgb(255, 212, 0);
 
   --base-color__background: rgb(238, 238, 238);
-  --base-color__text_light: rgb(74, 90, 110, 0.9);
+  --base-color__text_light: rgba(51, 65, 79, 0.9);
   --base-color__button: rgb(43, 132, 239);
   --primary-color__background: rgb(183, 205, 241);
   --primary2-color__background: rgb(216, 231, 243);
   --second-color__background: rgb(117, 133, 238);
   --violet-color__background: rgb(178, 157, 246);
   --gold-color__background: rgb(245, 206, 125);
+
+  --base-color__success: rgba(71, 248, 127, 0.4);
 }

@@ -9,6 +9,8 @@
     background: rgba(255, 255, 255, 0.5);
     z-index: 100;
     transition: all 0.5s ease;
+    /*background: rgb(253,251,255);*/
+    /*background: linear-gradient(122deg, rgba(253,251,255,0.96) 0%, rgba(249,241,255,0.9) 80%, rgba(245,231,255,0.9) 100%);*/
 }
 
 .close {
@@ -88,10 +90,12 @@
 .navbar_footer {
     display: flex;
     align-items: center;
-    padding-top: 20px;
-    margin: auto 20px 20px 20px;
-    border-top: 1px solid var(--base-color__black30);
+    padding: 10px;
+    border-radius: 15px;
+    margin: auto 15px 15px 15px;
     justify-content: space-between;
+    background: var(--base-color__white);
+    box-shadow: 0 7px 14px rgba(197, 201, 206, 0.4);
 }
 
 .footer_img {
@@ -107,9 +111,15 @@
     height: 100%;
 }
 
+.greeting {
+    color: var(--base-color__black50);
+    font-size: 12px;
+}
+
 .footer_info {
     display: flex;
     align-items: center;
+    overflow: hidden;
     opacity: 1;
     transition: opacity 0.3s ease 0s;
 }
@@ -123,12 +133,11 @@
     color: var(--base-color__text_light);
     font-weight: 600;
     cursor: pointer;
-    margin-right: 12px;
 }
 
 .footer_exit {
     margin-top: 5px;
-    margin-left: 14px;
+    margin-left: 30px;
     cursor: pointer;
 }
 

@@ -1,16 +1,17 @@
 import React, {FC, useContext, useState} from "react";
 import styles from "./MainPage.module.css";
 import NavbarContext from "../../App/context/NavbarContext";
-import AppealsItem from "../appealsItem";
 import NotificationItem from "../notificationItem";
 import {useNavigate} from "react-router-dom";
 import classNames from "classnames";
 import MainWrapper from "../../components/mainWrapper/MainWrapper";
+import Claims from "../claims/Claims";
 
 export enum Status {
     success = "Решено",
-    inProcess = "Запрос информации",
+    inProcess = "В процессе",
     sent = "Отправлено",
+    verification = "Верификация"
 }
 
 export enum NotificationsTitle {
@@ -42,7 +43,8 @@ const MainPage: FC = () => {
     const appealsFromServer: Array<IAppeals> = [
         {id: 10003, date: '24.03.2022', title: 'Название жалобы', description: 'Длиииинный текст', shortDescription: 'Короткое описание', status: Status.success},
         {id: 10002, date: '12.03.2022', title: 'Название жалобы', description: 'Длиииинный текст', shortDescription: 'Короткое описание', status: Status.inProcess},
-        {id: 10001, date: '02.03.2022', title: 'Название жалобы', description: 'Длиииинный текст', shortDescription: 'Короткое описание', status: Status.sent}
+        {id: 10001, date: '02.03.2022', title: 'Название жалобы', description: 'Длиииинный текст', shortDescription: 'Короткое описание', status: Status.sent},
+        {id: 10000, date: '01.03.2022', title: 'Название жалобы', description: 'Длиииинный текст', shortDescription: 'Короткое описание', status: Status.verification}
     ]
 
     const notificationsFromServer: Array<INotifications> = [
@@ -63,10 +65,6 @@ const MainPage: FC = () => {
         {id: 10015, sentTime: '07.08.2022', title: NotificationsTitle.success},
     ]
 
-    const onAllAppealsClick = () => {
-        return navigate('myRequests')
-    }
-
     const onAllNotificationsClick = () => {
         setIsFullNotificationsShowing(!isFullNotificationsShowing);
     }
@@ -76,16 +74,8 @@ const MainPage: FC = () => {
             <div className={classNames(styles.home_content, isNavbarClose && styles.width)}>
                 <div className={styles.menu}>
                     <div className={styles.appeals}>
-                        <div className={styles.caption}>Обращения</div>
-                        {appealsFromServer.map((item) => (
-                            <AppealsItem item={item} key={item.id} />
-                        ))}
-                        <div className={styles.allAppeals} onClick={onAllAppealsClick}>Все обращения</div>
-                        <div className={styles.caption}>Новое обращение</div>
-                        <div className={styles.newAppeal}>
-                            <div className={styles.newAppealPlus}>+</div>
-                            <div className={styles.newAppealText}>Создать новое обращение</div>
-                        </div>
+                        <div className={styles.main_caption}>Обращения</div>
+                        <Claims claims={appealsFromServer} />
                     </div>
                     <div className={styles.notifications}>
                         <div className={styles.caption}>Уведомления</div>

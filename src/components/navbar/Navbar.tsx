@@ -111,7 +111,10 @@ const Navbar: FC = () => {
                     navbar_styles.footer_info,
                     isNavbarClose && navbar_styles.footer_info_hide
                 )}>
-                    <div className={navbar_styles.footer_name}>Пувел&nbsp;Диареевич</div>
+                    <div>
+                        <div className={navbar_styles.greeting}>Добрый день</div>
+                        <div className={navbar_styles.footer_name}>Пувел&nbsp;Диареевич</div>
+                    </div>
                     <div className={navbar_styles.footer_exit}>
                         <i onClick={clickLogOut}>
                             <Icon

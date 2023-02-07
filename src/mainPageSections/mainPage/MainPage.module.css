@@ -9,15 +9,20 @@
 .menu {
     display: flex;
     width: 100%;
-    padding: 20px;
+    padding: 0 20px;
     height: inherit;
 }
 
 .appeals {
     /*border: 1px solid black;*/
     flex: 2;
-    padding: 20px 20px;
     max-width: 1020px;
+}
+
+.main_caption {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 20px;
 }
 
 .caption {
@@ -51,16 +56,6 @@
     transition: max-height 0.5s ease 0s;
 }
 
-.allAppeals {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 0;
-    font-size: 16px;
-    color: #1A73E8;
-    cursor: pointer;
-}
-
 .allNotifications {
     display: flex;
     align-items: center;
@@ -69,31 +64,4 @@
     font-size: 16px;
     color: #1A73E8;
     cursor: pointer;
-}
-
-.newAppeal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #85B6FF;
-    background: transparent;
-    margin-bottom: 12px;
-    padding: 20px;
-    border-radius: 10px;
-    border: 2px dashed #85B6FF;
-}
-
-.newAppeal:hover {
-    border: 2px solid #85B6FF;
-}
-
-.newAppealPlus {
-    cursor: pointer;
-    font-size: 24px;
-}
-
-.newAppealText {
-    cursor: pointer;
-    margin-left: 7px;
-    font-size: 16px;
 }
