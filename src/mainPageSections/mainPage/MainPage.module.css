@@ -16,31 +16,37 @@
 .appeals {
     /*border: 1px solid black;*/
     flex: 2;
-    max-width: 1020px;
+    max-width: 800px;
 }
 
 .main_caption {
+    font-family: "Helvetica", sans-serif;
     font-size: 32px;
     font-weight: 600;
     margin-bottom: 20px;
 }
 
 .caption {
+    font-family: "Helvetica", sans-serif;
     font-size: 22px;
     font-weight: 600;
     margin-bottom: 20px;
 }
 
+.search_block {
+    margin-bottom: 20px;
+}
+
 .notifications {
     flex: 1;
-    padding: 20px;
-    max-width: 600px;
+    padding: 0 20px;
+    max-width: 500px;
 }
 
 .notificationsContainer {
     background: #ffffff;
     padding: 30px;
-    border-radius: 10px;
+    border-radius: 16px;
     box-shadow: 0 7px 14px rgba(197, 201, 206, 0.4);
 }
 
@@ -60,8 +66,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: "Helvetica", sans-serif;
     padding: 20px 0;
-    font-size: 16px;
+    font-size: 14px;
     color: #1A73E8;
     cursor: pointer;
 }

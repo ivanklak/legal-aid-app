@@ -12,7 +12,7 @@ const AppealsItem: FC<IAppealsItemProps> = ({ item }) => {
             <div className={styles.appealsContainer}>
                 <div className={styles.itemIcon}>
                     <div className={styles.iconContainer}>
-                        <div className={styles.departmentIcon} />
+                        🏛
                     </div>
                 </div>
                 <div className={styles.itemDescription}>
