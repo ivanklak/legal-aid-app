@@ -14,6 +14,7 @@ import { IoIosArrowForward } from "react-icons/io";
 
 enum Pathname {
     Home = "/",
+    Category = '/category',
     MyRequests = '/myRequests',
     NewRequest = '/newRequest',
     Notifications = '/notifications'
@@ -80,6 +81,13 @@ const Navbar: FC = () => {
                     icon={<Icon icon="ep:menu" height="25"/>}
                     isNavbarClose={isNavbarClose}
                     isActive={currentPage === Pathname.Home}
+                />
+                <Tab
+                    path='/category'
+                    name='Категории'
+                    icon={<Icon icon="heroicons:rectangle-stack-20-solid" height="25"/>}
+                    isNavbarClose={isNavbarClose}
+                    isActive={currentPage === Pathname.Category}
                 />
                 <Tab
                     path='/myRequests'

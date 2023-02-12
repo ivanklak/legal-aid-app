@@ -1,12 +1,10 @@
-import React, {FC, useContext, useState} from "react";
+import React, {FC, useContext} from "react";
 import styles from "./MainPage.module.css";
 import NavbarContext from "../../App/context/NavbarContext";
-import NotificationItem from "../notificationItem";
-import {useNavigate} from "react-router-dom";
 import classNames from "classnames";
 import MainWrapper from "../../components/mainWrapper/MainWrapper";
 import Claims from "../claims/Claims";
-import NavigatedSearchBar from "../search/SearchBar";
+import RightSideBar from "../rightSideBar/RightSideBar";
 
 export enum Status {
     success = "Решено",
@@ -34,12 +32,11 @@ export interface INotifications {
     id: number
     sentTime: string
     title: NotificationsTitle
+    isRead: boolean
 }
 
 const MainPage: FC = () => {
-    const navigate = useNavigate();
     const { isNavbarClose } = useContext(NavbarContext);
-    const [isFullNotificationsShowing, setIsFullNotificationsShowing] = useState<boolean>(false);
 
     const appealsFromServer: Array<IAppeals> = [
         {id: 10003, date: '24.03.2022', title: 'Название жалобы', description: 'Длиииинный текст', shortDescription: 'Короткое описание', status: Status.success},
@@ -49,26 +46,12 @@ const MainPage: FC = () => {
     ]
 
     const notificationsFromServer: Array<INotifications> = [
-        {id: 10001, sentTime: '2 минуты назад', title: NotificationsTitle.sent},
-        {id: 10002, sentTime: '5 минут назад', title: NotificationsTitle.success},
-        {id: 10003, sentTime: '30 минут назад', title: NotificationsTitle.newStatus},
-        {id: 10004, sentTime: '1 час назад', title: NotificationsTitle.newStatus},
-        {id: 10005, sentTime: '2 часа назад', title: NotificationsTitle.sent},
-        {id: 10006, sentTime: '5 часов назад', title: NotificationsTitle.newStatus},
-        {id: 10007, sentTime: '07.08.2022', title: NotificationsTitle.sent},
-        {id: 10008, sentTime: '30.07.2022', title: NotificationsTitle.newStatus},
-        {id: 10009, sentTime: '12.04.2022', title: NotificationsTitle.success},
-        {id: 10010, sentTime: '07.08.2022', title: NotificationsTitle.success},
-        {id: 10011, sentTime: '07.08.2022', title: NotificationsTitle.success},
-        {id: 10012, sentTime: '07.08.2022', title: NotificationsTitle.success},
-        {id: 10013, sentTime: '07.08.2022', title: NotificationsTitle.success},
-        {id: 10014, sentTime: '07.08.2022', title: NotificationsTitle.success},
-        {id: 10015, sentTime: '07.08.2022', title: NotificationsTitle.success},
+        {id: 10001, sentTime: '2 мин назад', title: NotificationsTitle.sent, isRead: false},
+        {id: 10002, sentTime: '5 мин назад', title: NotificationsTitle.success, isRead: false},
+        {id: 10003, sentTime: '30 мин назад', title: NotificationsTitle.newStatus, isRead: false},
+        {id: 10004, sentTime: '1 ч назад', title: NotificationsTitle.newStatus, isRead: true},
+        {id: 10005, sentTime: '2 ч назад', title: NotificationsTitle.sent, isRead: true},
     ]
-
-    const onAllNotificationsClick = () => {
-        setIsFullNotificationsShowing(!isFullNotificationsShowing);
-    }
 
     return (
         <MainWrapper>
@@ -78,25 +61,7 @@ const MainPage: FC = () => {
                         <div className={styles.main_caption}>Обращения</div>
                         <Claims claims={appealsFromServer} />
                     </div>
-                    <div className={styles.notifications}>
-                        <div className={styles.search_block}>
-                            <NavigatedSearchBar />
-                        </div>
-                        <div className={styles.caption}>Уведомления</div>
-                        <div className={styles.notificationsContainer}>
-                            <div className={classNames(isFullNotificationsShowing
-                                    ? styles.fullNotificationsContainer
-                                    : styles.shortNotificationsContainer
-                            )}>
-                                {notificationsFromServer.map((item) => (
-                                    <NotificationItem item={item} key={item.id}/>
-                                ))}
-                            </div>
-                        </div>
-                        <div className={styles.allNotifications} onClick={onAllNotificationsClick}>
-                            {isFullNotificationsShowing ? "Свернуть" : "Все уведомления"}
-                        </div>
-                    </div>
+                    <RightSideBar notifications={notificationsFromServer}/>
                 </div>
             </div>
         </MainWrapper>

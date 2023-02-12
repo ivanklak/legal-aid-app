@@ -6,6 +6,7 @@ import MainPage from "../mainPageSections/mainPage/MainPage";
 import MyRequests from "./myRequests/MyRequests";
 import NewRequests from "./newRequest/NewRequest";
 import Notifications from "../notifications/Notifications";
+import Categories from "../categories/Categories";
 
 const Home: FC = () => (
     <>
@@ -13,6 +14,7 @@ const Home: FC = () => (
         <Navbar/>
         <Routes>
             <Route path='/' element={<MainPage/>}/>
+            <Route path='category' element={<Categories/>} />
             <Route path='myRequests' element={<MyRequests/>}/>
             <Route path='newRequest' element={<NewRequests/>}/>
             <Route path='notifications' element={<Notifications/>} />

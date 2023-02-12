@@ -21,11 +21,6 @@ const Claims: FC<IClaims> = ({claims}) => {
                 <AppealsItem item={item} key={item.id} />
             ))}
             <div className={styles.allAppeals} onClick={onAllAppealsClick}>Все обращения</div>
-            <div className={styles.caption}>Новое обращение</div>
-            <div className={styles.newAppeal}>
-                <div className={styles.newAppealPlus}>+</div>
-                <div className={styles.newAppealText}>Создать новое обращение</div>
-            </div>
         </div>
     )
 }
