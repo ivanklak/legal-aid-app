@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 import classNames from "classnames";
 import MainWrapper from "../../components/mainWrapper/MainWrapper";
 import Claims from "../claims/Claims";
-import {SearchBar} from "../search/SearchBar";
+import NavigatedSearchBar from "../search/SearchBar";
 
 export enum Status {
     success = "Решено",
@@ -80,7 +80,7 @@ const MainPage: FC = () => {
                     </div>
                     <div className={styles.notifications}>
                         <div className={styles.search_block}>
-                            <SearchBar />
+                            <NavigatedSearchBar />
                         </div>
                         <div className={styles.caption}>Уведомления</div>
                         <div className={styles.notificationsContainer}>
