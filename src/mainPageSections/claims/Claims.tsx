@@ -1,8 +1,9 @@
-import React, {FC} from "react";
+import React, {FC, useEffect} from "react";
 import {IAppeals} from "../mainPage/MainPage";
 import styles from "./Claims.module.css";
 import AppealsItem from "../appealsItem";
 import {useNavigate} from "react-router-dom";
+import axios from "../../service/api/axios";
 
 interface IClaims {
     claims: IAppeals[]
@@ -14,6 +15,26 @@ const Claims: FC<IClaims> = ({claims}) => {
     const onAllAppealsClick = () => {
         return navigate('myRequests')
     }
+
+    const requestClaims = async () => {
+        const response = await axios.post('/get_claims_details',
+            {id: 290},
+            {
+                headers: {'Content-Type': 'application/json'}
+        });
+
+        const response2 = await axios.post('/get_claims',
+            {
+                headers: {'Content-Type': 'application/json'}
+            });
+
+        console.log('response', response)
+        console.log('response2', response2)
+    }
+
+    useEffect( () => {
+        requestClaims();
+    }, [])
 
     return (
         <div className={styles.claims}>
