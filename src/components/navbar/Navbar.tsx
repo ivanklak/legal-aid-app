@@ -98,7 +98,7 @@ const Navbar: FC = () => {
                 />
                 <Tab
                     path='/newRequest'
-                    name='Новое&nbsp;сообщение'
+                    name='Новое&nbsp;обращение'
                     icon={<Icon icon="fluent:document-add-20-filled" height="25"/>}
                     isNavbarClose={isNavbarClose}
                     isActive={currentPage === Pathname.NewRequest}

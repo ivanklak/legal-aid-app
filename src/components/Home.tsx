@@ -4,7 +4,7 @@ import Navbar from "./navbar/Navbar";
 import {Route, Routes} from "react-router-dom";
 import MainPage from "../mainPageSections/mainPage/MainPage";
 import MyRequests from "./myRequests/MyRequests";
-import NewRequests from "./newRequest/NewRequest";
+import NewRequests from "../newRequest/NewRequest";
 import Notifications from "../notifications/Notifications";
 import Categories from "../categories/Categories";
 

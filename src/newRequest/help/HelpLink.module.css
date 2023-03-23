@@ -1,0 +1,47 @@
+.link_container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 12px;
+}
+
+.link_container:last-child {
+    /*margin-bottom: 0*/
+}
+
+.icon_container {
+    padding: 5px;
+    background: rgba(90, 181, 246, 0.2);
+    border-radius: 50%;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: var(--base-color__black50);
+    transition: transform 0.4s ease;
+}
+
+.icon:hover {
+    color: rgba(40, 40, 40, 0.8);
+}
+
+.touched {
+    transform: rotate(90deg)
+}
+
+.link_text {
+    margin-left: 12px;
+    color: var(--base-color__button);
+}
+
+.description {
+    display: none;
+    color: #9a9a9a;
+    margin: 4px 0 12px 40px;
+}
+
+.active {
+    display: block;
+}
