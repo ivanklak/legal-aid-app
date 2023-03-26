@@ -10,51 +10,26 @@ type NativeInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>,
 type ExcludedInputPropsKey = 'value' | 'onChange' | 'ref';
 export type ExtendsInputProps = Omit<NativeInputProps, ExcludedInputPropsKey>;
 
-
-
 export interface InputProps extends ExtendsInputProps {
-    // value?: string;
-    // size?: InputSize;
-    // placeholder?: string;
-    // inputRef?: React.RefObject<HTMLInputElement>;
-    // hasClear?: boolean;
-    // onChange?: (value: string, event?: ChangeEvent<HTMLInputElement>) => void;
-    // onClear?: VoidFunction;
-    // renderAfterValue?: () => React.ReactNode;
-    // className?: string;
-    // inputClassName?: string;
     value?: string;
     size?: InputSize;
     placeholder?: string;
     inputRef?: React.RefObject<HTMLInputElement>;
     containerRef?: React.RefObject<HTMLDivElement>;
-    // Описание выводится под input-ом
     description?: React.ReactNode;
-    // В случае если ошибка является строкой, он перекрывает описание и выводиться вместо него в цвете ошибки
     error?: boolean | string | null;
-    // Заблокирован ли компонент
     disabled?: boolean;
-    // Данные доступны только для чтения(отличается от disabled, тем что не меняет визуальный стиль)
     readonly?: boolean;
-    // Отображать иконку очистки поля вода (по умолчанию включен)
     hasClear?: boolean;
     className?: string;
     inputClassName?: string;
-    // "Удерживать" пространство под input-ом для текста описания или ошибки, при их отсутствии
     holdBottomSlotHeight?: boolean;
-    // Отступ снизу в условных единицах
     bottomOffset?: string;
-    // Функция возвращающая отображающие доп. контента в блоке абсолюта после значения
     renderAfterValue?: () => React.ReactNode;
-    // Функция возвращающая отображающие доп. контента с левой части input-а
     leftSlotComp?: InputSlotComp;
-    // Функция возвращающая отображающие доп. контента с правой части input-а перед иконкой очистки
     rightBeforeSlotComp?: InputSlotComp;
-    // Функция возвращающая отображающие доп. контента с правой части input-а после иконкой очистки
     rightSlotComp?: InputSlotComp;
-    // Функция обработчик изменений
     onChange?: (value: string, event?: ChangeEvent<HTMLInputElement>) => void;
-    // Функция переопределения функции очистки поля
     onClear?: VoidFunction;
 }
 

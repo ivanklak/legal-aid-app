@@ -7,9 +7,8 @@ enum ClientField {
     FirstName,
     LastName ,
     FathersName,
-    AddressStreet,
-    AddressIndex,
-    AddressCity
+    Email,
+    Phone
 }
 
 interface ClientNameDataProps {
@@ -21,9 +20,8 @@ const ClientNameData: FC<ClientNameDataProps> = ({ onSubmitForm }) => {
     const [lastName, setLastName] = useState<string>(null);
     const [fathersName, setFathersName] = useState<string>(null);
 
-    const [street, setStreet] = useState<string>(null);
-    const [index, setIndex] = useState<string>(null);
-    const [city, setCity] = useState<string>(null);
+    const [email, setEmail] = useState<string>(null);
+    const [phone, setPhone] = useState<string>(null);
 
     const [success, setSuccess] = useState<boolean>(false);
     const [error, setError] = useState<string>(null);
@@ -31,6 +29,7 @@ const ClientNameData: FC<ClientNameDataProps> = ({ onSubmitForm }) => {
     const changeHandle = (field: ClientField, value: string) => {
         setSuccess(false);
         setError(null);
+        onSubmitForm(false);
 
         switch (field) {
             case ClientField.FirstName: {
@@ -45,31 +44,47 @@ const ClientNameData: FC<ClientNameDataProps> = ({ onSubmitForm }) => {
                 setFathersName(value);
                 return;
             }
-            case ClientField.AddressStreet: {
-                setStreet(value);
+            case ClientField.Email: {
+                setEmail(value);
                 return;
             }
-            case ClientField.AddressIndex: {
-                setIndex(value);
-                return;
-            }
-            case ClientField.AddressCity: {
-                setCity(value);
+            case ClientField.Phone: {
+                setPhone(value);
                 return;
             }
         }
     }
 
+    const checkPhone = useCallback((): boolean => {
+        if (phone && !!phone.length) {
+            const str = phone.replace('+', '');
+
+            if (str.length !== 11) return false;
+            return !isNaN(Number(str));
+        }
+        return false
+    }, [phone])
+
     const submitHandle = useCallback(() => {
-        if (!!firstName && !!lastName && !!street && !!index && !!city) {
+        const phoneCorrect = checkPhone();
+        const isValidEmail = /^.+@.+\..+$/.test(email);
+
+        if (!phoneCorrect || !isValidEmail) {
+            setSuccess(false);
+            setError('Неправильный телефон или email.')
+            onSubmitForm(false);
+            return;
+        }
+
+        if (!!firstName && !!lastName && !!email && !!phone) {
             setSuccess(true);
             onSubmitForm(true);
         } else {
             setSuccess(false);
-            setError('Пожалуйста заполните все поля')
+            setError('Пожалуйста заполните все поля.')
             onSubmitForm(false);
         }
-    }, [firstName, lastName, street, index, city, onSubmitForm])
+    }, [checkPhone, firstName, lastName, email, phone, onSubmitForm])
 
     return (
         <>
@@ -80,81 +95,101 @@ const ClientNameData: FC<ClientNameDataProps> = ({ onSubmitForm }) => {
             )}>
                 <div className={styles.subTitle}>Клиент</div>
                 <div className={styles.clientInfo}>
-                    <Input
-                        value={firstName}
-                        placeholder={'Имя'}
-                        autoFocus
-                        tabIndex={0}
-                        onChange={(value, event) => changeHandle(ClientField.FirstName, value)}
-                        error={null}
-                        size={InputSize.Medium}
-                        name={'client_firstname'}
-                        disabled={false}
-                    />
-                    <Input
-                        value={lastName}
-                        placeholder={'Фамилия'}
-                        autoFocus
-                        tabIndex={0}
-                        onChange={(value, event) => changeHandle(ClientField.LastName, value)}
-                        error={null}
-                        size={InputSize.Medium}
-                        name={'client_lastName'}
-                        disabled={false}
-                    />
-                    <Input
-                        value={fathersName}
-                        placeholder={'Отчетство'}
-                        autoFocus
-                        tabIndex={0}
-                        onChange={(value, event) => changeHandle(ClientField.FathersName, value)}
-                        error={null}
-                        size={InputSize.Medium}
-                        name={'client_fathersName'}
-                        disabled={false}
-                    />
-                </div>
-                <div className={styles.addressBlock}>
-                    <div className={styles.subTitle}>
-                        Адресс
-                    </div>
-                    <Input
-                        value={street}
-                        placeholder={'Улица, дом, кв.'}
-                        autoFocus
-                        tabIndex={0}
-                        onChange={(value, event) => changeHandle(ClientField.AddressStreet, value)}
-                        error={null}
-                        size={InputSize.Medium}
-                        name={'client_address_street'}
-                        disabled={false}
-                    />
-                    <div className={styles.address}>
+                    <div className={styles.nameBlock}>
                         <Input
-                            className={styles.customInput}
-                            value={index}
-                            placeholder={'Индекс'}
+                            value={firstName}
+                            placeholder={'Имя'}
                             autoFocus
                             tabIndex={0}
-                            onChange={(value, event) => changeHandle(ClientField.AddressIndex, value)}
+                            onChange={(value, event) => changeHandle(ClientField.FirstName, value)}
                             error={null}
                             size={InputSize.Medium}
-                            name={'client_address_index'}
+                            name={'client_firstname'}
                             disabled={false}
                         />
                         <Input
-                            value={city}
-                            placeholder={'Область, город'}
-                            autoFocus
+                            value={lastName}
+                            placeholder={'Фамилия'}
                             tabIndex={0}
-                            onChange={(value, event) => changeHandle(ClientField.AddressCity, value)}
+                            onChange={(value, event) => changeHandle(ClientField.LastName, value)}
                             error={null}
                             size={InputSize.Medium}
-                            name={'client_address_city'}
+                            name={'client_lastName'}
+                            disabled={false}
+                        />
+                        <Input
+                            value={fathersName}
+                            placeholder={'Отчетство'}
+                            tabIndex={0}
+                            onChange={(value, event) => changeHandle(ClientField.FathersName, value)}
+                            error={null}
+                            size={InputSize.Medium}
+                            name={'client_fathersName'}
+                            disabled={false}
+                        />
+                    </div>
+                    <div className={styles.emailBlock}>
+                        <Input
+                            value={email}
+                            placeholder={'Email'}
+                            tabIndex={0}
+                            onChange={(value, event) => changeHandle(ClientField.Email, value)}
+                            error={null}
+                            size={InputSize.Medium}
+                            name={'client_email'}
+                            disabled={false}
+                        />
+                        <Input
+                            value={phone}
+                            placeholder={'+79XXXXXXXXX'}
+                            tabIndex={0}
+                            onChange={(value, event) => changeHandle(ClientField.Phone, value)}
+                            error={null}
+                            size={InputSize.Medium}
+                            autoComplete={'tel'}
+                            name={'client_phone'}
                             disabled={false}
                         />
                     </div>
                 </div>
+                {/*<div className={styles.addressBlock}>*/}
+                {/*    <div className={styles.subTitle}>*/}
+                {/*        Адресс*/}
+                {/*    </div>*/}
+                {/*    <Input*/}
+                {/*        value={street}*/}
+                {/*        placeholder={'Улица, дом, кв.'}*/}
+                {/*        tabIndex={0}*/}
+                {/*        onChange={(value, event) => changeHandle(ClientField.AddressStreet, value)}*/}
+                {/*        error={null}*/}
+                {/*        size={InputSize.Medium}*/}
+                {/*        name={'client_address_street'}*/}
+                {/*        disabled={false}*/}
+                {/*    />*/}
+                {/*    <div className={styles.address}>*/}
+                {/*        <Input*/}
+                {/*            className={styles.customInput}*/}
+                {/*            value={index}*/}
+                {/*            placeholder={'Индекс'}*/}
+                {/*            tabIndex={0}*/}
+                {/*            onChange={(value, event) => changeHandle(ClientField.AddressIndex, value)}*/}
+                {/*            error={null}*/}
+                {/*            size={InputSize.Medium}*/}
+                {/*            name={'client_address_index'}*/}
+                {/*            disabled={false}*/}
+                {/*        />*/}
+                {/*        <Input*/}
+                {/*            value={city}*/}
+                {/*            placeholder={'Область, город'}*/}
+                {/*            tabIndex={0}*/}
+                {/*            onChange={(value, event) => changeHandle(ClientField.AddressCity, value)}*/}
+                {/*            error={null}*/}
+                {/*            size={InputSize.Medium}*/}
+                {/*            name={'client_address_city'}*/}
+                {/*            disabled={false}*/}
+                {/*        />*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <div className={styles.submitBlock}>
                     <div className={styles.error}>{error}</div>
                     <div
