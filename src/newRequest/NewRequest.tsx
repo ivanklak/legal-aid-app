@@ -1,16 +1,36 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import MainWrapper from "../components/mainWrapper/MainWrapper";
 import styles from "./NewRequest.module.css";
 import NavigatedSearchBar from "../mainPageSections/search/SearchBar";
 import HelpLink from "./help/HelpLink";
-import {Input, InputSize} from "../components/input";
+import ClientNameData from "./clientNameData/ClientNameData";
+import ClientProblemData from "./clientProblemData/ClientProblemData";
 
 const NewRequests = () => {
-    const [value, setValue] = useState<string>(null);
+    const [isNameFormSubmitted, setIsNameFormSubmitted] = useState<boolean>(false);
+    const [isProblemFormSubmitted, setIsProblemFormSubmitted] = useState<boolean>(false);
+    const [error, setError] = useState<string>(null);
 
-    const changeHandle = (value: string) => {
-        setValue(value)
-    }
+    const onSubmitClientNameForm = useCallback((success: boolean) => {
+        setIsNameFormSubmitted(success);
+    }, [])
+
+    const onSubmitProblemForm = useCallback((success: boolean) => {
+        setIsProblemFormSubmitted(success);
+    }, [])
+
+    const afterSubmit = useCallback(() => {
+        console.log('=== SUCCESS ===')
+    }, [])
+
+    const submitFullForm = useCallback(() => {
+        if (isNameFormSubmitted && isProblemFormSubmitted) {
+            afterSubmit();
+            setError(null);
+        } else {
+            setError('Пожалуйста заполните все поля и повторите попытку')
+        }
+    }, [isNameFormSubmitted, isProblemFormSubmitted, afterSubmit])
 
     return (
         <MainWrapper>
@@ -19,34 +39,26 @@ const NewRequests = () => {
                     <div className={styles.main_caption}>Создать обращение</div>
                     <div className={styles.scroll_area}>
                         <div className={styles.create_form}>
-                            <Input
-                                value={value}
-                                placeholder={'Имя'}
-                                autoFocus
-                                tabIndex={0}
-                                onChange={changeHandle}
-                                error={null}
-                                size={InputSize.Medium}
-                                name={'client_firstname'}
-                                disabled={false}
+                            <ClientNameData onSubmitForm={onSubmitClientNameForm}/>
+                            <ClientProblemData
+                                disabled={!isNameFormSubmitted}
+                                onSubmitForm={onSubmitProblemForm}
                             />
-                            {/*<Input*/}
-                            {/*    value={value}*/}
-                            {/*    placeholder={'Имя'}*/}
-                            {/*    autoFocus*/}
-                            {/*    tabIndex={0}*/}
-                            {/*    onChange={changeHandle}*/}
-                            {/*    error={null}*/}
-                            {/*    size={InputSize.Medium}*/}
-                            {/*    name={'client_lastname'}*/}
-                            {/*    disabled={false}*/}
-                            {/*/>*/}
-                            <p>адрес</p>
-                            <p></p>
-                            <p>дропдаун с выбором учреждения</p>
-                            <p>категория обращения</p>
-                            <p>текстэрия - обращение</p>
-                            <p>кнопка - сабмит</p>
+                            {isNameFormSubmitted && isProblemFormSubmitted && (
+                                <div className={styles.sendForm}>
+                                    <div className={styles.subTitle}>Ваше обращение будет рассмотрено нашими специалистами в ближайшее время.</div>
+                                    <div className={styles.subTitle}>Вы будете получать уведомления о любых изменениях.</div>
+                                    <div className={styles.buttonContainer}>
+                                        <div className={styles.error}>{error}</div>
+                                        <div
+                                            className={styles.submitButton}
+                                            onClick={submitFullForm}
+                                        >
+                                            Отправить
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

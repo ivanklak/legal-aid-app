@@ -69,3 +69,42 @@
 .last_link {
     margin-bottom: 0;
 }
+
+.error {
+    margin-right: 12px;
+    font-size: 14px;
+    line-height: 18px;
+    color: rgba(189, 189, 189);
+}
+
+.sendForm {
+    margin-top: 20px;
+}
+
+.buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+.submitButton {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+    padding: 5px 12px;
+    border: 1px solid var(--base-color__button);
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 18px;
+    background: var(--base-color__button);
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.subTitle {
+    color: rgba(189, 189, 189);
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+}
