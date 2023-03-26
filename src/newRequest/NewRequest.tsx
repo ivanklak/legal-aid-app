@@ -1,10 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import MainWrapper from "../components/mainWrapper/MainWrapper";
 import styles from "./NewRequest.module.css";
 import NavigatedSearchBar from "../mainPageSections/search/SearchBar";
 import HelpLink from "./help/HelpLink";
+import {Input, InputSize} from "../components/input";
 
 const NewRequests = () => {
+    const [value, setValue] = useState<string>(null);
+
+    const changeHandle = (value: string) => {
+        setValue(value)
+    }
+
     return (
         <MainWrapper>
             <div className={styles.new_request}>
@@ -12,7 +19,28 @@ const NewRequests = () => {
                     <div className={styles.main_caption}>Создать обращение</div>
                     <div className={styles.scroll_area}>
                         <div className={styles.create_form}>
-                            <p>инпут с ФИО</p>
+                            <Input
+                                value={value}
+                                placeholder={'Имя'}
+                                autoFocus
+                                tabIndex={0}
+                                onChange={changeHandle}
+                                error={null}
+                                size={InputSize.Medium}
+                                name={'client_firstname'}
+                                disabled={false}
+                            />
+                            {/*<Input*/}
+                            {/*    value={value}*/}
+                            {/*    placeholder={'Имя'}*/}
+                            {/*    autoFocus*/}
+                            {/*    tabIndex={0}*/}
+                            {/*    onChange={changeHandle}*/}
+                            {/*    error={null}*/}
+                            {/*    size={InputSize.Medium}*/}
+                            {/*    name={'client_lastname'}*/}
+                            {/*    disabled={false}*/}
+                            {/*/>*/}
                             <p>адрес</p>
                             <p></p>
                             <p>дропдаун с выбором учреждения</p>

@@ -1,0 +1,165 @@
+.inputContainer
+	width: 100%
+	outline: none
+	&_large
+		.inputLine
+			margin-bottom: 6px
+			border-radius: 4px
+			padding-right: 4px
+			&_leftOffset
+				padding-left: 12px
+			&_withoutBottomOffset
+				margin-bottom: 0
+			.input, .contentUnderValue
+				padding: 10px 0
+				font-size: 16px
+				line-height: 22px
+				font-weight: 400
+			.clearIcon
+				width: 20px
+				height: 20px
+				//padding: 6px
+
+		.bottomText
+			//@extend %textXXSRegular
+			font-size: 12px
+			line-height: 16px
+			font-weight: 400
+			&_holdHeight
+				min-height: 16px
+
+	&_medium
+		.inputLine
+			margin-bottom: 6px
+			border-radius: 6px
+			padding-right: 4px
+			&_leftOffset
+				padding-left: 12px
+			&_withoutBottomOffset
+				margin-bottom: 0
+		.input, .contentUnderValue
+			padding: 8px 0
+			//@extend %textSRegular
+			font-size: 14px
+			line-height: 18px
+			font-weight: 400
+		.clearIcon
+			width: 18px
+			height: 18px
+			//padding: 6px
+
+		.bottomText
+			//@extend %textXXSRegular
+			&_holdHeight
+				min-height: 16px
+
+	&_small
+		.inputLine
+			margin-bottom: 4px
+			border-radius: 6px
+			padding-right: 8px
+			&_leftOffset
+				padding-left: 8px
+			&_withoutBottomOffset
+				margin-bottom: 0
+		.input, .contentUnderValue
+			padding: 5px 0
+			//@extend %textSRegular
+		.clearIcon
+			width: 16px
+			height: 16px
+
+		.bottomText
+			//@extend %caption11Regular
+			&_holdHeight
+				min-height: 14px
+
+	&._interactive
+		.inputLine:not(.inputLine_disabled):hover
+			background: #9a9a9a
+			.input
+				color: #61dafb
+			&:not(.inputLine_error)
+				border-color: #1d1b31
+
+.inputLine
+	width: 100%
+	display: flex
+	flex-direction: row
+	align-items: center
+	border: 1px solid #d7d7d7
+	background: #ffffff
+	box-sizing: border-box
+	outline: none
+
+	&:not(.inputLine_disabled):focus-within
+		border-color: #9a9a9a
+		background: #ffffff
+		.input
+			color: #000000
+
+	&_error, &_error:focus-within, &_error:hover
+		border-color: #f44040
+
+	&_withoutBottomOffset
+		margin-bottom: 0
+	&_disabled
+		border-color: #d7d7d7
+		background: rgba(231, 231, 231, 0.9)
+		opacity: 0.64
+		.input
+			color: #9a9a9a
+			//color: var(--input_disable_textColor)
+	&_leftOffset
+		padding-left: 0
+	&_rightOffset
+		padding-right: 0
+	&__content
+		min-width: 0
+		flex: 1
+		position: relative
+		overflow: hidden
+
+
+
+.input
+	width: 100%
+	border: none
+	margin: 0
+	//color: var(--input_default_textColor)
+	color: #000000
+	background: transparent
+	outline: none
+	&::placeholder
+		color: #9a9a9a
+		//color: var(--input_placeholderColor)
+	&:focus
+		outline: none
+	&:-webkit-autofill
+		transition-delay: 9999s
+
+.contentUnderValue
+	position: absolute
+	display: flex
+	pointer-events: none
+	flex-wrap: nowrap
+	white-space: nowrap
+	&__valueClone
+		color: transparent
+
+.bottomText
+	color: #9a9a9a
+	&_holdHeight
+		min-height: 16px
+	&_error
+		color: #C80C00
+
+.clearIcon
+	color: #9a9a9a
+	cursor: pointer
+	margin-left: 8px
+	outline: none
+	&_withoutOffset
+		margin-left: 0
+	&:hover
+		color: #1d1b31
