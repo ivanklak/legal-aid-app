@@ -2,6 +2,7 @@ import React, {FC, useCallback, useState} from "react";
 import styles from "./ClientProblem.module.sass";
 import {Input, InputSize} from "../../components/input";
 import classNames from "classnames";
+import UploadFiles from "../../components/uploadFiles/UploadFiles";
 
 interface ClientProblemDataProps {
     disabled: boolean
@@ -64,13 +65,15 @@ const ClientProblemData: FC<ClientProblemDataProps> = ({disabled, onSubmitForm})
                             disabled={disabled}
                         />
                     </div>
-                    <div className={styles.subTitle}>Опишите причину</div>
+                    <div className={styles.subTitle}>Описание</div>
                     <textarea
                         disabled={disabled}
                         className={styles.description}
                         value={textAreaValue ? textAreaValue : ''}
                         onChange={textAreaChangeHandle}
                     />
+                    <div className={styles.subTitle}>Вложение</div>
+                    <UploadFiles />
                     <div className={styles.submitBlock}>
                         <div className={styles.error}>{error}</div>
                         <div

@@ -1,0 +1,72 @@
+.upload_form
+  width: 100%
+  display: flex
+  justify-content: center
+  align-items: center
+  padding: 12px
+  border: 1px dashed var(--base-color__black30)
+  border-radius: 4px
+  color: #7A869A
+
+  .upload_text
+    display: flex
+    align-items: center
+
+    .push
+      cursor: pointer
+      margin-left: 8px
+
+      &:hover
+        color: var(--base-color__button)
+
+.hidden
+  opacity: 0
+  width: 0
+  height: 0
+  padding: 0
+  margin: 0
+  line-height: 0
+  overflow: hidden
+
+.uploaded_files
+  display: flex
+  align-items: center
+  color: var(--base-color__black70)
+  margin-bottom: 12px
+
+  .file_item
+    position: relative
+    border: 1px solid rgba(0, 0, 0, 0.1)
+    border-radius: 4px
+    margin: 0 4px
+    cursor: pointer
+    width: 150px
+    max-width: 100%
+    height: 100px
+    max-height: 100%
+    overflow: hidden
+    background-color: rgba(0, 0, 0, 0.05)
+
+    .image_container
+      display: flex
+      align-items: center
+
+      img
+        position: absolute
+        left: 50%
+        top: 50%
+        object-fit: contain
+        transform: translate(-50%, -50%)
+        max-height: 100%
+
+    .image_name
+      position: absolute
+      bottom: 0
+      left: 0
+      width: 100%
+      font-size: 12px
+      font-weight: 500
+      padding: 4px 8px
+      background-color: var(--base-color__white)
+
+
