@@ -9,12 +9,32 @@ const UploadFiles = React.memo<UploadFilesProps>(() => {
     const uploadRef = useRef(null);
     const [files, setFiles] = useState<FileList>(null);
 
+    const createFileList = (files: Array<File>): FileList => {
+        return {
+            length: files.length,
+            item: (index: number) => files[index],
+            * [Symbol.iterator]() {
+                for (let i = 0; i < files.length; i++) {
+                    yield files[i];
+                }
+            },
+            ...files,
+        };
+    };
+
     const handleOnChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.files)
+        if (files) {
+            const prevFiles = Array.from(files);
+            const newFiles = Array.from(e.target.files);
 
-        setFiles(e.target.files);
+            const newArrOfFiles = prevFiles.concat(newFiles);
+            const newFileLIst = createFileList(newArrOfFiles);
 
-    }, [])
+            setFiles(newFileLIst)
+        } else {
+            setFiles(e.target.files);
+        }
+    }, [files])
 
     const clickHandle = useCallback(() => {
         if (uploadRef) {
@@ -54,7 +74,7 @@ const UploadFiles = React.memo<UploadFilesProps>(() => {
                     {Array.from(files).map((file) => (
                         <div key={file.name} className={styles.file_item}>
                             <div className={styles.image_container}>
-                                <img src={URL.createObjectURL(file)} />
+                                <img alt={'img-preview'} src={URL.createObjectURL(file)} />
                             </div>
                             <div className={styles.image_name}>
                                 {file.name}
