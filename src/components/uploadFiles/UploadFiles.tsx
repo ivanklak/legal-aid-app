@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useCallback, useRef, useState} from "react";
 import styles from "./UploadFiles.module.sass";
+import {HorizontalScroll} from "../horizontalScroll/HorizontalScroll";
 
 interface UploadFilesProps {
 
@@ -51,6 +52,19 @@ const UploadFiles = React.memo<UploadFilesProps>(() => {
         }
     }
 
+    const renderUploadFilePreview = (file: File): JSX.Element => {
+        return (
+            <div key={file.name} className={styles.file_item}>
+                <div className={styles.image_container}>
+                    {createFilePreview(file)}
+                </div>
+                <div className={styles.image_name}>
+                    {file.name}
+                </div>
+            </div>
+        )
+    }
+
     console.log('files', files)
 
     return (
@@ -80,16 +94,9 @@ const UploadFiles = React.memo<UploadFilesProps>(() => {
             />
             {files && (
                 <div className={styles.uploaded_files}>
-                    {Array.from(files).map((file) => (
-                        <div key={file.name} className={styles.file_item}>
-                            <div className={styles.image_container}>
-                                {createFilePreview(file)}
-                            </div>
-                            <div className={styles.image_name}>
-                                {file.name}
-                            </div>
-                        </div>
-                    ))}
+                    <HorizontalScroll className={styles.slider}>
+                        {Array.from(files).map((file) => renderUploadFilePreview(file))}
+                    </HorizontalScroll>
                 </div>
             )}
         </>
