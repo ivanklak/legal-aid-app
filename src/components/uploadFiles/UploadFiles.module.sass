@@ -43,12 +43,14 @@
     border: 1px solid rgba(0, 0, 0, 0.1)
     border-radius: 4px
     margin: 0 4px
-    cursor: pointer
     width: 150px
     min-width: 150px
     height: 100px
     overflow: hidden
     background-color: rgba(0, 0, 0, 0.05)
+
+    &:hover
+      background-color: rgba(122, 134, 154, 0.37)
 
     .image_container
       display: flex
@@ -71,5 +73,22 @@
       font-weight: 500
       padding: 4px 8px
       background-color: var(--base-color__white)
+
+    .delete_button
+      position: absolute
+      top: 0
+      right: 0
+      display: flex
+      align-items: center
+      justify-content: center
+      margin-top: 5px
+      margin-right: 5px
+      padding: 5px
+      border-radius: 6px
+      cursor: pointer
+      background-color: rgba(225, 225, 225, 0.7)
+
+      &:hover
+        background-color: rgba(225, 225, 225, 1)
 
 

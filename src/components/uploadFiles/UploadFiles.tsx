@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useCallback, useRef, useState} from "react";
 import styles from "./UploadFiles.module.sass";
 import {HorizontalScroll} from "../horizontalScroll/HorizontalScroll";
+import {RiDeleteBin5Fill} from "react-icons/ri"
 
 interface UploadFilesProps {
 
@@ -9,6 +10,7 @@ interface UploadFilesProps {
 const UploadFiles = React.memo<UploadFilesProps>(() => {
     const uploadRef = useRef(null);
     const [files, setFiles] = useState<FileList>(null);
+    const [hoveredEl, setHoveredEl] = useState<string>(null);
 
     const createFileList = (files: Array<File>): FileList => {
         return {
@@ -52,20 +54,53 @@ const UploadFiles = React.memo<UploadFilesProps>(() => {
         }
     }
 
+    const onMouseOverHandle = useCallback((name: string) => {
+        setHoveredEl(name);
+    }, [])
+
+    const onMouseLeaveHandle = useCallback(() => {
+        setHoveredEl(null);
+    }, [])
+
+    const onDeleteClickHandler = useCallback((name: string) => {
+        const filesArray = Array.from(files);
+        const result: File[] = [];
+
+        for (let i = 0; i < filesArray.length; i++) {
+            let currentFile = filesArray[i]
+            if (currentFile.name !== name) {
+                result.push(currentFile);
+            }
+        }
+
+        setFiles(createFileList(result))
+    }, [files])
+
     const renderUploadFilePreview = (file: File): JSX.Element => {
         return (
-            <div key={file.name} className={styles.file_item}>
+            <div
+                key={file.name}
+                className={styles.file_item}
+                onMouseOver={() => onMouseOverHandle(file.name)}
+                onMouseLeave={onMouseLeaveHandle}
+            >
                 <div className={styles.image_container}>
                     {createFilePreview(file)}
                 </div>
                 <div className={styles.image_name}>
                     {file.name}
                 </div>
+                {hoveredEl === file.name && (
+                    <div
+                        className={styles.delete_button}
+                        onClick={() => onDeleteClickHandler(file.name)}
+                    >
+                        <RiDeleteBin5Fill size={24}/>
+                    </div>
+                )}
             </div>
         )
     }
-
-    console.log('files', files)
 
     return (
         <>
@@ -92,13 +127,13 @@ const UploadFiles = React.memo<UploadFilesProps>(() => {
                 multiple
                 accept="image/*,.png,.jpg,.gif,.pdf,.web"
             />
-            {files && (
-                <div className={styles.uploaded_files}>
-                    <HorizontalScroll className={styles.slider}>
-                        {Array.from(files).map((file) => renderUploadFilePreview(file))}
-                    </HorizontalScroll>
-                </div>
-            )}
+            {files && files.length ? (
+                    <div className={styles.uploaded_files}>
+                        <HorizontalScroll className={styles.slider}>
+                            {Array.from(files).map((file) => renderUploadFilePreview(file))}
+                        </HorizontalScroll>
+                    </div>
+                ) : null}
         </>
     )
 })
