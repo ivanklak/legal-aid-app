@@ -42,6 +42,15 @@ const UploadFiles = React.memo<UploadFilesProps>(() => {
         }
     }, [])
 
+    const createFilePreview = (file: File): JSX.Element => {
+        const url = URL.createObjectURL(file);
+        if (file.type === 'application/pdf') {
+            return <embed src={url} width="150" height="100" />
+        } else {
+            return <img alt={'img-preview'} src={url} />
+        }
+    }
+
     console.log('files', files)
 
     return (
@@ -74,7 +83,7 @@ const UploadFiles = React.memo<UploadFilesProps>(() => {
                     {Array.from(files).map((file) => (
                         <div key={file.name} className={styles.file_item}>
                             <div className={styles.image_container}>
-                                <img alt={'img-preview'} src={URL.createObjectURL(file)} />
+                                {createFilePreview(file)}
                             </div>
                             <div className={styles.image_name}>
                                 {file.name}
