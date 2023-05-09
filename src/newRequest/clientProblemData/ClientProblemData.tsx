@@ -4,6 +4,7 @@ import {Input as DefaultInput, InputSize} from "../../components/input";
 import classNames from "classnames";
 import UploadFiles from "../../components/uploadFiles/UploadFiles";
 import SearchOrganisationForm from "../organisation/searchOrganisation/SearchOrganisationForm";
+import {Button} from "antd";
 
 interface ClientProblemDataProps {
     disabled: boolean
@@ -100,14 +101,7 @@ const ClientProblemData: FC<ClientProblemDataProps> = ({disabled, onSubmitForm})
                     <UploadFiles />
                     <div className={styles.submitBlock}>
                         <div className={styles.error}>{error}</div>
-                        <div
-                            className={classNames(
-                                styles.submitButton,
-                            )}
-                            onClick={submitHandle}
-                        >
-                            Подтвердить
-                        </div>
+                        <Button type="primary" onClick={submitHandle}>Подтвердить</Button>
                     </div>
                 </div>
             </div>

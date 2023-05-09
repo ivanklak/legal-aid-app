@@ -2,6 +2,7 @@ import React, {FC, useCallback, useState} from "react";
 import {Input, InputSize} from "../../components/input";
 import classNames from "classnames";
 import styles from "./ClientNameData.module.sass";
+import {Button} from "antd";
 
 enum ClientField {
     FirstName,
@@ -191,14 +192,7 @@ const ClientNameData: FC<ClientNameDataProps> = ({ onSubmitForm }) => {
                 {/*</div>*/}
                 <div className={styles.submitBlock}>
                     <div className={styles.error}>{error}</div>
-                    <div
-                        className={classNames(
-                            styles.submitButton,
-                        )}
-                        onClick={submitHandle}
-                    >
-                        Подтвердить
-                    </div>
+                    <Button type="primary" onClick={submitHandle}>Подтвердить</Button>
                 </div>
             </div>
         </>
