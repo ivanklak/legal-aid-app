@@ -3,7 +3,8 @@ import styles from "./SearchOrganisationForm.module.sass";
 import {AutoComplete, Input} from "antd";
 import ManualForm from "../ManualForm";
 import getOrganisationSuggestionsRequest from "../../api/methods/getOrganisationSuggestionsRequest";
-import {ISuggestions} from "../../api/requests/GetOrganisationSuggestionsRequest";
+import {ISuggestionData, ISuggestions} from "../../api/requests/GetOrganisationSuggestionsRequest";
+import {SavedOrgData} from "../../clientProblemData/ClientProblemData";
 
 interface IOptions {
     value: string
@@ -16,7 +17,7 @@ interface ISuggestionOptions {
 }
 
 interface SearchOrganisationFormProps {
-    submitSearchOrganisation: (result: ISuggestions) => void
+    submitSearchOrganisation: (result: SavedOrgData) => void
 }
 
 const SearchOrganisationForm: FC<SearchOrganisationFormProps> = ({submitSearchOrganisation}) => {
@@ -25,19 +26,7 @@ const SearchOrganisationForm: FC<SearchOrganisationFormProps> = ({submitSearchOr
     const [isManualMode, setIsManualMode] = useState<boolean>(false);
     const [selectedOrganisation, setSelectedOrganisation] = useState<ISuggestions>(null);
 
-    const renderTitle = (title: string) => (
-        <span>
-            {title}
-            {/*<a*/}
-            {/*    style={{ float: 'right' }}*/}
-            {/*    href="https://www.google.com/search?q=antd"*/}
-            {/*    target="_blank"*/}
-            {/*    rel="noopener noreferrer"*/}
-            {/*>*/}
-            {/*more*/}
-            {/*</a>*/}
-      </span>
-    );
+    const renderTitle = (title: string) => <span>{title}</span>;
 
     const enterDataManually = () => {
         setSelectedOrganisation(null);
@@ -102,11 +91,10 @@ const SearchOrganisationForm: FC<SearchOrganisationFormProps> = ({submitSearchOr
             setSelectedOrganisation(selectedOrganisation)
             setIsManualMode(true)
         }
-        console.log('selectedOrganisation', selectedOrganisation)
     };
 
-    const saveHandle = (data: any) => {
-        console.log('data', data)
+    const saveHandle = (data: SavedOrgData) => {
+        submitSearchOrganisation(data)
     }
 
     return (

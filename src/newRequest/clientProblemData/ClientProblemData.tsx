@@ -20,12 +20,19 @@ interface ISuggestionOptions {
     options?: IOptions[]
 }
 
+export interface SavedOrgData {
+    name: string;
+    inn: string;
+    kpp: string;
+    address: string;
+}
+
 const ClientProblemData: FC<ClientProblemDataProps> = ({disabled, onSubmitForm}) => {
     const [category, setCategory] = useState<string>(null);
     const [textAreaValue, setTextAreaValue] = useState<string>(null);
 
     const [success, setSuccess] = useState<boolean>(false);
-
+    const [orgData, setOrgData] = useState<SavedOrgData>(null);
     const [error, setError] = useState<string>(null);
 
     const textAreaChangeHandle = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -47,18 +54,20 @@ const ClientProblemData: FC<ClientProblemDataProps> = ({disabled, onSubmitForm})
     }, [])
 
     const submitHandle = useCallback(() => {
-        if (!!category && !!textAreaValue) {
+        if (!!category && !!textAreaValue && !!orgData) {
             onSubmitForm(true);
             setSuccess(true);
+            //TODO тут нужно сделать переход к результирующей странице
         } else {
             setSuccess(false);
             setError('Пожалуйста заполните все поля');
             onSubmitForm(false);
         }
-    }, [category, textAreaValue, onSubmitForm])
+    }, [category, textAreaValue, orgData, onSubmitForm])
 
-    const onSearchOrganisationSubmit = () => {
-        console.log('onSearchOrganisationSubmit')
+    const onSearchOrganisationSubmit = (data: SavedOrgData) => {
+        console.log('data to be send', data)
+        setOrgData(data)
     }
 
     return (

@@ -10,7 +10,7 @@ interface IAddress {
     unrestricted_value: string;
 }
 
-interface ISuggestionData {
+export interface ISuggestionData {
     name: string;
     address: IAddress;
     inn: string;
