@@ -40,6 +40,7 @@ const SearchOrganisationForm: FC<SearchOrganisationFormProps> = ({submitSearchOr
     );
 
     const enterDataManually = () => {
+        setSelectedOrganisation(null);
         setIsManualMode(!isManualMode);
     }
 
