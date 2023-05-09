@@ -18,15 +18,11 @@ const Claims: FC<IClaims> = ({claims}) => {
 
     const requestClaims = async () => {
         const response = await axios.post('/get_claims_details',
-            {id: 290},
-            {
-                headers: {'Content-Type': 'application/json'}
-        });
+            { id: 290 },
+            { headers: {'Content-Type': 'application/json'} }
+        );
 
-        const response2 = await axios.post('/get_claims',
-            {
-                headers: {'Content-Type': 'application/json'}
-            });
+        const response2 = await axios.post('/get_claims', { headers: {'Content-Type': 'application/json'} });
 
         console.log('response', response)
         console.log('response2', response2)

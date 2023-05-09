@@ -99,7 +99,6 @@ const ClientNameData: FC<ClientNameDataProps> = ({ onSubmitForm }) => {
                         <Input
                             value={firstName}
                             placeholder={'Имя'}
-                            autoFocus
                             tabIndex={0}
                             onChange={(value, event) => changeHandle(ClientField.FirstName, value)}
                             error={null}
