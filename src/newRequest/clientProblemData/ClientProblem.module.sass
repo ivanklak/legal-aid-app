@@ -18,6 +18,28 @@
       .search_input
         width: 100%
 
+      .manualContainer
+        display: flex
+        flex-direction: column
+        margin-top: 18px
+        margin-bottom: 18px
+        padding-top: 12px
+        padding-bottom: 12px
+        border-top: 1px solid #DFE1E6
+        border-bottom: 1px solid #DFE1E6
+        opacity: 1
+        transition: .3s opacity
+
+        & > span:not(:first-child)
+          margin-top: 7px
+
+        .manualRow
+          display: flex
+          margin-top: 7px
+
+          & > span:not(:first-child)
+            margin-left: 7px
+
     .resume
       margin-bottom: 12px
 
@@ -75,3 +97,8 @@
   line-height: 22px
   font-weight: 500
   margin-bottom: 4px
+
+.divider
+  width: 100%
+  margin: 12px 0
+  border-top: 1px solid #d9d9d9
