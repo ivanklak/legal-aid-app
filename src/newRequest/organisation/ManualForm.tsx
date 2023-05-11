@@ -3,6 +3,7 @@ import styles from "./ManualForm.module.sass";
 import {Button, Input} from "antd";
 import {ISuggestions} from "../api/requests/GetOrganisationSuggestionsRequest";
 import {AiOutlineRest} from "react-icons/ai";
+import {FaStarOfLife} from "react-icons/fa";
 
 enum InputID {
     name,
@@ -28,6 +29,8 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
     const [inn, setInn] = useState<string>(selectedOrganisation ? selectedOrganisation.data.inn : '');
     const [kpp, setKpp] = useState<string>(selectedOrganisation ? selectedOrganisation.data.kpp : '');
     const [address, setAddress] = useState<string>(selectedOrganisation ? selectedOrganisation.data.address.value :'');
+    const [error, setError] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>(null);
 
     useEffect(() => {
         setName(selectedOrganisation ? selectedOrganisation.value : '');
@@ -37,6 +40,7 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
     }, [selectedOrganisation])
 
     const onInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>, id: InputID) => {
+        setError(false);
         const value = e.target.value;
         switch (id) {
             case InputID.name: {
@@ -66,19 +70,50 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
         setAddress('');
     }, [])
 
+    const isValidData = (data: string): boolean => {
+        return !(!data || !data.length);
+    }
+
+    const validateSubmitData = (): boolean => {
+        const noValidData =  [name, inn, address].filter((item) => !isValidData(item))
+        if (noValidData.length) {
+            setError(true)
+            setMessage('Пожалуйста заполните все обязательные поля')
+            return false;
+        }
+        return true
+    }
+
     const submitHandle = useCallback(() => {
-        saveOrganisationData({name, inn, kpp, address})
-    }, [address, inn, kpp, name, saveOrganisationData])
+        const isValid = validateSubmitData();
+        if (isValid) {
+            saveOrganisationData({name, inn, kpp, address})
+        }
+    }, [address, inn, kpp, name, saveOrganisationData, validateSubmitData])
+
+    const setInputName = (name: string, isRequired: boolean) => {
+        return (
+            <div className={styles['addonBefore']}>
+                {isRequired &&
+                    <div className={styles['icon']}>
+                        <FaStarOfLife size="8" color="var(--base-color__grey300)" />
+                    </div>
+                }
+                {name}
+            </div>
+        )
+    }
 
     return (
         <div className={styles.manualContainer}>
-            <Input onChange={(e) => onInputChange(e, InputID.name)} value={name} addonBefore={"Название"} allowClear />
+            <Input onChange={(e) => onInputChange(e, InputID.name)} value={name} addonBefore={setInputName("Название", true)} allowClear />
             <div className={styles.manualRow}>
-                <Input onChange={(e) => onInputChange(e, InputID.inn)} value={inn} addonBefore={"ИНН"} allowClear />
-                <Input onChange={(e) => onInputChange(e, InputID.kpp)} value={kpp} addonBefore={"КПП"} allowClear />
+                <Input onChange={(e) => onInputChange(e, InputID.inn)} value={inn} addonBefore={setInputName("ИНН", true)} allowClear />
+                <Input onChange={(e) => onInputChange(e, InputID.kpp)} value={kpp} addonBefore={setInputName("КПП", false)} allowClear />
             </div>
-            <Input onChange={(e) => onInputChange(e, InputID.address)} value={address} addonBefore={"Юр. адрес"} allowClear />
+            <Input onChange={(e) => onInputChange(e, InputID.address)} value={address} addonBefore={setInputName("Юр. адрес", true)} allowClear />
             <div className={styles.buttonsContainer}>
+                {message && error && <div className={styles.message}>{message}</div>}
                 <Button icon={<AiOutlineRest size="20" />} onClick={clearHandle} />
                 <Button type="primary" onClick={submitHandle}>Подтвердить</Button>
             </div>

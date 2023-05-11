@@ -17,10 +17,11 @@ interface ISuggestionOptions {
 }
 
 interface SearchOrganisationFormProps {
-    submitSearchOrganisation: (result: SavedOrgData) => void
+    disabled?: boolean;
+    submitSearchOrganisation: (result: SavedOrgData) => void;
 }
 
-const SearchOrganisationForm: FC<SearchOrganisationFormProps> = ({submitSearchOrganisation}) => {
+const SearchOrganisationForm: FC<SearchOrganisationFormProps> = ({disabled, submitSearchOrganisation}) => {
     const [searchResult, setSearchResult] = useState<ISuggestions[]>(null);
     const [options, setOptions] = useState<ISuggestionOptions[]>([]);
     const [isManualMode, setIsManualMode] = useState<boolean>(false);
@@ -113,6 +114,7 @@ const SearchOrganisationForm: FC<SearchOrganisationFormProps> = ({submitSearchOr
                     size="middle"
                     placeholder="Введите название, ИНН или ОГРН"
                     allowClear
+                    disabled={disabled}
                 />
             </AutoComplete>
             <div className={styles.enterData}>

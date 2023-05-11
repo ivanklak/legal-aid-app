@@ -76,7 +76,7 @@ const ClientProblemData: FC<ClientProblemDataProps> = ({disabled, onSubmitForm})
             <div className={styles.title}>Обращение</div>
             <div className={styles.problemForm}>
                 <div className={styles.descriptionContainer}>
-                    <SearchOrganisationForm submitSearchOrganisation={onSearchOrganisationSubmit} />
+                    <SearchOrganisationForm disabled={disabled} submitSearchOrganisation={onSearchOrganisationSubmit} />
                     <div className={styles.resume}>
                         <div className={styles.subTitle}>Резюме</div>
                         <DefaultInput
