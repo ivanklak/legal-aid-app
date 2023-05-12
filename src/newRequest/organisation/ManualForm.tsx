@@ -81,6 +81,8 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
             setMessage('Пожалуйста заполните все обязательные поля')
             return false;
         }
+        setError(false);
+        setMessage(null);
         return true
     }
 
@@ -88,6 +90,7 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
         const isValid = validateSubmitData();
         if (isValid) {
             saveOrganisationData({name, inn, kpp, address})
+            setError(false)
         }
     }, [address, inn, kpp, name, saveOrganisationData, validateSubmitData])
 
