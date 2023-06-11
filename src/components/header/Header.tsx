@@ -6,8 +6,8 @@ const Header: FC = () => {
     const {isNavbarClose} = useContext(NavbarContext);
 
     return (
-        <div className={`${styles.home_content} ${isNavbarClose ? styles.width : ''}`}>
-            <span className={`${styles.text}`}></span>
+        <div className={styles.home_content}>
+            <span className={styles.text}>доносы.ру</span>
         </div>
     );
 }

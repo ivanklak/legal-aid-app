@@ -42,7 +42,9 @@ const RightSideBar: FC<RightSideBarProps> = ({notifications}) => {
                     ))}
                 </div>
                 <div className={styles.allNotifications} onClick={onAllNotificationsClick}>
-                    Все уведомления
+                    <div className={styles.notifications_button}>
+                        Все уведомления
+                    </div>
                 </div>
             </div>
             <div className={styles.create_new}>

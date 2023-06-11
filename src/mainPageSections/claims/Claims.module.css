@@ -1,22 +1,59 @@
+.sortBlock {
+    display: flex;
+    background: var(--base-color__white);
+    width: 100%;
+    margin-bottom: 8px;
+    gap: 8px;
+}
+
+.sortTab {
+    display: flex;
+    align-items: center;
+    color: var(--base-color__black);
+    background-color: rgba(241, 241, 241, 0.7);
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(241, 241, 241, 0.8);
+    cursor: pointer;
+}
+
+.sortTab:hover {
+    background-color: rgba(241, 241, 241, 0.9);
+}
+
+.tabText {
+    margin-right: 6px;
+}
+
 .claims {
     background: var(--base-color__white);
-    padding: 20px;
+    padding: 12px;
     border-radius: 16px;
     margin-bottom: 20px;
     box-shadow: 0 7px 14px rgba(197, 201, 206, 0.6);
-    max-height: calc(100vh - 150px);
-    overflow: scroll;
 }
 
 .allAppeals {
-    font-family: "Helvetica", sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 16px;
-    font-size: 16px;
-    color: #888888;
+}
+
+.textButton {
+    font-family: "Roboto", sans-serif;
     cursor: pointer;
+    display: flex;
+    font-size: 12px;
+    color: var(--base-color__black);
+    background-color: rgba(241, 241, 241, 0.7);
+    border-radius: 6px;
+    padding: 5px 10px;
+    border: 1px solid rgba(241, 241, 241, 0.8);
+}
+
+.textButton:hover {
+    background-color: rgba(241, 241, 241, 0.9);
 }
 
 .caption {

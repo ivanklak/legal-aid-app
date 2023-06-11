@@ -1,14 +1,15 @@
 .sidebar {
     display: flex;
     flex-direction: column;
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     bottom: 0;
     width: 260px;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(241, 241, 241, 0.5);
     z-index: 100;
     transition: all 0.5s ease;
+    border-right: 1px solid rgba(241, 241, 241, 0.9);
     /*background: rgb(253,251,255);*/
     /*background: linear-gradient(122deg, rgba(253,251,255,0.96) 0%, rgba(249,241,255,0.9) 80%, rgba(245,231,255,0.9) 100%);*/
 }
@@ -52,6 +53,7 @@
     align-items: center;
     width: 100%;
     transition: all 0.5s ease;
+    margin: 10px 0;
 }
 
 .width {
@@ -171,10 +173,10 @@
     transition: all 0.4s ease;
 }
 
-.nav_links li:hover {
-    background: rgb(178,157,246);
-    background: linear-gradient(135deg, rgba(178,157,246,1) 0%, rgba(216,194,245,1) 51%, rgba(125,105,224,1) 100%);
-}
+/*.nav_links li:hover {*/
+/*    background: rgb(178,157,246);*/
+/*    background: linear-gradient(135deg, rgba(178,157,246,1) 0%, rgba(216,194,245,1) 51%, rgba(125,105,224,1) 100%);*/
+/*}*/
 
 .sidebar .nav_links li .icon_link {
     display: flex;
@@ -247,9 +249,9 @@
     transition: all 0.3s ease;
 }
 
-.sidebar .nav_links li .sub_menu a:hover {
-    opacity: 1;
-}
+/*.sidebar .nav_links li .sub_menu a:hover {*/
+/*    opacity: 1;*/
+/*}*/
 
 .sidebar.close .nav_links li .sub_menu {
     position: absolute;
@@ -264,12 +266,12 @@
     transition: 0s;
 }
 
-.sidebar.close .nav_links li:hover .sub_menu {
-    top: 0;
-    opacity: 1;
-    pointer-events: auto;
-    transition: all 0.4s ease;
-}
+/*.sidebar.close .nav_links li:hover .sub_menu {*/
+/*    top: 0;*/
+/*    opacity: 1;*/
+/*    pointer-events: auto;*/
+/*    transition: all 0.4s ease;*/
+/*}*/
 
 .sidebar .nav_links li .sub_menu .link_name {
     display: none;
@@ -286,10 +288,10 @@
     pointer-events: none;
 }
 
-.sidebar .nav_links li:hover .sub_menu.blank {
-    top: 50%;
-    transform: translateY(-50%);
-}
+/*.sidebar .nav_links li:hover .sub_menu.blank {*/
+/*    top: 50%;*/
+/*    transform: translateY(-50%);*/
+/*}*/
 
 .sidebar .profile_details {
     position: fixed;

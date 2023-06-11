@@ -1,15 +1,11 @@
 .tab {
     display: flex;
     align-items: center;
-    padding: 12px;
+    padding: 10px;
     text-decoration: none;
     margin: 4px 15px;
-    border-radius: 15px;
+    border-radius: 10px;
     color: var(--base-color__text_light);
-}
-
-.tab:hover {
-    background: var(--base-color__white25);
 }
 
 .tab:hover i > svg {

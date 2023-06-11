@@ -14,7 +14,7 @@ const App: FC = () => {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.bgImage}></div>
+            {/*<div className={styles.bgImage}></div>*/}
             <AuthProvider>
                 <NavbarDataLayer>
                     <AppRoutes />

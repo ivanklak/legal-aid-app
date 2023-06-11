@@ -35,31 +35,31 @@ const NewRequests = () => {
     return (
         <MainWrapper>
             <div className={styles.new_request}>
-                <div className={styles.main_section}>
-                    <div className={styles.main_caption}>Создать обращение</div>
-                    <div className={styles.scroll_area}>
-                        <div className={styles.create_form}>
-                            <ClientNameData onSubmitForm={onSubmitClientNameForm}/>
-                            <ClientProblemData
-                                disabled={!isNameFormSubmitted}
-                                onSubmitForm={onSubmitProblemForm}
-                            />
-                            {isNameFormSubmitted && isProblemFormSubmitted && (
-                                <div className={styles.sendForm}>
-                                    <div className={styles.subTitle}>Ваше обращение будет рассмотрено нашими специалистами в ближайшее время.</div>
-                                    <div className={styles.subTitle}>Вы будете получать уведомления о любых изменениях.</div>
-                                    <div className={styles.buttonContainer}>
-                                        <div className={styles.error}>{error}</div>
-                                        <div
-                                            className={styles.submitButton}
-                                            onClick={submitFullForm}
-                                        >
-                                            Отправить
+                <div className={styles.scroll_area}>
+                    <div className={styles.main_section}>
+                        <div className={styles.main_caption}>Создать обращение</div>
+                            <div className={styles.create_form}>
+                                <ClientNameData onSubmitForm={onSubmitClientNameForm}/>
+                                <ClientProblemData
+                                    disabled={!isNameFormSubmitted}
+                                    onSubmitForm={onSubmitProblemForm}
+                                />
+                                {isNameFormSubmitted && isProblemFormSubmitted && (
+                                    <div className={styles.sendForm}>
+                                        <div className={styles.subTitle}>Ваше обращение будет рассмотрено нашими специалистами в ближайшее время.</div>
+                                        <div className={styles.subTitle}>Вы будете получать уведомления о любых изменениях.</div>
+                                        <div className={styles.buttonContainer}>
+                                            <div className={styles.error}>{error}</div>
+                                            <div
+                                                className={styles.submitButton}
+                                                onClick={submitFullForm}
+                                            >
+                                                Отправить
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
-                        </div>
+                                )}
+                            </div>
                     </div>
                 </div>
                 <div className={styles.right_sideBar}>

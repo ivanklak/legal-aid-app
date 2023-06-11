@@ -57,10 +57,10 @@ const Navbar: FC = () => {
 
     return (
         <div className={classNames(navbar_styles.sidebar, isNavbarClose && navbar_styles.close)}>
-            <div className={navbar_styles.logo_details}>
-                <i className={navbar_styles.logo_icon}><ImHammer2/></i>
-                <span className={navbar_styles.logo_name}>Juster</span>
-            </div>
+            {/*<div className={navbar_styles.logo_details}>*/}
+            {/*    <i className={navbar_styles.logo_icon}><ImHammer2/></i>*/}
+            {/*    <span className={navbar_styles.logo_name}>Juster</span>*/}
+            {/*</div>*/}
             <div className={navbar_styles.open_block}>
                 <div className={navbar_styles.icon_container}>
                     <i

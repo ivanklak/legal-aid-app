@@ -6,7 +6,7 @@
 }
 
 .notificationItem:hover {
-    background: rgba(238, 234, 245, 0.5);
+    background: rgba(241, 241, 241, 0.5);
     transition: all 0.3s ease;
 }
 
@@ -70,4 +70,5 @@
     margin-left: auto;
     color: #999999;
     font-size: 14px;
+    white-space: nowrap;
 }

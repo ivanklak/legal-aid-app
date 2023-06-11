@@ -10,7 +10,8 @@ export enum Status {
     success = "Решено",
     inProcess = "В процессе",
     sent = "Отправлено",
-    verification = "Верификация"
+    verification = "Верификация",
+    waitingForAction = 'Требудется действие'
 }
 
 export enum NotificationsTitle {
@@ -39,7 +40,7 @@ const MainPage: FC = () => {
     const { isNavbarClose } = useContext(NavbarContext);
 
     const appealsFromServer: Array<IAppeals> = [
-        {id: 10003, date: '24.03.2022', title: 'Название жалобы', description: 'Длиииинный текст', shortDescription: 'Короткое описание', status: Status.success},
+        {id: 10003, date: '24.03.2022', title: 'Название жалобы', description: 'Длиииинный текст', shortDescription: 'Короткое описание', status: Status.waitingForAction},
         {id: 10002, date: '12.03.2022', title: 'Название жалобы', description: 'Длиииинный текст', shortDescription: 'Короткое описание', status: Status.inProcess},
         {id: 10001, date: '02.03.2022', title: 'Название жалобы', description: 'Длиииинный текст', shortDescription: 'Короткое описание', status: Status.sent},
         {id: 10000, date: '01.03.2022', title: 'Название жалобы', description: 'Длиииинный текст', shortDescription: 'Короткое описание', status: Status.verification},

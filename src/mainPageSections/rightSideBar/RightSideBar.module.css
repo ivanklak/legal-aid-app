@@ -1,25 +1,25 @@
 .right_side_bar {
     flex: 1;
-    padding: 0 20px;
+    padding: 0 20px 0 5px;
     max-width: 500px;
-    max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 30px);
     overflow: scroll;
 }
 
 .search_block {
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 .caption {
-    font-family: "Helvetica", sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 20px;
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 12px;
 }
 
 .notifications {
     background: var(--base-color__white);
-    padding: 20px;
+    padding: 12px;
     border-radius: 16px;
     margin-bottom: 20px;
     box-shadow: 0 7px 14px rgba(197, 201, 206, 0.4);
@@ -28,22 +28,34 @@
 .allNotifications {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    font-family: "Helvetica", sans-serif;
+    justify-content: center;
     margin-top: 16px;
-    font-size: 14px;
-    color: #888888;
-    cursor: pointer;
 }
 
 .allNotifications:hover {
     color: var(--base-color__black30);
 }
 
+.notifications_button {
+    font-family: "Roboto", sans-serif;
+    cursor: pointer;
+    display: flex;
+    font-size: 12px;
+    color: var(--base-color__black);
+    background-color: rgba(241, 241, 241, 0.7);
+    border-radius: 6px;
+    padding: 5px 10px;
+    border: 1px solid rgba(241, 241, 241, 0.8);
+}
+
+.notifications_button:hover {
+    background-color: rgba(241, 241, 241, 0.9);
+}
+
 .create_new {
     display: flex;
     background: var(--base-color__white);
-    padding: 20px;
+    padding: 12px;
     border-radius: 16px;
     margin-bottom: 20px;
     box-shadow: 0 7px 14px rgba(197, 201, 206, 0.4);
@@ -54,17 +66,17 @@
 }
 
 .create_text {
-    margin-left: 16px;
+    margin-left: 12px;
 }
 
 .create_caption {
     font-weight: 500;
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom: 4px;
 }
 
 .create_notice {
-    font-size: 14px;
+    font-size: 12px;
     color: #9a9a9a;
 }
 

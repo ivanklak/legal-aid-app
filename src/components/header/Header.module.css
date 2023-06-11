@@ -1,18 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
 
 .home_content {
-    position: relative;
-    height: 60px;
+    position: fixed;
+    height: 56px;
     display: flex;
     align-items: center;
-    left: 260px;
-    width: calc(100% - 260px);
+    width: 100%;
     transition: all 0.5s ease;
+    border-bottom: 2px solid rgba(241, 241, 241, 0.8);
 }
 
 .home_content.width {
-    left: 80px;
-    width: calc(100% - 80px);
+    /*left: 80px;*/
+    /*width: calc(100% - 80px);*/
 }
 
 .menu_icon {
@@ -35,7 +35,8 @@
 }
 
 .text {
-    color: #11101d;
-    font-size: 26px;
+    color: #d5d5d5;
+    font-size: 22px;
     font-weight: 600;
+    margin-left: 16px;
 }
