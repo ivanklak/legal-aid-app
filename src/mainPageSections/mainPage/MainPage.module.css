@@ -20,6 +20,17 @@
     max-height: calc(100vh - 30px);
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.appeals::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.appeals {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
 .main_caption {
     font-family: "Roboto", sans-serif;
     font-size: 24px;
