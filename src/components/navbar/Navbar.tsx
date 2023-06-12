@@ -62,13 +62,12 @@ const Navbar: FC = () => {
             {/*    <span className={navbar_styles.logo_name}>Juster</span>*/}
             {/*</div>*/}
             <div className={navbar_styles.open_block}>
-                <div className={navbar_styles.icon_container}>
+                <div className={navbar_styles.icon_container} onClick={closeOrOpenNavbar}>
                     <i
                         className={classNames(
                             navbar_styles.open_icon,
                             !isNavbarClose && navbar_styles.touched
                         )}
-                        onClick={closeOrOpenNavbar}
                     >
                         <IoIosArrowForward/>
                     </i>

@@ -5,6 +5,7 @@ import AppealsItem from "../appealsItem";
 import {useNavigate} from "react-router-dom";
 import axios from "../../service/api/axios";
 import {BsArrowDownShort} from "react-icons/bs";
+import getClaimsRequest from "../api/metods/getClaimsRequest";
 
 interface IClaims {
     claims: IAppeals[]
@@ -18,15 +19,22 @@ const Claims: FC<IClaims> = ({claims}) => {
     }
 
     const requestClaims = async () => {
-        const response = await axios.post('/get_claims_details',
+        const response = await axios.post('/claims_details',
             { id: 290 },
             { headers: {'Content-Type': 'application/json'} }
         );
-
-        const response2 = await axios.post('/get_claims', { headers: {'Content-Type': 'application/json'} });
-
         console.log('response', response)
-        console.log('response2', response2)
+
+        // const response2 = await axios.post('/claims', { headers: {'Content-Type': 'application/json'} });
+
+        // TODO взять sessionID из хранилища
+        getClaimsRequest('78ab10d7-ad9f-402a-b9db-fbc9f81d920e')
+            .then((res) => {
+                console.log('res', res)
+            })
+            .catch((err) => {
+                console.log('err', err)
+            })
     }
 
     useEffect( () => {
