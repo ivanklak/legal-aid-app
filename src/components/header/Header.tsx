@@ -22,7 +22,7 @@ const Header: FC = () => {
             <div className={styles.center_header_panel}></div>
             <div className={styles.right_header_panel}>
                 <div className={styles.search}>
-                    <Search placeholder="input search text" allowClear onSearch={onSearch} style={{ width: 200 }} />
+                    <Search placeholder="Поиск" allowClear onSearch={onSearch} style={{ width: 200 }} />
                 </div>
                 <Tooltip color="#37445299" title="Уведомления">
                     <div className={classNames(
