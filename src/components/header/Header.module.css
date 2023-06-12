@@ -8,11 +8,7 @@
     width: 100%;
     transition: all 0.5s ease;
     border-bottom: 2px solid rgba(241, 241, 241, 0.8);
-}
-
-.home_content.width {
-    /*left: 80px;*/
-    /*width: calc(100% - 80px);*/
+    z-index: 10;
 }
 
 .menu_icon {
@@ -39,4 +35,74 @@
     font-size: 22px;
     font-weight: 600;
     margin-left: 16px;
+}
+
+.center_header_panel {
+    display: flex;
+    flex-flow: row;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.right_header_panel {
+    align-items: center;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-right: 15px;
+}
+
+.panel_item {
+    height: 100%;
+    align-items: center;
+    box-sizing: border-box;
+    color: var(--base-color__black);
+    cursor: pointer;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    justify-content: center;
+    outline: none;
+    padding: 0 15px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color .1s,color;
+    white-space: nowrap;
+    margin: 0 4px;
+    border-radius: 50%;
+}
+
+.panel_item:hover {
+    border-radius: 50%;
+    background-color: rgba(64, 150, 255, 0.5);
+}
+
+.notification_button {
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.settings_button {
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.account_button {
+    padding: 5px;
+}
+
+.account_button_background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    border-radius: 50%;
+    background-color: rgba(252, 105, 72, 0.94);
+}
+
+.search {
+    margin-right: 8px;
 }
