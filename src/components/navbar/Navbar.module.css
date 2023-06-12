@@ -66,6 +66,14 @@
     box-sizing: border-box;
     background: var(--base-color__white80);
     border-radius: 7px 0 0 7px;
+    border-left: 1px solid rgb(231, 231, 231);
+    border-top: 1px solid rgb(231, 231, 231);
+    border-bottom: 1px solid rgb(231, 231, 231);
+    box-shadow: 0 5px 14px rgba(197, 201, 206, 0.4);
+}
+
+.icon_container:hover {
+    background: rgba(43, 132, 239, 0.8);
 }
 
 .open_icon {
@@ -74,11 +82,11 @@
     font-size: 20px;
     color: var(--base-color__black50);
     cursor: pointer;
-    transition: transform 0.7s ease;
+    transition: transform 0.5s ease;
 }
 
 .open_icon:hover {
-    color: rgba(40, 40, 40, 0.8);
+    color: var(--base-color__white);
 }
 
 .touched {
