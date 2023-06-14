@@ -1,0 +1,40 @@
+.content
+  display: flex
+  flex-direction: column
+  height: 100%
+
+  .notification_item
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: 5px 0
+    cursor: pointer
+    border-radius: 4px
+
+    &:hover
+      background-color: rgba(227, 227, 227, 0.5)
+
+    .left_container
+      display: flex
+
+      .itemIcon
+        display: flex
+        height: 10px
+        width: 10px
+        margin: 5px 14px 0 0
+        background: rgba(59, 192, 85, 1)
+        border-radius: 50%
+        border: 1px solid rgb(57, 183, 81)
+        box-shadow: 0  7px 14px rgba(59, 192, 85, 0.6)
+
+      .readIcon
+        background: none
+        box-shadow: 0  7px 14px rgba(59, 192, 85, 0.4)
+
+  .no_notifications
+    display: flex
+    margin-top: 20px
+
+.modalStyle
+  & > div:nth-child(2)
+    height: 100%
