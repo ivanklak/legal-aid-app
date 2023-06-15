@@ -1,10 +1,10 @@
 import React, {FC, useContext} from "react";
 import styles from "./MainPage.module.css";
 import NavbarContext from "../../App/context/NavbarContext";
-import classNames from "classnames";
 import MainWrapper from "../../components/mainWrapper/MainWrapper";
 import Claims from "../claims/Claims";
 import RightSideBar from "../rightSideBar/RightSideBar";
+import CenterContent from "../../components/centerContent/CenterContent";
 
 export enum Status {
     success = "Решено",
@@ -58,13 +58,13 @@ const MainPage: FC = () => {
 
     return (
         <MainWrapper>
-            <div className={classNames(styles.home_content, isNavbarClose && styles.width)}>
+            <CenterContent>
                 <div className={styles.appeals}>
                     <div className={styles.main_caption}>Обращения</div>
                     <Claims claims={appealsFromServer} />
                 </div>
                 <RightSideBar notifications={notificationsFromServer}/>
-            </div>
+            </CenterContent>
         </MainWrapper>
     );
 }

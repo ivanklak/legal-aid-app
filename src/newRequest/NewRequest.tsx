@@ -5,6 +5,7 @@ import NavigatedSearchBar from "../mainPageSections/search/SearchBar";
 import HelpLink from "./help/HelpLink";
 import ClientNameData from "./clientNameData/ClientNameData";
 import ClientProblemData from "./clientProblemData/ClientProblemData";
+import CenterContent from "../components/centerContent/CenterContent";
 
 const NewRequests = () => {
     const [isNameFormSubmitted, setIsNameFormSubmitted] = useState<boolean>(false);
@@ -34,7 +35,7 @@ const NewRequests = () => {
 
     return (
         <MainWrapper>
-            <div className={styles.new_request}>
+            <CenterContent className={styles.new_request}>
                 <div className={styles.scroll_area}>
                     <div className={styles.main_section}>
                         <div className={styles.main_caption}>Создать обращение</div>
@@ -63,9 +64,6 @@ const NewRequests = () => {
                     </div>
                 </div>
                 <div className={styles.right_sideBar}>
-                    <div className={styles.search_block}>
-                        <NavigatedSearchBar />
-                    </div>
                     <div className={styles.caption}>
                         Помощь
                     </div>
@@ -93,7 +91,7 @@ const NewRequests = () => {
                         />
                     </div>
                 </div>
-            </div>
+            </CenterContent>
         </MainWrapper>
     );
 }
