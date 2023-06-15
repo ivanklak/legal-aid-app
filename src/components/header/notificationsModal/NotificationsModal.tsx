@@ -25,7 +25,7 @@ const NotificationsModal = memo<NotificationsModalProps>(({open, setOpenModal}) 
     },[setOpenModal])
 
     const onItemClick = useCallback(() => {
-        navigate('/notification')
+        navigate('/notifications')
     }, [navigate])
 
     return (

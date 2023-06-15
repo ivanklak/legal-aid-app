@@ -1,9 +1,5 @@
 .home_content {
-
-}
-
-.home_content.width {
-
+    display: flex;
 }
 
 .menu {
@@ -14,7 +10,7 @@
 
 .appeals {
     flex: 2;
-    max-width: 800px;
+    max-width: 900px;
     padding: 0 20px;
     overflow: scroll;
     max-height: calc(100vh - 30px);

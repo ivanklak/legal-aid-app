@@ -59,13 +59,11 @@ const MainPage: FC = () => {
     return (
         <MainWrapper>
             <div className={classNames(styles.home_content, isNavbarClose && styles.width)}>
-                <div className={styles.menu}>
-                    <div className={styles.appeals}>
-                        <div className={styles.main_caption}>Обращения</div>
-                        <Claims claims={appealsFromServer} />
-                    </div>
-                    <RightSideBar notifications={notificationsFromServer}/>
+                <div className={styles.appeals}>
+                    <div className={styles.main_caption}>Обращения</div>
+                    <Claims claims={appealsFromServer} />
                 </div>
+                <RightSideBar notifications={notificationsFromServer}/>
             </div>
         </MainWrapper>
     );

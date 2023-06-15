@@ -8,6 +8,11 @@
     transition: all 0.5s ease;
 }
 
+.center_content {
+    display: flex;
+    justify-content: center;
+}
+
 .squeeze {
     /*left: 260px;*/
     width: 100%;

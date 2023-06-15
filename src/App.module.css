@@ -37,16 +37,16 @@
   }
 }
 
-.home_content {
-  position: relative;
-  background: #E4E9F7;
-  height: 100vh;
-  left: 240px;
-  width: calc(100% - 240px);
-  transition: all 0.5s ease;
-}
+/*.home_content {*/
+/*  position: relative;*/
+/*  background: #E4E9F7;*/
+/*  height: 100vh;*/
+/*  left: 240px;*/
+/*  width: calc(100% - 240px);*/
+/*  transition: all 0.5s ease;*/
+/*}*/
 
-.home_content.width {
-  left: 70px;
-  width: calc(100% - 70px);
-}
+/*.home_content.width {*/
+/*  left: 70px;*/
+/*  width: calc(100% - 70px);*/
+/*}*/
