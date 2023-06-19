@@ -5,6 +5,8 @@ import MainWrapper from "../../components/mainWrapper/MainWrapper";
 import Claims from "../claims/Claims";
 import RightSideBar from "../rightSideBar/RightSideBar";
 import CenterContent from "../../components/centerContent/CenterContent";
+import AuthContext from "../../App/Layers/AuthProvider";
+import NoAuthorized from "../../components/noAuthorized/NoAuthorized";
 
 export enum Status {
     success = "Решено",
@@ -38,6 +40,7 @@ export interface INotifications {
 
 const MainPage: FC = () => {
     const { isNavbarClose } = useContext(NavbarContext);
+    const { auth } = useContext(AuthContext);
 
     const appealsFromServer: Array<IAppeals> = [
         {id: 10003, date: '24.03.2022', title: 'Название жалобы', description: 'Длиииинный текст', shortDescription: 'Короткое описание', status: Status.waitingForAction},
@@ -61,7 +64,11 @@ const MainPage: FC = () => {
             <CenterContent>
                 <div className={styles.appeals}>
                     <div className={styles.main_caption}>Обращения</div>
-                    <Claims claims={appealsFromServer} />
+                    {auth ? (
+                        <Claims claims={appealsFromServer} />
+                    ) : (
+                        <NoAuthorized />
+                    )}
                 </div>
                 <RightSideBar notifications={notificationsFromServer}/>
             </CenterContent>

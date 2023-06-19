@@ -45,6 +45,7 @@ html, body {
   --base-color__grey700: rgb(77, 77, 77);
   --base-color__grey500: rgb(84, 84, 84);
   --base-color__grey300: rgb(151, 151, 151);
+  --base-color__grey200: rgb(218, 218, 218);
   --base-color__blue600: rgb(36, 102, 140);
   --base-color__blue500: rgb(27, 127, 204);
   --base-color__blue50080: rgb(27, 127, 204, 0.8);

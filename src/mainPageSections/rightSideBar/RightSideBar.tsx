@@ -1,9 +1,10 @@
-import React, {FC} from "react";
+import React, {FC, useCallback, useContext, useState} from "react";
 import styles from "./RightSideBar.module.css";
 import {INotifications} from "../mainPage/MainPage";
-import NotificationItem from "../notificationItem";
 import {useNavigate} from "react-router-dom";
 import {BsPlusSquareDotted} from "react-icons/bs";
+import AuthContext from "../../App/Layers/AuthProvider";
+import {Button, notification} from "antd";
 
 interface RightSideBarProps {
     notifications: Array<INotifications>
@@ -11,39 +12,49 @@ interface RightSideBarProps {
 
 const RightSideBar: FC<RightSideBarProps> = ({notifications}) => {
     const navigate = useNavigate();
-
-    const onAllNotificationsClick = () => {
-        navigate('/notifications')
-    }
+    const { auth } = useContext(AuthContext);
+    const [api, contextHolder] = notification.useNotification();
 
     const onListClick = () => {
         navigate('/category')
     }
 
-    const onCreateClick = () => {
-        navigate('/newRequest')
+    const openLoginNotification = () => {
+        const key = `open${Date.now()}`;
+        const onLoginClick = () => {
+            api.destroy(key)
+            navigate('/login')
+        }
+        const btn = (
+            <Button type="default" size="middle" onClick={onLoginClick}>
+                Войти
+            </Button>
+        );
+        api['info']({
+            message: 'Вход',
+            description: 'Чтобы создать обращение нужно войти в личный кабинет',
+            btn,
+            key,
+            onClose: onLoginNotificationClose,
+        });
     }
+
+    const onLoginNotificationClose = () => {
+        console.log('close')
+    }
+
+    const onCreateClick = useCallback(() => {
+        if (auth) {
+            navigate('/newRequest')
+        } else {
+            openLoginNotification();
+        }
+    }, [openLoginNotification, auth, navigate])
 
     return (
         <div className={styles.right_side_bar}>
-            {/*<div className={styles.caption}>Уведомления</div>*/}
-            {/*<div className={styles.notifications}>*/}
-            {/*    <div>*/}
-            {/*        {notifications.map((item) => (*/}
-            {/*            <NotificationItem*/}
-            {/*                isRead={item.isRead}*/}
-            {/*                item={item}*/}
-            {/*                key={item.id}*/}
-            {/*            />*/}
-            {/*        ))}*/}
-            {/*    </div>*/}
-            {/*    <div className={styles.allNotifications} onClick={onAllNotificationsClick}>*/}
-            {/*        <div className={styles.notifications_button}>*/}
-            {/*            Все уведомления*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
             <div className={styles.create_new}>
+                {contextHolder}
                 <div className={styles.button_container} onClick={onCreateClick}>
                     <div className={styles.create_button}>
                         <div className={styles.create_icon}>

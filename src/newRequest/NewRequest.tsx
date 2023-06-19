@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useContext, useState} from "react";
 import MainWrapper from "../components/mainWrapper/MainWrapper";
 import styles from "./NewRequest.module.css";
 import NavigatedSearchBar from "../mainPageSections/search/SearchBar";
@@ -6,8 +6,11 @@ import HelpLink from "./help/HelpLink";
 import ClientNameData from "./clientNameData/ClientNameData";
 import ClientProblemData from "./clientProblemData/ClientProblemData";
 import CenterContent from "../components/centerContent/CenterContent";
+import AuthContext from "../App/Layers/AuthProvider";
+import NoAuthorized from "../components/noAuthorized/NoAuthorized";
 
 const NewRequests = () => {
+    const { auth } = useContext(AuthContext);
     const [isNameFormSubmitted, setIsNameFormSubmitted] = useState<boolean>(false);
     const [isProblemFormSubmitted, setIsProblemFormSubmitted] = useState<boolean>(false);
     const [error, setError] = useState<string>(null);
@@ -39,6 +42,7 @@ const NewRequests = () => {
                 <div className={styles.scroll_area}>
                     <div className={styles.main_section}>
                         <div className={styles.main_caption}>Создать обращение</div>
+                        {auth ? (
                             <div className={styles.create_form}>
                                 <ClientNameData onSubmitForm={onSubmitClientNameForm}/>
                                 <ClientProblemData
@@ -61,6 +65,9 @@ const NewRequests = () => {
                                     </div>
                                 )}
                             </div>
+                        ) : (
+                            <NoAuthorized />
+                        )}
                     </div>
                 </div>
                 <div className={styles.right_sideBar}>
