@@ -1,8 +1,8 @@
-import React from "react";
+import React, {FormEvent} from "react";
 import {useState, useEffect, useRef} from "react";
 import {useNavigate, useLocation} from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import axios from "../../service/api/axios";
+import useAuth from "../components/hooks/useAuth";
+import axios from "../service/api/axios";
 import login_styles from './login.module.css';
 import {FiMail} from 'react-icons/fi';
 import {FiLock} from 'react-icons/fi';
@@ -10,8 +10,10 @@ import {FiUser} from 'react-icons/fi';
 import {FiUnlock} from 'react-icons/fi';
 import {FiEye} from 'react-icons/fi';
 import {FiEyeOff} from 'react-icons/fi';
+import {requestLogin} from "./api/methods/requestLogin";
+import {LoginResponse} from "./api/requests/PostLoginRequest";
 
-const LOGIN_URL = '/auth/login';
+// const LOGIN_URL = '/auth/login';
 const REGISTER_URL = '/auth/registration';
 
 const Login = () => {
@@ -47,7 +49,7 @@ const Login = () => {
         setActiveForm(!isRegistrationFormShow);
     }
 
-    const handleRegistrationSubmit = async (e) => {
+    const handleRegistrationSubmit = async (e: any) => {
         e.preventDefault();
 
         try {
@@ -80,29 +82,17 @@ const Login = () => {
         e.target.reset();
     }
 
-    const handleLoginSubmit = async (e) => {
+    const handleLoginSubmit = async (e: any) => {
         e.preventDefault();
-
         try {
-            const response = await axios.post(LOGIN_URL,
-                JSON.stringify({email, pwd}),
-                {
-                    headers: { 'Content-Type': 'application/json' }
-                }
-            );
-            const accessToken = response?.data?.access_token;
-            const refreshToken = response?.data?.refresh_token;
-            const roles = response?.data?.role;
-            setAuth({email, pwd, roles, accessToken, refreshToken});
-            setUserName('');
-            setEmail('');
-            setPwd('');
-            setMatchPwd('');
-            setCheckbox(false);
-            e.target.reset();
-            navigate(from, {replace: true});
+            const response = await requestLogin(email, pwd);
+            if (response) {
+                applyLoginResponse(response);
+            }
         } catch (err) {
-            if (!err?.response) {
+            console.log('handleLoginSubmit error', {err});
+
+            if (!err.response) {
                 setErrMsgLogin('Нет ответа от сервера');
             } else if (err.response?.status === 403) {
                 setErrMsgLogin('Неверный логин пользователя или пароль');
@@ -110,6 +100,19 @@ const Login = () => {
                 setErrMsgLogin('Login Failed');
             }
         }
+    }
+
+    const applyLoginResponse = (response: LoginResponse) => {
+        const authObject = {
+            email,
+            pwd,
+            roles: response.role,
+            accessToken: response.access_token,
+            refreshToken: response.refresh_token
+        };
+
+        setAuth(authObject);
+        navigate(from, {replace: true});
     }
 
     return (
@@ -143,7 +146,7 @@ const Login = () => {
                                     <input type="checkbox" id="logCheck"/>
                                     <label htmlFor="logCheck" className={`${login_styles.text}`}>Remember me</label>
                                 </div>
-                                <a href="#" className={`${login_styles.text}`}>Forgot password?</a>
+                                <a href="src/login/Login#" className={`${login_styles.text}`}>Forgot password?</a>
                             </div>
                             <div className={`${login_styles.input_field} ${login_styles.button}`}>
                                 <input type="submit" value="Login Now" className="loginButton"/>

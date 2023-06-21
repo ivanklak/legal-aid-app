@@ -1,7 +1,7 @@
 import React, {ComponentType, FC, useContext} from 'react';
 import {useLocation} from "react-router-dom";
 import AuthContext from "../Layers/AuthProvider";
-import Login from "../../components/login/Login";
+import Login from "../../login/Login";
 
 function withAuthRedirect<P>(WrappedComponent: ComponentType<P>) {
     const RedirectComponent: FC<P> = props => {

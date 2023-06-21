@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import {Route, Routes} from 'react-router-dom';
-import Login from "../components/login/Login";
+import Login from "../login/Login";
 import Unauthorized from "../components/Unauthorized";
 import Home from "../components/Home";
 import Missing from "../components/Missing";

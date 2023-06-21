@@ -1,7 +1,7 @@
 import React from "react";
 import './App.module.css';
 import {Route, Routes} from 'react-router-dom';
-import Login from "./components/login/Login";
+import Login from "./login/Login";
 import RequireAuth from "./components/RequireAuth";
 import Home from "./components/Home";
 import Missing from "./components/Missing";
