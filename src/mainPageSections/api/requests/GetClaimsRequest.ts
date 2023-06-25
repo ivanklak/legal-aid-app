@@ -1,17 +1,17 @@
-import PostRequest from "../../../service/api/requests/PostRequest";
-import JSONResponseHandler from "../../../service/api/handlers/JSONResponseHandler";
+import AxiosResponseHandler from "../../../service/api/handlers/AxiosResponseHandler";
+import AxiosPostRequest from "../../../service/api/requests/AxiosPostRequest";
 
 type Data = {
     sessionId: string
 }
 
-class GetClaimsRequest extends PostRequest<Data> {
+class GetClaimsRequest extends AxiosPostRequest<Data> {
     public constructor(private sessionId: string) {
         super();
     }
 
-    protected responseHandler = new JSONResponseHandler<Data>();
-    protected url = "http://localhost:8080/claims";
+    protected responseHandler = new AxiosResponseHandler<Data>();
+    protected url = "/claims";
     protected body = {
         id: this.sessionId
     }

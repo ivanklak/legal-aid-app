@@ -7,7 +7,7 @@ import {ImHammer2} from 'react-icons/im';
 import {useLocation, useNavigate} from "react-router-dom";
 import NavbarContext from "../../App/context/NavbarContext";
 import axios from "../../service/api/axios";
-import useAuth from "../hooks/useAuth";
+import {useAuth} from "../hooks/useAuth";
 import classNames from "classnames";
 import Tab from "./tab/Tab";
 import { IoIosArrowForward } from "react-icons/io";

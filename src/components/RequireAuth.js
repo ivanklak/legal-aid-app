@@ -1,4 +1,4 @@
-import useAuth from "./hooks/useAuth";
+import {useAuth} from "./hooks/useAuth";
 import {useLocation, Navigate} from "react-router-dom";
 import Home from "./Home";
 

@@ -1,7 +1,7 @@
-import React, {FormEvent} from "react";
+import React from "react";
 import {useState, useEffect, useRef} from "react";
 import {useNavigate, useLocation} from "react-router-dom";
-import useAuth from "../components/hooks/useAuth";
+import {useAuth} from "../components/hooks/useAuth";
 import axios from "../service/api/axios";
 import login_styles from './login.module.css';
 import {FiMail} from 'react-icons/fi';
@@ -12,15 +12,17 @@ import {FiEye} from 'react-icons/fi';
 import {FiEyeOff} from 'react-icons/fi';
 import {requestLogin} from "./api/methods/requestLogin";
 import {LoginResponse} from "./api/requests/PostLoginRequest";
+import {IAuth} from "../App/Layers/AuthProvider";
 
 // const LOGIN_URL = '/auth/login';
 const REGISTER_URL = '/auth/registration';
 
 const Login = () => {
-    const {setAuth} = useAuth();
+    const {setAuth, setIsAuthInProgress} = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
+    // @ts-ignore
     const from = location.state?.from?.pathname || "/";
 
     const errRefLogin = useRef();
@@ -84,6 +86,7 @@ const Login = () => {
 
     const handleLoginSubmit = async (e: any) => {
         e.preventDefault();
+        setIsAuthInProgress(true);
         try {
             const response = await requestLogin(email, pwd);
             if (response) {
@@ -91,7 +94,6 @@ const Login = () => {
             }
         } catch (err) {
             console.log('handleLoginSubmit error', {err});
-
             if (!err.response) {
                 setErrMsgLogin('Нет ответа от сервера');
             } else if (err.response?.status === 403) {
@@ -99,20 +101,24 @@ const Login = () => {
             } else {
                 setErrMsgLogin('Login Failed');
             }
+            setIsAuthInProgress(false);
         }
     }
 
     const applyLoginResponse = (response: LoginResponse) => {
-        const authObject = {
+        const authObject: IAuth = {
             email,
             pwd,
             roles: response.role,
             accessToken: response.access_token,
             refreshToken: response.refresh_token
         };
-
+        // save in context
         setAuth(authObject);
         navigate(from, {replace: true});
+        // save in storage
+        localStorage.setItem("token", response.access_token);
+        setIsAuthInProgress(false);
     }
 
     return (
