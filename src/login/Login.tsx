@@ -118,6 +118,7 @@ const Login = () => {
         navigate(from, {replace: true});
         // save in storage
         localStorage.setItem("token", response.access_token);
+        localStorage.setItem('id', response.id);
         setIsAuthInProgress(false);
     }
 

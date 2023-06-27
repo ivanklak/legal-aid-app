@@ -33,7 +33,7 @@ export const AuthProvider: FC = ({ children }) => {
             const response = await AuthService.refreshToken();
             localStorage.setItem("token", response.access_token);
         } catch (err) {
-            console.log("login error");
+            console.log("refreshToken error");
             setIsAuthInProgress(false);
         } finally {
             setIsAuthInProgress(false);

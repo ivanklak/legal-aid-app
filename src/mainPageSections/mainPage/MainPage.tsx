@@ -16,6 +16,14 @@ export enum Status {
     waitingForAction = 'Требудется действие'
 }
 
+export enum StatusV2 {
+    resolved = "RESOLVED",
+    new = "NEW",
+    decline = "DECLINE",
+    inProcess = "IN_PROCESS",
+    waitingForAction = 'WAIT_FOR_ACTION'
+}
+
 export enum NotificationsTitle {
     success = "Обращение решено",
     newStatus = "Новый статус обращения",
@@ -64,11 +72,12 @@ const MainPage: FC = () => {
             <CenterContent>
                 <div className={styles.appeals}>
                     <div className={styles.main_caption}>Обращения</div>
-                    {auth ? (
-                        <Claims claims={appealsFromServer} />
-                    ) : (
-                        <NoAuthorized />
-                    )}
+                    <Claims />
+                    {/*{auth ? (*/}
+                    {/*    <Claims claims={appealsFromServer} />*/}
+                    {/*) : (*/}
+                    {/*    <NoAuthorized />*/}
+                    {/*)}*/}
                 </div>
                 <RightSideBar notifications={notificationsFromServer}/>
             </CenterContent>

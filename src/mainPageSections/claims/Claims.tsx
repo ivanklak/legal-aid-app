@@ -1,47 +1,53 @@
-import React, {FC, useEffect} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {IAppeals} from "../mainPage/MainPage";
 import styles from "./Claims.module.css";
 import AppealsItem from "../appealsItem";
 import {useNavigate} from "react-router-dom";
-import axios from "../../service/api/axios";
 import {BsArrowDownShort} from "react-icons/bs";
 import getClaimsRequest from "../api/metods/getClaimsRequest";
+import {ClaimsItemResponse} from "../api/requests/GetClaimsRequest";
 
-interface IClaims {
-    claims: IAppeals[]
-}
-
-const Claims: FC<IClaims> = ({claims}) => {
+const Claims: FC = () => {
     const navigate = useNavigate();
+    const [claims, setClaims] = useState<ClaimsItemResponse[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const onAllAppealsClick = () => {
         return navigate('myRequests')
     }
 
     const requestClaims = async () => {
-        const response = await axios.post('/claims_details',
-            { id: 290 },
-            { headers: {'Content-Type': 'application/json'} }
-        );
-        console.log('response', response)
+        const sessionId = localStorage.getItem('id');
+        if (!sessionId) return;
+        setLoading(true);
+        try {
+            const response = await getClaimsRequest(sessionId);
+            if (response) {
+                console.log('res', response)
+                setClaims(response.claims);
+                setLoading(false);
+            }
+        } catch (err) {
+            console.log('err')
+            setLoading(false);
+        }
+        // const response = await axios.post('/claims_details',
+        //     { id: 290 },
+        //     { headers: {'Content-Type': 'application/json'} }
+        // );
+        // console.log('response', response)
 
         // const response2 = await axios.post('/claims', { headers: {'Content-Type': 'application/json'} });
-
-        // TODO взять sessionID из хранилища
-        getClaimsRequest('78ab10d7-ad9f-402a-b9db-fbc9f81d920e')
-            .then((res) => {
-                console.log('res', res)
-            })
-            .catch((err) => {
-                console.log('err', err)
-            })
     }
 
     useEffect( () => {
         requestClaims();
     }, [])
 
-    return (
+    console.log('claims', typeof claims)
+    if (!claims.length) return null;
+
+    return loading ? <div>loading</div> : (
         <>
             <div className={styles.sortBlock}>
                 <div className={styles.sortTab}>Id обращения</div>
