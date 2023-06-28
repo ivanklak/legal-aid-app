@@ -17,7 +17,7 @@ const NoAuthorized = () => {
             <div className={styles.caption}>Войдите в личный кабинет</div>
             <div className={styles.title}>чтобы увидеть ваши обращения</div>
             <div className={styles.buttons_container}>
-                <Button type="primary" onClick={onLoginClick}>Войти</Button>
+                <Button className={styles.login_button} type="primary" onClick={onLoginClick}>Войти</Button>
             </div>
         </div>
     )

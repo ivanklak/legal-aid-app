@@ -1,28 +1,27 @@
 import React, {FC, useCallback, useEffect, useState} from "react";
-import {IAppeals} from "../mainPage/MainPage";
+import {StatusV2} from "../mainPage/MainPage";
 import styles from "./Claims.module.css";
-import AppealsItem from "../appealsItem";
 import {useNavigate} from "react-router-dom";
-import {BsArrowDownShort} from "react-icons/bs";
 import getClaimsRequest from "../api/metods/getClaimsRequest";
 import {ClaimsItemResponse} from "../api/requests/GetClaimsRequest";
 import { Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {getDateFromString} from "../../handlers/getDateFromString";
 
-interface ClaimData {
+interface ClaimRowData {
     key: React.Key;
     id: string; //120
     name: string; //"Жалоба на врача"
     createdDate: string; // "2023-06-12 16:52:48.343"
     status: string; //"RESOLVED"
-    // text: string; //"Колоноскопия прошла не успешно - я обосрался"
+    text: string; //"Колоноскопия прошла не успешно - я обосрался"
+    isRowExpandable: boolean;
 }
 
 const Claims: FC = () => {
     const navigate = useNavigate();
     const [claims, setClaims] = useState<ClaimsItemResponse[]>([]);
-    const [rows, setRows] = useState<ClaimData[]>([]);
+    const [rows, setRows] = useState<ClaimRowData[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
     const onAllAppealsClick = () => {
@@ -32,13 +31,15 @@ const Claims: FC = () => {
     const createTableRows = useCallback((): any => {
         if (!claims.length) return null;
 
-        const rowsArray: ClaimData[] = claims.map((item) => {
+        const rowsArray: ClaimRowData[] = claims.map((item) => {
             return {
                 key: item.id,
                 id: item.id,
                 name: item.name,
                 createdDate: getDateFromString(item.createdDate),
                 status: item.status,
+                text: item.text,
+                isRowExpandable: !!item.text
             }
         })
 
@@ -73,10 +74,11 @@ const Claims: FC = () => {
         requestClaims();
     }, [JSON.stringify(claims)])
 
-    const columns: ColumnsType<ClaimData> = [
+    const columns: ColumnsType<ClaimRowData> = [
         {
             title: 'Название',
             dataIndex: 'name',
+            render: (name) => renderName(name)
         },
         {
             title: 'Номер',
@@ -84,27 +86,71 @@ const Claims: FC = () => {
             width: 100,
         },
         {
-            title: 'Дата',
-            dataIndex: 'createdDate',
-            width: 150,
-        },
-        {
             title: 'Статус',
             dataIndex: 'status',
-            width: 150,
-            render: (_, {status}) => (
-                <Tag color={'geekblue'} key={status}>
-                    {status}
-                </Tag>
-            ),
+            width: 170,
+            render: (_, {status}) => renderStatusTag(status),
         },
+        Table.EXPAND_COLUMN,
     ]
+
+    const renderStatusTag = (status: string): JSX.Element => {
+        switch (status) {
+            case StatusV2.resolved: {
+                return (
+                    <Tag color='green'>Готово</Tag>
+                )
+            }
+            case StatusV2.decline: {
+                return (
+                    <Tag color='volcano'>Отклонено</Tag>
+                )
+            }
+            case StatusV2.new: {
+                return (
+                    <Tag color='geekblue'>Создано</Tag>
+                )
+            }
+            case StatusV2.inProcess: {
+                return (
+                    <Tag color='blue'>В процессе</Tag>
+                )
+            }
+            case 'NEED_INFO':
+            case StatusV2.waitingForAction: {
+                return (
+                    <Tag color='orange'>Требуется действие</Tag>
+                )
+            }
+            default: return <Tag color='geekblue'>{status}</Tag>
+        }
+    }
+
+    const renderName = (name: string) => {
+        return (
+            <div className={styles.row_name}>{name}</div>
+        )
+    }
+
+    const renderDescription = (claimRowData: ClaimRowData): JSX.Element => {
+        return (
+            <div>
+                <span className={styles.expand_data}>Создано {claimRowData.createdDate}</span>
+                <div>{claimRowData.text}</div>
+                <div className={styles.expand_link} onClick={handleGoToClaim}>Перейти к обращению</div>
+            </div>
+        )
+    }
+
+    const handleGoToClaim = () => {
+        navigate('/myRequests')
+    }
+
+    const renderExpandIcon = () => {}
 
     const handleTableChange = (val: any) => {
         console.log('change', val)
     }
-
-    // if (!claims.length) return null;
 
     return (
         <>
@@ -129,6 +175,11 @@ const Claims: FC = () => {
                     pagination={false}
                     scroll={{ y: '100%' }}
                     onChange={handleTableChange}
+                    expandable={{
+                        expandedRowRender: (record) => renderDescription(record),
+                        rowExpandable: (record) => record.isRowExpandable,
+                        // expandIcon: ({ expanded, onExpand, record }) => renderExpandIcon()
+                    }}
                 />
                 <div className={styles.allAppeals} onClick={onAllAppealsClick}>
                     <div className={styles.textButton}>

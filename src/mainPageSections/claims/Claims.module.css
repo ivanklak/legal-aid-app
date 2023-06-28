@@ -28,9 +28,9 @@
 .claims {
     background: var(--base-color__white);
     padding: 12px;
-    border-radius: 16px;
+    border-radius: 8px;
     margin-bottom: 20px;
-    box-shadow: 0 7px 14px rgba(197, 201, 206, 0.6);
+    box-shadow: 0 2px 5px 0 rgba(197, 201, 206, 0.6);
 }
 
 .allAppeals {
@@ -90,4 +90,27 @@
     cursor: pointer;
     margin-left: 7px;
     font-size: 14px;
+}
+
+.row_name {
+    font-family: "Roboto", sans-serif;
+    color: black;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.expand_data {
+    color: #6B778C;
+    font-size: 12px;
+}
+
+.expand_link {
+    color: #1677ff;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.expand_link:hover {
+    color: #4693ff;
 }
