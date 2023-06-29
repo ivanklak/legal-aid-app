@@ -1,7 +1,7 @@
 import React, {FC, useCallback, useEffect, useState} from "react";
 import {StatusV2} from "../mainPage/MainPage";
 import styles from "./Claims.module.css";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import getClaimsRequest from "../api/metods/getClaimsRequest";
 import {ClaimsItemResponse} from "../api/requests/GetClaimsRequest";
 import { Table, Tag } from 'antd';
@@ -62,12 +62,6 @@ const Claims: FC = () => {
             console.log('err')
             setLoading(false);
         }
-        // const response = await axios.post('/claims_details',
-        //     { id: 290 },
-        //     { headers: {'Content-Type': 'application/json'} }
-        // );
-        // console.log('response', response)
-        // const response2 = await axios.post('/claims', { headers: {'Content-Type': 'application/json'} });
     }, [createTableRows])
 
     useEffect( () => {
@@ -137,57 +131,36 @@ const Claims: FC = () => {
             <div>
                 <span className={styles.expand_data}>Создано {claimRowData.createdDate}</span>
                 <div>{claimRowData.text}</div>
-                <div className={styles.expand_link} onClick={handleGoToClaim}>Перейти к обращению</div>
+                <Link to={{pathname: `/myRequests/${claimRowData.id}`}} className={styles.expand_link}>
+                    Перейти к обращению
+                </Link>
             </div>
         )
     }
 
-    const handleGoToClaim = () => {
-        navigate('/myRequests')
-    }
-
     const renderExpandIcon = () => {}
 
-    const handleTableChange = (val: any) => {
-        console.log('change', val)
-    }
-
     return (
-        <>
-            {/*<div className={styles.sortBlock}>*/}
-            {/*    <div className={styles.sortTab}>Id обращения</div>*/}
-            {/*    <div className={styles.sortTab}>*/}
-            {/*        <span className={styles.tabText}>Дата</span>*/}
-            {/*        <BsArrowDownShort size={16} />*/}
-            {/*    </div>*/}
-            {/*    <div className={styles.sortTab}>Организация</div>*/}
-            {/*    <div className={styles.sortTab}>Статус</div>*/}
-            {/*</div>*/}
-            <div className={styles.claims}>
-                {/*{claims.map((item) => (*/}
-                {/*    <AppealsItem item={item} key={item.id} />*/}
-                {/*))}*/}
-                <Table
-                    columns={columns}
-                    dataSource={rows}
-                    loading={loading}
-                    rowKey={(record) => record.id}
-                    pagination={false}
-                    scroll={{ y: '100%' }}
-                    onChange={handleTableChange}
-                    expandable={{
-                        expandedRowRender: (record) => renderDescription(record),
-                        rowExpandable: (record) => record.isRowExpandable,
-                        // expandIcon: ({ expanded, onExpand, record }) => renderExpandIcon()
-                    }}
-                />
-                <div className={styles.allAppeals} onClick={onAllAppealsClick}>
-                    <div className={styles.textButton}>
-                        Все обращения
-                    </div>
+        <div className={styles.claims}>
+            <Table
+                columns={columns}
+                dataSource={rows}
+                loading={loading}
+                rowKey={(record) => record.id}
+                pagination={false}
+                scroll={{ y: '100%' }}
+                expandable={{
+                    expandedRowRender: (record) => renderDescription(record),
+                    rowExpandable: (record) => record.isRowExpandable,
+                    // expandIcon: ({ expanded, onExpand, record }) => renderExpandIcon()
+                }}
+            />
+            <div className={styles.allAppeals} onClick={onAllAppealsClick}>
+                <div className={styles.textButton}>
+                    Все обращения
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
