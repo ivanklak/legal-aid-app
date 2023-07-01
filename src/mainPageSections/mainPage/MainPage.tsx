@@ -72,12 +72,12 @@ const MainPage: FC = () => {
             <CenterContent>
                 <div className={styles.appeals}>
                     <div className={styles.main_caption}>Обращения</div>
-                    {/*<Claims />*/}
-                    {auth ? (
-                        <Claims />
-                    ) : (
-                        <NoAuthorized />
-                    )}
+                    <Claims />
+                    {/*{auth ? (*/}
+                    {/*    <Claims />*/}
+                    {/*) : (*/}
+                    {/*    <NoAuthorized />*/}
+                    {/*)}*/}
                 </div>
                 <RightSideBar notifications={notificationsFromServer}/>
             </CenterContent>
