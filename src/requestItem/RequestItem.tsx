@@ -57,7 +57,23 @@ const RequestItem = () => {
                     </div>
                 </div>
                 <div className={styles.additional_info}>
-                    {id}
+                    <div className={styles.add_caption}>Сведения</div>
+                    <div className={styles.add_body}>
+                        <div>Номер - {id}</div>
+                        <div>Статус - Получен ведомством</div>
+                        <div>Автор - Пувел Диареевич</div>
+                        <div>Учреждение - Роспотребнадзор</div>
+                        <div>поле</div>
+                        <div>поле</div>
+                        <div>поле</div>
+                        <div>поле</div>
+                        <div>поле</div>
+                        <div>поле</div>
+                        <div>поле</div>
+                        <div>еще поле</div>
+                        <div>Создано 01.07.2023 в 10:20</div>
+                        <div>Последнее обноление 01.07.2023 в 19:30</div>
+                    </div>
                 </div>
             </CenterContent>
         </MainWrapper>
