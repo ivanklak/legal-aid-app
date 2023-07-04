@@ -5,6 +5,7 @@ import CenterContent from "../components/centerContent/CenterContent";
 import MainWrapper from "../components/mainWrapper/MainWrapper";
 import styles from "./RequestItem.module.sass";
 import ClaimActions from "./claimActions/ClaimActions";
+import AdditionalInfo from "./additionalInfo/AdditionalInfo";
 
 const CAPTION = 'Читос или кузя лакомкин?';
 const ITEM_DESCRIPTION = 'Многие меня спрашивают читос или кузя лакомкин. Скажу по секрету, что между ними стоит еще один титан. Это русская картошка. ' +
@@ -56,25 +57,7 @@ const RequestItem = () => {
                          <ClaimActions id={id}/>
                     </div>
                 </div>
-                <div className={styles.additional_info}>
-                    <div className={styles.add_caption}>Сведения</div>
-                    <div className={styles.add_body}>
-                        <div>Номер - {id}</div>
-                        <div>Статус - Получен ведомством</div>
-                        <div>Автор - Пувел Диареевич</div>
-                        <div>Учреждение - Роспотребнадзор</div>
-                        <div>поле</div>
-                        <div>поле</div>
-                        <div>поле</div>
-                        <div>поле</div>
-                        <div>поле</div>
-                        <div>поле</div>
-                        <div>поле</div>
-                        <div>еще поле</div>
-                        <div>Создано 01.07.2023 в 10:20</div>
-                        <div>Последнее обноление 01.07.2023 в 19:30</div>
-                    </div>
-                </div>
+                <AdditionalInfo />
             </CenterContent>
         </MainWrapper>
     )
