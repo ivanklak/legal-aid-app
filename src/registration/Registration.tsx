@@ -16,61 +16,60 @@ export enum InputType {
     confirmPassword,
 }
 
+interface IRegisterFormData {
+    name: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    checkbox: boolean;
+}
+
 const AGREEMENT_TEXT = 'Я подтверждаю, что ознакомлен с правилами и даю свое согласие на обработку персональных данных ООО «ДОНОСЫ».'
 
 const Registration = () => {
     const [form] = Form.useForm();
     const {registerUser, error, setError} = useAuth();
 
-    const [userName, setUserName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [pwd, setPwd] = useState<string>('');
-    const [confirmPwd, setConfirmPwd] = useState<string>('');
-    const [checkbox, setCheckbox] = useState<boolean>(false);
+    const [pwdNumbersError, setPwdNumbersError] = useState<boolean>(false);
 
-    const handleRegistrationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        await registerUser({
-            first_name: userName,
-            email: email,
-            password: pwd,
-            agreement_checkbox: checkbox
-        });
-    }
-
-    const handleInputChange = useCallback((type: InputType, e:  React.ChangeEvent<HTMLInputElement>) => {
-        const inputValue = e.target.value;
-        setError(null);
-
-        switch (type) {
-            case InputType.userName: {
-                setUserName(inputValue);
-                break;
-            }
-            case InputType.email: {
-                setEmail(inputValue);
-                break;
-            }
-            case InputType.password: {
-                setPwd(inputValue);
-                break;
-            }
-            case InputType.confirmPassword: {
-                setConfirmPwd(inputValue);
-                break;
-            }
-        }
-    }, [])
-
-    const handleCheckBoxChange = useCallback((e: CheckboxChangeEvent) => {
-        setCheckbox(e.target.checked);
-    }, [])
-
-    const onSubmitForm = (values: any) => {
+    const onSubmitForm = async (values: IRegisterFormData) => {
         console.log('Received values of form: ', values);
         //TODO validation ?
+        const isValidPassword = checkNumbers(values.password);
+        if (!isValidPassword) {
+            setPwdNumbersError(true);
+            return;
+        }
+
+        setPwdNumbersError(false);
+        await registerUser({
+            username: values.name,
+            email: values.email,
+            password: values.password,
+            confirmPassword: values.confirmPassword,
+            checkbox: values.checkbox
+        });
     };
+
+    const checkNumbers = (password: string): boolean => {
+        const pwdArray = password.split('');
+        const numbers: number[] = [];
+
+        for (let i = 0; i < pwdArray.length; i++) {
+            const curEl = pwdArray[i];
+            if (!isNaN(Number(curEl))) {
+                numbers.push(Number(curEl));
+            }
+        }
+
+        return !(!numbers.length || numbers.length === 1);
+    }
+
+    const handleFieldsChange = () => {
+        setPwdNumbersError(false);
+    }
+
+    console.log('register error', error)
 
     return (
         <Form
@@ -78,6 +77,7 @@ const Registration = () => {
             className={styles.registration}
             name="register"
             onFinish={onSubmitForm}
+            onFieldsChange={handleFieldsChange}
         >
             <div className={styles.container}>
                 <div className={styles.info_container}>
@@ -100,7 +100,7 @@ const Registration = () => {
                             size="large"
                             placeholder="Имя"
                             prefix={<UserOutlined />}
-                            onChange={(e) => handleInputChange(InputType.userName, e)}
+                            // onChange={(e) => handleInputChange(InputType.userName, e)}
                             required
                         />
                     </Form.Item>
@@ -118,7 +118,7 @@ const Registration = () => {
                             size="large"
                             placeholder="E-mail"
                             prefix={<MdAlternateEmail />}
-                            onChange={(e) => handleInputChange(InputType.email, e)}
+                            // onChange={(e) => handleInputChange(InputType.email, e)}
                             type='email'
                         />
                     </Form.Item>
@@ -129,20 +129,24 @@ const Registration = () => {
                                 required: true,
                                 message: 'Пожалуйста введите пароль',
                             },
-                            ({ getFieldValue }) => ({
-                                validator(_, value) {
-                                    const pwd: string = getFieldValue('password');
-                                    if (!value) {
-                                        return Promise.resolve();
-                                    }
-                                    if (pwd === value && pwd.length < 8) {
-                                        return Promise.reject(new Error('Мин. 8 символов: цифры и латинские буквы'));
-                                    }
-                                    if (pwd === value && pwd.length >= 8) {
-                                        return Promise.resolve();
-                                    }
-                                },
-                            }),
+                            {
+                                min: 8,
+                                message: 'Мин. 8 символов: цифры и латинские буквы',
+                            },
+                            // ({ getFieldValue }) => ({
+                            //     validator(_, value) {
+                            //         const pwd: string = getFieldValue('password');
+                            //         if (!value) {
+                            //             return Promise.resolve();
+                            //         }
+                            //         if (pwd === value && pwd.length < 8) {
+                            //             return Promise.reject(new Error('Мин. 8 символов: цифры и латинские буквы'));
+                            //         }
+                            //         if (pwd === value && pwd.length >= 8) {
+                            //             return Promise.resolve();
+                            //         }
+                            //     },
+                            // }),
                         ]}
                         hasFeedback={true}
                     >
@@ -151,9 +155,8 @@ const Registration = () => {
                             size="large"
                             placeholder="Пароль"
                             prefix={<HiOutlineLockClosed />}
-                            onChange={(e) => handleInputChange(InputType.password, e)}
+                            // onChange={(e) => handleInputChange(InputType.password, e)}
                         />
-                        {/*<div className={styles.pwd_description}>Мин. 8 символов: цифры и латинские буквы</div>*/}
                     </Form.Item>
                     <Form.Item
                         name="confirm"
@@ -179,7 +182,6 @@ const Registration = () => {
                             size="large"
                             placeholder="Подтвердите пароль"
                             prefix={<HiOutlineLockClosed />}
-                            onChange={(e) => handleInputChange(InputType.confirmPassword, e)}
                         />
                     </Form.Item>
                     <Form.Item
@@ -193,11 +195,15 @@ const Registration = () => {
                         ]}
                     >
                         <div className={styles.checkbox_block}>
-                            <Checkbox onChange={handleCheckBoxChange}>{AGREEMENT_TEXT}</Checkbox>
+                            <Checkbox>{AGREEMENT_TEXT}</Checkbox>
                         </div>
                     </Form.Item>
+                    <div className={styles.pwd_description}>
+                        <div>{pwdNumbersError && 'Пароль не соответствует требованию: минимум 2 цифры'}</div>
+                        <div>{error && error.message}</div>
+                    </div>
                     <div className={styles.buttons_block}>
-                        <Button size="large" className={styles.button_body} htmlType="submit">
+                        <Button disabled={pwdNumbersError} size="large" className={styles.button_body} htmlType="submit">
                             <div className={styles.button_content}>
                                 <HiOutlineRocketLaunch />
                                 <div>Создать аккаунт</div>
