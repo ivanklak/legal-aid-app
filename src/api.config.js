@@ -12,7 +12,11 @@ export const instance = axios.create({
 // который к каждому запросу добавляет accessToken из localStorage
 instance.interceptors.request.use(
     (config) => {
-        config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`
+        const isRefresh = config.url.includes('refresh');
+        if (!isRefresh) {
+            config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`
+            return config
+        }
         return config
     }
 )

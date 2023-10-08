@@ -3,7 +3,6 @@ import navbar_styles from './Navbar.module.css';
 // @ts-ignore
 import Cock from '../img/cock.png';
 import {Icon} from '@iconify/react';
-import {ImHammer2} from 'react-icons/im';
 import {useLocation, useNavigate} from "react-router-dom";
 import NavbarContext from "../../App/context/NavbarContext";
 import axios from "../../service/api/axios";
@@ -37,7 +36,7 @@ const Navbar: FC = () => {
     }, [location])
 
     const clickLogOut = async () => {
-        const userName = auth?.auth?.email
+        const userName = auth?.userData.firstName
         try {
             const response = await axios.post("/auth/logout",
                 JSON.stringify({userName}),

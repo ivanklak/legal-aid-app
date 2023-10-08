@@ -11,14 +11,20 @@ import {FiUnlock} from 'react-icons/fi';
 import {FiEye} from 'react-icons/fi';
 import {FiEyeOff} from 'react-icons/fi';
 import {requestLogin} from "./api/methods/requestLogin";
-import {LoginResponse} from "./api/requests/PostLoginRequest";
-import {IAuth} from "../App/Layers/AuthProvider";
+import {AuthService, IAuthData} from "./api/AuthServise";
 
 // const LOGIN_URL = '/auth/login';
 const REGISTER_URL = '/auth/registration';
 
 const Login = () => {
-    const {setAuth, setIsAuthInProgress} = useAuth();
+    const {
+        isAuth,
+        isAuthInProgress,
+        setIsAuth,
+        setUserData,
+        setAuthData,
+        setIsAuthInProgress
+    } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -35,6 +41,11 @@ const Login = () => {
     const [checkbox, setCheckbox] = useState(false);
     const [errMsgRegistration, setErrMsgRegistration] = useState('');
     const [errMsgLogin, setErrMsgLogin] = useState('');
+
+    useEffect(() => {
+        if (isAuth) setTimeout(() => navigate('/'), 500);
+        //TODO предусмотреть лоадер
+    }, [isAuth, navigate, isAuthInProgress])
 
     useEffect(() => {
         setErrMsgRegistration('');
@@ -57,10 +68,10 @@ const Login = () => {
         try {
             const response = await axios.post(REGISTER_URL,
                 {
-                    'first_name': userName,
-                    'email': email,
-                    'password': pwd,
-                    'agreement_checkbox': checkbox
+                    first_name: userName,
+                    email: email,
+                    password: pwd,
+                    agreement_checkbox: checkbox
                 }
             );
             if (response.data.error === null) {
@@ -105,21 +116,27 @@ const Login = () => {
         }
     }
 
-    const applyLoginResponse = (response: LoginResponse) => {
-        const authObject: IAuth = {
-            email,
-            pwd,
-            roles: response.role,
-            accessToken: response.access_token,
-            refreshToken: response.refresh_token
-        };
+    const applyLoginResponse = (response: IAuthData) => {
         // save in context
-        setAuth(authObject);
+        setAuthData(response);
         navigate(from, {replace: true});
         // save in storage
         localStorage.setItem("token", response.access_token);
         localStorage.setItem('id', response.id);
-        setIsAuthInProgress(false);
+        requestGetInfo();
+    }
+
+    const requestGetInfo = async () => {
+        try {
+            const response = await AuthService.getInfo();
+            if (response) {
+                setUserData(response.data.user);
+                setIsAuth(true);
+                setIsAuthInProgress(false);
+            }
+        } catch (error) {
+            console.log('requestGetInfo error', error)
+        }
     }
 
     return (

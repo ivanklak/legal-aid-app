@@ -12,7 +12,7 @@ interface RightSideBarProps {
 
 const RightSideBar: FC<RightSideBarProps> = ({notifications}) => {
     const navigate = useNavigate();
-    const { auth } = useContext(AuthContext);
+    const { isAuth } = useContext(AuthContext);
     const [api, contextHolder] = notification.useNotification();
 
     const onListClick = () => {
@@ -44,12 +44,12 @@ const RightSideBar: FC<RightSideBarProps> = ({notifications}) => {
     }
 
     const onCreateClick = useCallback(() => {
-        if (auth) {
+        if (isAuth) {
             navigate('/newRequest')
         } else {
             openLoginNotification();
         }
-    }, [openLoginNotification, auth, navigate])
+    }, [openLoginNotification, isAuth, navigate])
 
     return (
         <div className={styles.right_side_bar}>
