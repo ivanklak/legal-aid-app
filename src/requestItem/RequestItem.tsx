@@ -7,6 +7,8 @@ import ClaimActions from "./claimActions/ClaimActions";
 import AdditionalInfo from "./additionalInfo/AdditionalInfo";
 import getClaimsRequest from "../mainPageSections/api/metods/getClaimsRequest";
 import {ClaimsItemResponse} from "../mainPageSections/api/requests/GetClaimsRequest";
+import ReactQuill from 'react-quill';
+import TextEditor from "./textEditor/TextEditor";
 
 const CAPTION = 'Читос или кузя лакомкин?';
 const ITEM_DESCRIPTION = 'Многие меня спрашивают читос или кузя лакомкин. Скажу по секрету, что между ними стоит еще один титан. Это русская картошка. ' +
@@ -67,6 +69,7 @@ const RequestItem = () => {
                     </div>
                     <div className={styles.actions}>
                         <div className={styles.title}>Активность</div>
+                        <TextEditor />
                         {data.comments.length ? (
                             <ClaimActions actions={data.comments} id={id}/>
                         ) : (

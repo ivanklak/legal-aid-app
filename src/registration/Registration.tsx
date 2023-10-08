@@ -1,13 +1,12 @@
 import React, {useCallback, useState} from "react";
 import styles from "./Registration.module.sass";
-import {useAuth} from "../hooks/useAuth";
 import {Button, Checkbox, Form, Input} from "antd";
 import { UserOutlined } from '@ant-design/icons';
 import { MdAlternateEmail } from 'react-icons/md';
 import { HiOutlineLockClosed } from 'react-icons/hi';
-import {CheckboxChangeEvent} from "antd/es/checkbox";
 import { HiOutlineRocketLaunch } from "react-icons/hi2";
 import {Link} from "react-router-dom";
+import {useAuth} from "../components/hooks/useAuth";
 
 export enum InputType {
     userName,
@@ -28,7 +27,7 @@ const AGREEMENT_TEXT = 'Я подтверждаю, что ознакомлен �
 
 const Registration = () => {
     const [form] = Form.useForm();
-    const {registerUser, error, setError} = useAuth();
+    const {isAuth} = useAuth();
 
     const [pwdNumbersError, setPwdNumbersError] = useState<boolean>(false);
 
@@ -42,13 +41,13 @@ const Registration = () => {
         }
 
         setPwdNumbersError(false);
-        await registerUser({
-            username: values.name,
-            email: values.email,
-            password: values.password,
-            confirmPassword: values.confirmPassword,
-            checkbox: values.checkbox
-        });
+        // await registerUser({
+        //     username: values.name,
+        //     email: values.email,
+        //     password: values.password,
+        //     confirmPassword: values.confirmPassword,
+        //     checkbox: values.checkbox
+        // });
     };
 
     const checkNumbers = (password: string): boolean => {
@@ -68,8 +67,6 @@ const Registration = () => {
     const handleFieldsChange = () => {
         setPwdNumbersError(false);
     }
-
-    console.log('register error', error)
 
     return (
         <Form
@@ -200,7 +197,7 @@ const Registration = () => {
                     </Form.Item>
                     <div className={styles.pwd_description}>
                         <div>{pwdNumbersError && 'Пароль не соответствует требованию: минимум 2 цифры'}</div>
-                        <div>{error && error.message}</div>
+                        {/*<div>{error && error.message}</div>*/}
                     </div>
                     <div className={styles.buttons_block}>
                         <Button disabled={pwdNumbersError} size="large" className={styles.button_body} htmlType="submit">
