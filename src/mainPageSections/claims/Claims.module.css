@@ -101,7 +101,13 @@
 
 .expand_data {
     color: #6B778C;
-    font-size: 12px;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.text {
+    margin: 8px 0;
+    font-size: 14px;
 }
 
 .expand_link {

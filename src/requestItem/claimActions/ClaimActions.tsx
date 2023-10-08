@@ -1,6 +1,8 @@
 import React, {memo, useEffect, useState} from "react";
 import styles from "./ClaimActions.module.sass";
 import {BsPersonFill} from "react-icons/bs";
+import {IComment} from "../../mainPageSections/api/requests/GetClaimsRequest";
+import {getDateFromString} from "../../handlers/getDateFromString";
 
 interface IClaimAction {
     id: string;
@@ -11,7 +13,8 @@ interface IClaimAction {
 }
 
 interface ClaimActionsProps {
-    id: string
+    id: string;
+    actions: IComment[];
 }
 
 const mockActions: IClaimAction[] = [
@@ -20,28 +23,18 @@ const mockActions: IClaimAction[] = [
     {id: '2', text: 'Уважаемый Пувел Диареевич, информируем вас о том, что срок рассотрения вашего обращения продлен из-за большой загрузки. Спасибо за понимание.', from: 'Роспотребнадзор', date: '01.07.2023 13:34'},
 ]
 
-const ClaimActions = memo<ClaimActionsProps>(({id}) => {
-    const [actions, setActions] = useState<IClaimAction[]>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+const ClaimActions = memo<ClaimActionsProps>(({id, actions}) => {
 
-    useEffect(() => {
-        requestClaimActions()
-    }, [])
+    const getDate = (dateString: string): string => {
+        if (!dateString) return null;
 
-    const requestClaimActions = async () => {
-        setLoading(true);
-        try {
-            // пример
-            // const response = await instance.post(`/claim_actions?id=${id}`)
-            const response = true;
-            if (response) {
-                setActions(mockActions);
-                setLoading(false);
-            }
-        } catch (err) {
-            console.log('getting claim actions error', err)
-            setLoading(false);
-        }
+        const dateArray = dateString.split('T');
+        const [year, month, day] = dateArray[0].split('-');
+        const hoursPart = dateArray[1].split('.');
+
+        const [hours, minutes, seconds] = hoursPart[0].split(':');
+
+        return `${day}.${month}.${year} ${hours}:${minutes}`
     }
 
     const renderActions = () => {
@@ -56,8 +49,8 @@ const ClaimActions = memo<ClaimActionsProps>(({id}) => {
                 </div>
                 <div className={styles.item_main_container}>
                     <div className={styles.item_header}>
-                        {!action.isSystem && <div className={styles.item_from}>{action.from}</div>}
-                        <div className={styles.item_date}>{action.date}</div>
+                        <div className={styles.item_from}>{action.user.first_name}</div>
+                        <div className={styles.item_date}>{getDate(action.createdAt)}</div>
                     </div>
                     <div className={styles.item_text}>{action.text}</div>
                 </div>
@@ -69,11 +62,7 @@ const ClaimActions = memo<ClaimActionsProps>(({id}) => {
         )
     }
 
-    const renderLoader = (): JSX.Element => {
-        return <div>loading</div>
-    }
-
-    return loading ? renderLoader() : renderActions()
+    return renderActions()
 
 })
 

@@ -8,6 +8,18 @@ import { Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {getDateFromString} from "../../handlers/getDateFromString";
 
+interface IUserInfo {
+    first_name: string;
+    last_name: string;
+}
+
+interface IComment {
+    createdAt: string;
+    id: number;
+    text: string;
+    user: IUserInfo
+}
+
 interface ClaimRowData {
     key: React.Key;
     id: string; //120
@@ -16,6 +28,7 @@ interface ClaimRowData {
     status: string; //"RESOLVED"
     text: string; //"Колоноскопия прошла не успешно - я обосрался"
     isRowExpandable: boolean;
+    comments: IComment[];
 }
 
 const Claims: FC = () => {
@@ -33,13 +46,14 @@ const Claims: FC = () => {
 
         const rowsArray: ClaimRowData[] = claims.map((item) => {
             return {
-                key: item.id,
-                id: item.id,
+                key: item.genId,
+                id: item.genId,
                 name: item.name,
                 createdDate: getDateFromString(item.createdDate),
                 status: item.status,
                 text: item.text,
-                isRowExpandable: !!item.text
+                isRowExpandable: !!item.text,
+                comments: item.comments
             }
         })
 
@@ -73,11 +87,6 @@ const Claims: FC = () => {
             title: 'Название',
             dataIndex: 'name',
             render: (name) => renderName(name)
-        },
-        {
-            title: 'Номер',
-            dataIndex: 'id',
-            width: 100,
         },
         {
             title: 'Статус',
@@ -129,8 +138,10 @@ const Claims: FC = () => {
     const renderDescription = (claimRowData: ClaimRowData): JSX.Element => {
         return (
             <div>
-                <span className={styles.expand_data}>Создано {claimRowData.createdDate}</span>
-                <div>{claimRowData.text}</div>
+                <div className={styles.expand_data}>Создано {claimRowData.createdDate}</div>
+                <div className={styles.expand_data}>Id: {claimRowData.id}</div>
+                <div className={styles.expand_data}>{claimRowData.comments.length} ответов</div>
+                <div className={styles.text}>{claimRowData.text}</div>
                 <Link to={{pathname: `/myRequests/${claimRowData.id}`}} className={styles.expand_link}>
                     Перейти к обращению
                 </Link>

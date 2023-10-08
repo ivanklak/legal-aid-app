@@ -1,11 +1,12 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useParams} from "react-router";
-import {instance} from "../api.config";
 import CenterContent from "../components/centerContent/CenterContent";
 import MainWrapper from "../components/mainWrapper/MainWrapper";
 import styles from "./RequestItem.module.sass";
 import ClaimActions from "./claimActions/ClaimActions";
 import AdditionalInfo from "./additionalInfo/AdditionalInfo";
+import getClaimsRequest from "../mainPageSections/api/metods/getClaimsRequest";
+import {ClaimsItemResponse} from "../mainPageSections/api/requests/GetClaimsRequest";
 
 const CAPTION = 'Читос или кузя лакомкин?';
 const ITEM_DESCRIPTION = 'Многие меня спрашивают читос или кузя лакомкин. Скажу по секрету, что между ними стоит еще один титан. Это русская картошка. ' +
@@ -13,35 +14,47 @@ const ITEM_DESCRIPTION = 'Многие меня спрашивают читос 
 
 const RequestItem = () => {
     const {id} = useParams();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [data, setData] = useState<ClaimsItemResponse>(null);
 
     useEffect(() => {
-        requestClaimDetails();
-    }, [])
+        console.log('id', id)
+        requestClaims();
+    }, [id])
 
-    const requestClaimDetails = async () => {
+    const requestClaims = useCallback(async () => {
+        const sessionId = localStorage.getItem('id');
+        if (!sessionId) return;
         try {
-            const response = await instance.post('/claims_details',
-                { id: id },
-                { headers: {'Content-Type': 'application/json'} }
-            );
-
+            const response = await getClaimsRequest(sessionId);
             if (response) {
-                console.log('claim details response', response)
+                console.log('res', response);
+                const requiredData = response.claims.find((claim) => claim.genId === id);
+                setData(requiredData);
+                setIsLoading(false);
             }
         } catch (err) {
-            console.log('getting claim details error', err)
+            console.log('err')
+            setIsLoading(false);
         }
+    }, [id])
+
+    const renderLoader = () => {
+        return (
+            <div>loader</div>
+        )
     }
 
+    if (!data) return null;
 
-    return (
+    return isLoading && !data ? renderLoader() : (
         <MainWrapper>
             <CenterContent>
                 <div className={styles.main_info}>
                     <div className={styles.form}>
-                        <div className={styles.caption}>{CAPTION}</div>
+                        <div className={styles.caption}>{data.name}</div>
                         <div className={styles.description}>Описание</div>
-                        <div className={styles.description_text}>{ITEM_DESCRIPTION}</div>
+                        <div className={styles.description_text}>{data.text}</div>
                         <div className={styles.attachments}>Вложения</div>
                         <div className={styles.attachment_items}>
                             <div className={styles.attach_item}>
@@ -54,7 +67,11 @@ const RequestItem = () => {
                     </div>
                     <div className={styles.actions}>
                         <div className={styles.title}>Активность</div>
-                         <ClaimActions id={id}/>
+                        {data.comments.length ? (
+                            <ClaimActions actions={data.comments} id={id}/>
+                        ) : (
+                            <div className={styles.no_activities}>Нет активности</div>
+                        )}
                     </div>
                 </div>
                 <AdditionalInfo />

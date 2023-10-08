@@ -101,7 +101,7 @@ const AdditionalInfo = () => {
     const renderRow = (name: string, value: string | JSX.Element) => {
         if (!name || !value) return null;
         return (
-            <div className={styles.info_row}>
+            <div key={name} className={styles.info_row}>
                 <div className={styles.row_name}>{name}</div>
                 <div className={styles.row_value}>{value}</div>
             </div>
@@ -146,14 +146,9 @@ const AdditionalInfo = () => {
                 {rows.map((row) => (
                     renderRow(row.name, row.value)
                 ))}
-                <div>поле</div>
-                <div>поле</div>
-                <div>поле</div>
-                <div>поле</div>
-                <div>поле</div>
-                <div>поле</div>
-                <div>поле</div>
-                <div>еще поле</div>
+                {[1,2,3,4,5,6,7,8].map(item => (
+                    <div key={item}>поле</div>
+                ))}
             </div>
             <div className={styles.date_block}>
                 <div>Создано {MOCK_ADD_CLAIM_INFO.createdDate}</div>

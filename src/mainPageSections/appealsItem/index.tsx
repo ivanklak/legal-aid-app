@@ -14,7 +14,7 @@ const AppealsItem: FC<IAppealsItemProps> = ({ item }) => {
         <div className={styles.appealsItem}>
             <div className={styles.appealsContainer}>
                 <div className={styles.itemData}>
-                    <div className={styles.itemId}>{`№ ${item.id}`}</div>
+                    <div className={styles.itemId}>{`№ ${item.genId}`}</div>
                     <div className={styles.itemDate}>{getDateFromString(item.createdDate)}</div>
                 </div>
                 <div className={styles.itemIcon}>
