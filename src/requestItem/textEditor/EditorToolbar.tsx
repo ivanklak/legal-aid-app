@@ -63,9 +63,8 @@ export const EditorToolbar = () => (
             styles['text-title']
         )}>
           <select className="ql-header" defaultValue="5">
-            <option value="2">Заголовок 1</option>
-            <option value="3">Заголовок 2</option>
-            <option value="4">Заголовок 3</option>
+            <option value="3">Заголовок 1</option>
+            <option value="4">Заголовок 2</option>
             <option value="5">Обычный текст</option>
           </select>
         </span>
