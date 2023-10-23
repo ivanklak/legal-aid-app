@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@iconify/react": "^3.2.2",
-    "typescript-plugin-css-modules": "^4.1.1"
+    "typescript-plugin-css-modules": "^4.1.1",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
