@@ -2,7 +2,6 @@ import React, {memo, useEffect, useState} from "react";
 import styles from "./ClaimActions.module.sass";
 import {BsPersonFill} from "react-icons/bs";
 import {IComment} from "../../mainPageSections/api/requests/GetClaimsRequest";
-import {getDateFromString} from "../../handlers/getDateFromString";
 
 interface IClaimAction {
     id: string;
@@ -16,6 +15,8 @@ interface ClaimActionsProps {
     id: string;
     actions: IComment[];
 }
+
+const markdownText = '<h2>Уважаемый Членни Станогий,</h2><p><br></p><p>информирую вас о том, что ваша длина составляет 5 см. </p><p><br></p><p>С уважением, </p><p>Клиника измерения членов</p>'
 
 const mockActions: IClaimAction[] = [
     {id: '0', isSystem: true, text: 'Статус обращения обновлен', date: '01.07.2023 10:20'},
@@ -52,7 +53,8 @@ const ClaimActions = memo<ClaimActionsProps>(({id, actions}) => {
                         <div className={styles.item_from}>{action.user.first_name}</div>
                         <div className={styles.item_date}>{getDate(action.createdAt)}</div>
                     </div>
-                    <div className={styles.item_text}>{action.text}</div>
+                    {/*<div className={styles.item_text}>{action.text}</div>*/}
+                    <div className={styles.item_text} dangerouslySetInnerHTML={{__html: action.text}} />
                 </div>
             </div>
         ))

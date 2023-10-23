@@ -71,3 +71,17 @@ html, body {
   --base-color__success: rgba(71, 248, 127, 0.4);
   --base-color__success2: rgb(161, 140, 92);
 }
+
+body .ql-container {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+body .ql-formats {
+  margin-right: 12px !important;
+}
+
+body .ql-tooltip {
+  z-index: 10000;
+  left: unset !important;
+}
