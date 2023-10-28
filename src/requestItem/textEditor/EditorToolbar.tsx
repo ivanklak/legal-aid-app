@@ -62,32 +62,33 @@ export const EditorToolbar = () => (
             "ql-formats",
             styles['text-title']
         )}>
-          <select className="ql-header" defaultValue="5">
-            <option value="3">Заголовок 1</option>
-            <option value="4">Заголовок 2</option>
-            <option value="5">Обычный текст</option>
-          </select>
+            <select className="ql-header" defaultValue="5">
+                <option value="3">Заголовок 1</option>
+                <option value="4">Заголовок 2</option>
+                <option value="5">Обычный текст</option>
+            </select>
         </span>
         <span className="ql-formats">
-          <button className="ql-bold" />
-          <button className="ql-italic" />
-          <button className="ql-underline" />
+            <button className="ql-bold" />
+            <button className="ql-italic" />
+            <button className="ql-underline" />
         </span>
         <span className="ql-formats">
-          <button className="ql-list" value="ordered" />
-          <button className="ql-list" value="bullet" />
+            <button className="ql-list" value="ordered" />
+            <button className="ql-list" value="bullet" />
         </span>
         <span className="ql-formats">
-          <select className="ql-align" />
-          <select className="ql-color" />
+            <select className="ql-align" />
+            <select className="ql-color" />
         </span>
         <span className="ql-formats">
-          <button className="ql-link" />
-          <button className="ql-image" />
-          <button className="ql-video" />
+            <button className="ql-link" />
+            {/*<button className={styles['doc']} onClick={onAddDocClick}>*/}
+            {/*    <HiOutlineDocumentAdd size={18}/>*/}
+            {/*</button>*/}
         </span>
         <span className="ql-formats">
-          <button className="ql-clean" />
+            <button className="ql-clean" />
         </span>
     </div>
 );
