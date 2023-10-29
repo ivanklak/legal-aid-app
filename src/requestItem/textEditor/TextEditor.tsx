@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useState} from "react";
 import styles from "./TextEditor.module.sass";
 import ReactQuill, {UnprivilegedEditor} from "react-quill";
-import {Button} from "antd";
+import {Button, UploadFile} from "antd";
 import EditorToolbar, {formats, modules} from "./EditorToolbar";
 import {DeltaStatic, Sources} from "quill";
 import UploadFiles from "../../components/uploadFilesNew/UploadFiles";
@@ -11,6 +11,7 @@ interface TextEditorProps {}
 const TextEditor = memo<TextEditorProps>(() => {
     const [editorValue, setEditorValue] = useState<string>('');
     const [editorActive, setEditorActive] = useState<boolean>(false);
+    const [addedFiles, setAddedFiles] = useState<UploadFile[]>([]);
 
     const handleChangeValue = useCallback((value: string, delta: DeltaStatic, source: Sources, editor: UnprivilegedEditor) => {
         const currentLength = editor.getLength();
@@ -24,8 +25,9 @@ const TextEditor = memo<TextEditorProps>(() => {
 
     const handleSendClick = useCallback(() => {
         // api request
-        console.log('=== send new comment ===', editorValue)
-    }, [editorValue])
+        console.log('=== send new comment ===', editorValue);
+        console.log('=== addedFiles ===', addedFiles)
+    }, [editorValue, addedFiles])
 
     const handleCancelClick = useCallback(() => {
         // close editor
@@ -35,6 +37,10 @@ const TextEditor = memo<TextEditorProps>(() => {
 
     const handleEditorFocus = useCallback(() => {
         setEditorActive(true)
+    }, [])
+
+    const handleFilesChanged = useCallback((files: UploadFile[]) => {
+        setAddedFiles(files);
     }, [])
 
     return (
@@ -50,7 +56,7 @@ const TextEditor = memo<TextEditorProps>(() => {
                 formats={formats}
                 modules={modules}
             />
-            <UploadFiles />
+            <UploadFiles onFilesChanged={handleFilesChanged} />
             {editorActive && (
                 <div className={styles.controls}>
                     <Button

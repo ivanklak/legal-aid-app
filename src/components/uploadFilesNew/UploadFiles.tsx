@@ -3,6 +3,12 @@ import styles from './UploadFiles.module.sass';
 import {Modal, Upload, UploadFile} from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import type { RcFile, UploadProps } from 'antd/es/upload';
+import { pdfjs, Document, Page } from 'react-pdf';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    'pdfjs-dist/build/pdf.worker.min.js',
+    import.meta.url,
+).toString();
 
 const getBase64 = (file: RcFile): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -12,7 +18,11 @@ const getBase64 = (file: RcFile): Promise<string> =>
         reader.onerror = (error) => reject(error);
     });
 
-const UploadFiles = () => {
+interface UploadFilesProps {
+    onFilesChanged: (files: UploadFile[]) => void;
+}
+
+const UploadFiles = React.memo<UploadFilesProps>(({onFilesChanged}) => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewPdf, setPreviewPdf] = useState('');
@@ -21,11 +31,13 @@ const UploadFiles = () => {
 
     const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
         setFileList(newFileList);
+        onFilesChanged(newFileList);
     }
 
     const handleCancel = () => setPreviewOpen(false);
 
     const handlePreview = async (file: UploadFile) => {
+        // not working
         if (file.type === 'application/pdf') {
             // const url = URL.createObjectURL(file.originFileObj);
             setPreviewPdf(file.url);
@@ -55,12 +67,14 @@ const UploadFiles = () => {
         return false
     }
 
-    const renderIcon = (file: UploadFile): React.ReactNode => {
+    const renderPreview = (file: UploadFile): React.ReactNode => {
         if (file.type === 'application/pdf') {
             const url = URL.createObjectURL(file.originFileObj);
             return (
                 <div className={styles['preview_container']}>
-                    <embed src={url} width="84"/>
+                    <Document className={styles['document']} file={url}>
+                        <Page pageNumber={1} width={84} />
+                    </Document>
                 </div>
             )
         }
@@ -78,7 +92,7 @@ const UploadFiles = () => {
                 onChange={handleChange}
                 className={styles['upload-container']}
                 beforeUpload={handleBeforeUpload}
-                iconRender={renderIcon}
+                iconRender={renderPreview}
             >
                 <div>
                     <PlusOutlined />
@@ -93,6 +107,6 @@ const UploadFiles = () => {
             </Modal>
         </>
     )
-}
+})
 
 export default UploadFiles;
