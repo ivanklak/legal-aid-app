@@ -7,8 +7,8 @@ import ClaimActions from "./claimActions/ClaimActions";
 import AdditionalInfo from "./additionalInfo/AdditionalInfo";
 import getClaimsRequest from "../mainPageSections/api/metods/getClaimsRequest";
 import {ClaimsItemResponse} from "../mainPageSections/api/requests/GetClaimsRequest";
-import ReactQuill from 'react-quill';
 import TextEditor from "./textEditor/TextEditor";
+import {sendComment} from "../service/network/requestItem/methods/sendComment";
 
 const CAPTION = 'Читос или кузя лакомкин?';
 const ITEM_DESCRIPTION = 'Многие меня спрашивают читос или кузя лакомкин. Скажу по секрету, что между ними стоит еще один титан. Это русская картошка. ' +
@@ -18,6 +18,7 @@ const RequestItem = () => {
     const {id} = useParams();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [data, setData] = useState<ClaimsItemResponse>(null);
+    const sessionId = localStorage.getItem('id');
 
     useEffect(() => {
         console.log('id', id)
@@ -25,7 +26,7 @@ const RequestItem = () => {
     }, [id])
 
     const requestClaims = useCallback(async () => {
-        const sessionId = localStorage.getItem('id');
+
         if (!sessionId) return;
         try {
             const response = await getClaimsRequest(sessionId);
@@ -36,10 +37,23 @@ const RequestItem = () => {
                 setIsLoading(false);
             }
         } catch (err) {
-            console.log('err')
+            console.log('requestClaims err', err)
             setIsLoading(false);
         }
-    }, [id])
+    }, [id, sessionId])
+
+    const handleSaveComment = useCallback(async (text: string) => {
+        const params = { claimId: id, sessionId: sessionId, text: text };
+        try {
+            const sendCommentResponse = await sendComment(params);
+
+            console.log('sendCommentResponse', sendCommentResponse);
+            setIsLoading(false);
+        } catch (err) {
+            console.log('handleSaveComment err', err)
+            setIsLoading(false);
+        }
+    }, [id, sessionId])
 
     const renderLoader = () => {
         return (
@@ -69,7 +83,7 @@ const RequestItem = () => {
                     </div>
                     <div className={styles.actions}>
                         <div className={styles.title}>Активность</div>
-                        <TextEditor />
+                        <TextEditor saveComment={handleSaveComment} />
                         {data.comments.length ? (
                             <ClaimActions actions={data.comments} id={id}/>
                         ) : (

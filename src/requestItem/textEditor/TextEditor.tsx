@@ -6,9 +6,11 @@ import EditorToolbar, {formats, modules} from "./EditorToolbar";
 import {DeltaStatic, Sources} from "quill";
 import UploadFiles from "../../components/uploadFilesNew/UploadFiles";
 
-interface TextEditorProps {}
+interface TextEditorProps {
+    saveComment: (text: string) => void;
+}
 
-const TextEditor = memo<TextEditorProps>(() => {
+const TextEditor = memo<TextEditorProps>(({saveComment}) => {
     const [editorValue, setEditorValue] = useState<string>('');
     const [editorActive, setEditorActive] = useState<boolean>(false);
     const [addedFiles, setAddedFiles] = useState<UploadFile[]>([]);
@@ -24,7 +26,7 @@ const TextEditor = memo<TextEditorProps>(() => {
     }, [])
 
     const handleSendClick = useCallback(() => {
-        // api request
+        saveComment(editorValue);
         console.log('=== send new comment ===', editorValue);
         console.log('=== addedFiles ===', addedFiles)
     }, [editorValue, addedFiles])

@@ -34,7 +34,7 @@ class GetClaimsRequest extends AxiosPostRequest<ClaimsResponse> {
     protected responseHandler = new AxiosResponseHandler<ClaimsResponse>();
     protected url = "/claims";
     protected body = {
-        id: this.sessionId
+        sessionId: this.sessionId
     }
 
 }

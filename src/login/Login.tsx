@@ -11,7 +11,7 @@ import {FiUnlock} from 'react-icons/fi';
 import {FiEye} from 'react-icons/fi';
 import {FiEyeOff} from 'react-icons/fi';
 import {requestLogin} from "./api/methods/requestLogin";
-import {AuthService, IAuthData} from "./api/AuthServise";
+import {LoginResponse} from "./api/requests/PostLoginRequest";
 
 // const LOGIN_URL = '/auth/login';
 const REGISTER_URL = '/auth/registration';
@@ -20,10 +20,9 @@ const Login = () => {
     const {
         isAuth,
         isAuthInProgress,
-        setIsAuth,
-        setUserData,
         setAuthData,
-        setIsAuthInProgress
+        setIsAuthInProgress,
+        requestGetInfo
     } = useAuth();
 
     const navigate = useNavigate();
@@ -78,11 +77,11 @@ const Login = () => {
                 setActiveForm(false);
                 console.log(response);
             }
-            setUserName('');
-            setEmail('');
-            setPwd('');
-            setMatchPwd('');
-            setCheckbox(false);
+            // setUserName('');
+            // setEmail('');
+            // setPwd('');
+            // setMatchPwd('');
+            // setCheckbox(false);
         } catch (err) {
             if (!err?.response) {
                 setErrMsgRegistration('Нет ответа от сервера');
@@ -99,7 +98,7 @@ const Login = () => {
         e.preventDefault();
         setIsAuthInProgress(true);
         try {
-            const response = await requestLogin(email, pwd);
+            const response: LoginResponse = await requestLogin(email, pwd);
             if (response) {
                 applyLoginResponse(response);
             }
@@ -116,27 +115,20 @@ const Login = () => {
         }
     }
 
-    const applyLoginResponse = (response: IAuthData) => {
+    const applyLoginResponse = (response: LoginResponse) => {
+        if (!!response.errorCode) {
+            setErrMsgLogin(response.message);
+            setIsAuthInProgress(false);
+            return;
+        }
         // save in context
         setAuthData(response);
         navigate(from, {replace: true});
         // save in storage
         localStorage.setItem("token", response.access_token);
-        localStorage.setItem('id', response.id);
+        localStorage.setItem('id', response.sessionId);
+        localStorage.setItem('email', email);
         requestGetInfo();
-    }
-
-    const requestGetInfo = async () => {
-        try {
-            const response = await AuthService.getInfo();
-            if (response) {
-                setUserData(response.data.user);
-                setIsAuth(true);
-                setIsAuthInProgress(false);
-            }
-        } catch (error) {
-            console.log('requestGetInfo error', error)
-        }
     }
 
     return (

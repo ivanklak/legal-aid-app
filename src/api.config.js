@@ -4,7 +4,7 @@ export const instance = axios.create({
     // к запросу будет приуепляться cookies
     // TODO включить когда доделается бекенд
     // withCredentials: true,
-    baseURL: "http://localhost:8080",
+    baseURL: "http://juster-test-ift.ru/api",
 });
 
 

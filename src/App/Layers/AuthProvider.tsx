@@ -1,6 +1,7 @@
 import React, {createContext, FC, useEffect, useState} from "react";
 import {AuthService, IAuthData, IUserData} from "../../login/api/AuthServise";
 import {useNavigate} from "react-router-dom";
+import {requestInfo} from "../../login/api/methods/requestInfo";
 
 export interface IAuthContext {
     isAuth: boolean;
@@ -11,6 +12,8 @@ export interface IAuthContext {
     setAuthData: (auth: IAuthData) => void;
     setIsAuthInProgress: (value: boolean) => void;
     setUserData: (userData: IUserData) => void;
+    //
+    requestGetInfo: () => Promise<void>;
 }
 
 export const AuthContext = createContext<IAuthContext | undefined>(undefined);
@@ -39,13 +42,13 @@ export const AuthProvider: FC = ({ children }) => {
 
     const requestGetInfo = async () => {
         try {
-            const response = await AuthService.getInfo();
+            const sessionId = localStorage.getItem('id');
+            const email = userData?.email ?? localStorage.getItem('email');
+            const response = await requestInfo(sessionId, email);
             if (response) {
                 console.log('getInfo response', response)
-                setUserData(response.data.user);
-                setAuthData({
-                    id: response.data.sessionId,
-                });
+                setUserData(response.user);
+                setAuthData({ sessionId: response.sessionId });
                 setIsAuth(true);
                 setIsAuthInProgress(false);
             }
@@ -61,7 +64,7 @@ export const AuthProvider: FC = ({ children }) => {
             if (response) {
                 localStorage.setItem("refreshToken token", response.data.accessToken);
                 setAuthData({
-                    id: localStorage.getItem('id'),
+                    sessionId: localStorage.getItem('id'),
                     access_token: response.data.accessToken,
                     refresh_token: response.data.refreshToken
                 });
@@ -85,7 +88,8 @@ export const AuthProvider: FC = ({ children }) => {
                 setIsAuth,
                 setAuthData,
                 setIsAuthInProgress,
-                setUserData
+                setUserData,
+                requestGetInfo
              }}
         >
             {children}

@@ -1,6 +1,8 @@
 import RequestSender from '../RequestSender';
 import IResponseHandler from '../handlers/IResponseHandler';
 
+const HOST = 'http://juster-test-ift.ru/api';
+
 export default abstract class PostRequest<TData> {
   protected abstract url: string;
 
@@ -28,7 +30,7 @@ export default abstract class PostRequest<TData> {
   public async send() {
     const { url, requestInit, timeout, responseHandler } = this;
 
-    const response = await RequestSender.sendRequest(url, requestInit, timeout);
+    const response = await RequestSender.sendRequest(`${HOST}${url}`, requestInit, timeout);
 
     const data = await responseHandler.handleResponse(response);
 

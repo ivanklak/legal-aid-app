@@ -2,10 +2,11 @@ import {instance} from "../../api.config";
 import {AxiosResponse} from "axios";
 
 export interface IAuthData {
-    id: string;
+    sessionId: string;
     role?: string,
     access_token?: string,
-    refresh_token?: string
+    refresh_token?: string,
+    errorCode?: number,
 }
 
 export interface IInfoResponse {
@@ -39,6 +40,7 @@ interface IAuthService {
 
 export const AuthService: IAuthService = {
 
+    // not used
     login: (email, password) => {
         return instance.post("/auth/login", {email, password})
     },
@@ -51,6 +53,7 @@ export const AuthService: IAuthService = {
         return instance.post("/auth/logout")
     },
 
+    // not used
     getInfo: () => {
         return instance.post("/info")
     }
