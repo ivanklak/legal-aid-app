@@ -5,6 +5,7 @@ import classNames from "classnames";
 import UploadFiles from "../../components/uploadFiles/UploadFiles";
 import SearchOrganisationForm from "../organisation/searchOrganisation/SearchOrganisationForm";
 import {Button} from "antd";
+import {useSafeNewRequestDataLayerContext} from "../NewRequestDataLayer";
 
 interface ClientProblemDataProps {
     disabled: boolean
@@ -29,6 +30,8 @@ export interface SavedOrgData {
 }
 
 const ClientProblemData: FC<ClientProblemDataProps> = ({disabled, onSubmitForm}) => {
+    const {setClaimTitle, setClaimText} = useSafeNewRequestDataLayerContext();
+
     const [category, setCategory] = useState<string>(null);
     const [textAreaValue, setTextAreaValue] = useState<string>(null);
 
@@ -41,9 +44,11 @@ const ClientProblemData: FC<ClientProblemDataProps> = ({disabled, onSubmitForm})
         setError(null);
 
         if (!!e.target.value) {
-            setTextAreaValue(e.target.value)
+            setTextAreaValue(e.target.value);
+            setClaimText(e.target.value);
         } else {
             setTextAreaValue(null);
+            setClaimText('');
             onSubmitForm(false);
         }
     }, [onSubmitForm])
@@ -52,6 +57,7 @@ const ClientProblemData: FC<ClientProblemDataProps> = ({disabled, onSubmitForm})
         setSuccess(false);
         setError(null);
         setCategory(value);
+        setClaimTitle(value);
     }, [])
 
     const submitHandle = useCallback(() => {
@@ -97,7 +103,7 @@ const ClientProblemData: FC<ClientProblemDataProps> = ({disabled, onSubmitForm})
                         value={textAreaValue ? textAreaValue : ''}
                         onChange={textAreaChangeHandle}
                     />
-                    <div className={styles.subTitle}>Вложение</div>
+                    <div className={styles.subTitle}>Вложения</div>
                     <UploadFiles />
                     <div className={styles.submitBlock}>
                         <div className={styles.error}>{error}</div>

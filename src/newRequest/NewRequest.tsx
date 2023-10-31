@@ -7,6 +7,8 @@ import ClientProblemData from "./clientProblemData/ClientProblemData";
 import CenterContent from "../components/centerContent/CenterContent";
 import AuthContext from "../App/Layers/AuthProvider";
 import NoAuthorized from "../components/noAuthorized/NoAuthorized";
+import NewRequestDataLayerProvider from "./NewRequestDataLayer";
+import SubmitForm from "./submitForm/SubmitForm";
 
 const NewRequests = () => {
     const { isAuth } = useContext(AuthContext);
@@ -22,53 +24,39 @@ const NewRequests = () => {
         setIsProblemFormSubmitted(success);
     }, [])
 
-    const afterSubmit = useCallback(() => {
-        console.log('=== SUCCESS ===')
-    }, [])
-
-    const submitFullForm = useCallback(() => {
-        if (isNameFormSubmitted && isProblemFormSubmitted) {
-            afterSubmit();
-            setError(null);
-        } else {
-            setError('Пожалуйста заполните все поля и повторите попытку')
-        }
-    }, [isNameFormSubmitted, isProblemFormSubmitted, afterSubmit])
+    // const submitFullForm = useCallback(() => {
+    //     if (isProblemFormSubmitted) {
+    //         // afterSubmit();
+    //         setError(null);
+    //     } else {
+    //         setError('Пожалуйста заполните все поля и повторите попытку')
+    //     }
+    // }, [isProblemFormSubmitted])
 
     return (
         <MainWrapper>
             <CenterContent className={styles.new_request}>
-                <div className={styles.scroll_area}>
-                    <div className={styles.main_section}>
-                        <div className={styles.main_caption}>Создать обращение</div>
-                        {isAuth ? (
-                            <div className={styles.create_form}>
-                                <ClientNameData onSubmitForm={onSubmitClientNameForm}/>
-                                <ClientProblemData
-                                    disabled={!isNameFormSubmitted}
-                                    onSubmitForm={onSubmitProblemForm}
-                                />
-                                {isNameFormSubmitted && isProblemFormSubmitted && (
-                                    <div className={styles.sendForm}>
-                                        <div className={styles.subTitle}>Ваше обращение будет рассмотрено нашими специалистами в ближайшее время.</div>
-                                        <div className={styles.subTitle}>Вы будете получать уведомления о любых изменениях.</div>
-                                        <div className={styles.buttonContainer}>
-                                            <div className={styles.error}>{error}</div>
-                                            <div
-                                                className={styles.submitButton}
-                                                onClick={submitFullForm}
-                                            >
-                                                Отправить
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        ) : (
-                            <NoAuthorized />
-                        )}
+                <NewRequestDataLayerProvider>
+                    <div className={styles.scroll_area}>
+                        <div className={styles.main_section}>
+                            <div className={styles.main_caption}>Создать обращение</div>
+                            {isAuth ? (
+                                <div className={styles.create_form}>
+                                    <ClientNameData onSubmitForm={onSubmitClientNameForm}/>
+                                    <ClientProblemData
+                                        disabled={false}
+                                        onSubmitForm={onSubmitProblemForm}
+                                    />
+                                    {isProblemFormSubmitted && (
+                                        <SubmitForm error={error} />
+                                    )}
+                                </div>
+                            ) : (
+                                <NoAuthorized />
+                            )}
+                        </div>
                     </div>
-                </div>
+                </NewRequestDataLayerProvider>
                 <div className={styles.right_sideBar}>
                     <div className={styles.caption}>
                         Помощь

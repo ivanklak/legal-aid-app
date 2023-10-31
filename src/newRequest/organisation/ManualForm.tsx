@@ -4,6 +4,7 @@ import {Button, Input} from "antd";
 import {ISuggestions} from "../api/requests/GetOrganisationSuggestionsRequest";
 import {AiOutlineRest} from "react-icons/ai";
 import {FaStarOfLife} from "react-icons/fa";
+import {useSafeNewRequestDataLayerContext} from "../NewRequestDataLayer";
 
 enum InputID {
     name,
@@ -31,6 +32,8 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
     const [address, setAddress] = useState<string>(selectedOrganisation ? selectedOrganisation.data.address.value :'');
     const [error, setError] = useState<boolean>(false);
     const [message, setMessage] = useState<string>(null);
+
+    const {setOrganisationData} = useSafeNewRequestDataLayerContext();
 
     useEffect(() => {
         setName(selectedOrganisation ? selectedOrganisation.value : '');
@@ -89,8 +92,9 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
     const submitHandle = useCallback(() => {
         const isValid = validateSubmitData();
         if (isValid) {
-            saveOrganisationData({name, inn, kpp, address})
-            setError(false)
+            saveOrganisationData({name, inn, kpp, address});
+            setOrganisationData({name, inn, kpp, address});
+            setError(false);
         }
     }, [address, inn, kpp, name, saveOrganisationData, validateSubmitData])
 
