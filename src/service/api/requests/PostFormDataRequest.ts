@@ -12,8 +12,10 @@ export default abstract class PostFormDataRequest<TData> {
 
   protected timeout = 15000;
 
+  protected additionalHeaders: Record<string, string> = {};
+
   private get requestInit(): RequestInit {
-    const { body } = this;
+    const { body, additionalHeaders } = this;
 
     const formData = new FormData();
     Object.entries(body).forEach(([key, value]) => {
@@ -22,6 +24,10 @@ export default abstract class PostFormDataRequest<TData> {
 
     return {
       method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        ...additionalHeaders,
+      },
       body: formData,
     };
   }
