@@ -29,6 +29,7 @@ html, body {
 :root {
   --base-layout__spacing: 4px;
   --base-color__white: rgb(255, 255, 255);
+  --new-base-color__white: rgb(251, 251, 251);
   --base-color__white25: rgba(255, 255, 255, 0.25);
   --base-color__white30: rgba(255, 255, 255, 0.3);
   --base-color__white35: rgba(255, 255, 255, 0.35);

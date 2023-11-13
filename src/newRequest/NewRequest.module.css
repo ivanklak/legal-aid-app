@@ -67,10 +67,10 @@
 
 .create_form {
     background: var(--base-color__white);
-    padding: 20px;
-    border-radius: 16px;
+    padding: 20px 0;
+    /*border-radius: 16px;*/
     margin-bottom: 20px;
-    box-shadow: 0 7px 14px rgba(197, 201, 206, 0.6);
+    /*box-shadow: 0 7px 14px rgba(197, 201, 206, 0.6);*/
 }
 
 .create_form > p {

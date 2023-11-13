@@ -1,0 +1,97 @@
+
+.create-new-claim-form
+
+  .title
+    color: #000000
+    font-size: 18px
+    line-height: 22px
+    font-weight: 500
+    margin: 12px 0
+
+  .enter-title
+    width: 100%
+    font-size: 22px
+    padding: 4px 0
+
+  .organisation
+    display: flex
+    flex-direction: column
+    padding: 12px 0
+
+    .caption
+      display: flex
+      font-size: 16px
+
+    .pick-block
+      display: flex
+      align-items: center
+
+      .tabs
+        display: flex
+        align-items: center
+        padding: 4px
+        border-radius: 6px
+        margin-top: 8px
+        background: #f3f3f3
+
+        &._search
+          margin-left: 12px
+
+        .tabs-item
+          padding: 6px 11px
+          color: black
+          cursor: pointer
+          border-radius: 4px
+          font-size: 14px
+          line-height: 16px
+          background: var(--base-color__white)
+          white-space: nowrap
+
+          &._search-input
+            padding: 0
+
+          &._active
+            color: var(--base-color__button)
+
+          &:nth-child(2)
+            margin-left: 4px
+
+          &:last-child
+            margin-left: 4px
+
+          &:first-child
+            margin-left: 0
+
+    .content
+      margin-top: 12px
+      display: flex
+      flex-direction: column
+
+.org-search
+  min-width: 400px
+  padding: 3px 11px
+
+.search-icon
+  display: flex
+  align-items: center
+  justify-content: center
+  padding-left: 6px !important
+  padding-right: 6px !important
+
+  &:hover
+    color: var(--base-color__grey500) !important
+
+
+.menu-item
+  overflow-x: scroll
+
+  .item-key
+    color: var(--base-color__grey500)
+
+  .item-name
+    color: black
+
+    &:after
+      content: '|'
+      margin-left: 8px
+      margin-right: 8px

@@ -1,7 +1,7 @@
 import PostRequest from "../../../service/api/requests/PostRequest";
 import JSONResponseHandler from "../../../service/api/handlers/JSONResponseHandler";
 
-const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party";
+const url = "/suggestions/api/4_1/rs/suggest/party";
 const token = "e609610cda4cf031e8f51bedefa7adaf4d805aaa";
 
 interface IAddress {
@@ -35,6 +35,7 @@ class GetOrganisationSuggestionsRequest extends PostRequest<Data> {
     }
     protected responseHandler = new JSONResponseHandler<Data>();
     protected url = url;
+    protected host = 'https://suggestions.dadata.ru';
     protected additionalHeaders = {
         "Accept": "application/json",
         "Authorization": "Token " + token

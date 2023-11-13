@@ -14,6 +14,8 @@ export default abstract class PostRequest<TData> {
 
   protected timeout = 15000;
 
+  protected host: string;
+
   private get requestInit(): RequestInit {
     const { body, additionalHeaders } = this;
 
@@ -28,9 +30,10 @@ export default abstract class PostRequest<TData> {
   }
 
   public async send() {
-    const { url, requestInit, timeout, responseHandler } = this;
+    const { url, requestInit, timeout, responseHandler, host } = this;
+    const requestHost = host ? host : HOST;
 
-    const response = await RequestSender.sendRequest(`${HOST}${url}`, requestInit, timeout);
+    const response = await RequestSender.sendRequest(`${requestHost}${url}`, requestInit, timeout);
 
     const data = await responseHandler.handleResponse(response);
 
