@@ -1,5 +1,4 @@
-import React from "react";
-import { Quill } from "react-quill";
+import React, {memo} from "react";
 import styles from "./TextEditor.module.sass";
 import classNames from "classnames";
 
@@ -55,9 +54,19 @@ export const formats = [
     "color",
 ]
 
+interface EditorToolbarProps {
+    className?: string;
+}
+
 // Quill Toolbar component
-export const EditorToolbar = () => (
-    <div id="toolbar" className={styles['editor-toolbar']}>
+export const EditorToolbar = memo<EditorToolbarProps>(({className}) => (
+    <div
+        id="toolbar"
+        className={classNames(
+            styles['editor-toolbar'],
+            className
+        )
+    }>
         <span className={classNames(
             "ql-formats",
             styles['text-title']
@@ -91,6 +100,6 @@ export const EditorToolbar = () => (
             <button className="ql-clean" />
         </span>
     </div>
-);
+));
 
 export default EditorToolbar;

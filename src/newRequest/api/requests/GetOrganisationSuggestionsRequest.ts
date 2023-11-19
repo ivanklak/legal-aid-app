@@ -8,6 +8,9 @@ interface IAddress {
     value: string;
     invalidity: any;
     unrestricted_value: string;
+    data: {
+        postal_code: string;
+    }
 }
 
 export interface ISuggestionData {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './UploadFiles.module.sass';
 import {Modal, Upload, UploadFile} from "antd";
 import { PlusOutlined } from '@ant-design/icons';
@@ -20,14 +20,21 @@ const getBase64 = (file: RcFile): Promise<string> =>
 
 interface UploadFilesProps {
     onFilesChanged: (files: UploadFile[]) => void;
+    clean?: boolean;
 }
 
-const UploadFiles = React.memo<UploadFilesProps>(({onFilesChanged}) => {
+const UploadFiles = React.memo<UploadFilesProps>(({onFilesChanged, clean}) => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewPdf, setPreviewPdf] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
     const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+    useEffect(() => {
+        if (clean) {
+            setFileList([]);
+        }
+    }, [clean])
 
     const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
         setFileList(newFileList);

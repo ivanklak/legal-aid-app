@@ -1,0 +1,31 @@
+.organisation-data
+  display: flex
+  flex-direction: column
+
+  .data-item
+    display: flex
+    align-items: center
+    margin-bottom: 6px
+
+    &:last-child
+      margin-bottom: 0
+
+    .inputs
+      &._second
+        margin-left: 12px
+      &:first-child
+        flex: 2
+
+      &:last-child
+        flex: 1
+
+    .key
+      display: flex
+      font-size: 14px
+      font-weight: 500
+      color: var(--base-color__grey500)
+      margin-bottom: 4px
+
+    .value
+      //font-size: 16px
+      color: var(--base-color__black)

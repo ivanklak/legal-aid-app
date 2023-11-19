@@ -11,31 +11,39 @@
   .enter-title
     width: 100%
     font-size: 22px
+    font-weight: 500
     padding: 4px 0
+    margin-top: 12px
 
   .organisation
     display: flex
     flex-direction: column
-    padding: 12px 0
+    padding: 16px
+    background: rgba(241, 241, 241, 0.5)
+    border-radius: 6px
 
     .caption
       display: flex
-      font-size: 16px
+      font-size: 22px
+      font-weight: 500
+      margin-bottom: 8px
+
+    .description
+      font-size: 14px
+      font-weight: 400
+      margin-bottom: 8px
 
     .pick-block
       display: flex
       align-items: center
+      justify-content: space-between
 
       .tabs
         display: flex
         align-items: center
         padding: 4px
         border-radius: 6px
-        margin-top: 8px
-        background: #f3f3f3
-
-        &._search
-          margin-left: 12px
+        background: #e2e2e2
 
         .tabs-item
           padding: 6px 11px
@@ -71,12 +79,18 @@
   min-width: 400px
   padding: 3px 11px
 
-.search-icon
+.icon
   display: flex
   align-items: center
   justify-content: center
   padding-left: 6px !important
   padding-right: 6px !important
+
+  &._trash
+    margin-left: 12px
+
+  &._trash:hover
+    color: rgba(203, 60, 60, 0.94) !important
 
   &:hover
     color: var(--base-color__grey500) !important
@@ -95,3 +109,43 @@
       content: '|'
       margin-left: 8px
       margin-right: 8px
+
+.text
+  margin-top: 12px
+
+  .claim-text-caption
+    display: flex
+    font-size: 16px
+    font-weight: 500
+    margin-bottom: 4px
+
+
+.editor-tool-bar
+  border: 1px solid #d9d9d9 !important
+
+.editor-edit-text
+  & > div
+    border-bottom: 1px solid #d9d9d9 !important
+    border-left: 1px solid #d9d9d9 !important
+    border-right: 1px solid #d9d9d9 !important
+    border-top: none
+
+.error-block
+  display: flex
+  justify-content: flex-end
+  min-height: 16px
+  line-height: 16px
+  font-size: 14px
+
+.submit-block
+  display: flex
+  justify-content: flex-end
+  margin: 12px 0
+
+  & > button:last-child
+    margin-left: 8px
+
+.close-icon
+  display: flex
+  align-items: center
+  justify-content: center

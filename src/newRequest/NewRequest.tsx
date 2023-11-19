@@ -1,38 +1,14 @@
-import React, {useCallback, useContext, useState} from "react";
+import React, {useContext} from "react";
 import MainWrapper from "../components/mainWrapper/MainWrapper";
 import styles from "./NewRequest.module.css";
-import HelpLink from "./help/HelpLink";
-import ClientNameData from "./clientNameData/ClientNameData";
-import ClientProblemData from "./clientProblemData/ClientProblemData";
 import CenterContent from "../components/centerContent/CenterContent";
 import AuthContext from "../App/Layers/AuthProvider";
 import NoAuthorized from "../components/noAuthorized/NoAuthorized";
 import NewRequestDataLayerProvider from "./NewRequestDataLayer";
-import SubmitForm from "./submitForm/SubmitForm";
 import CreateNewClaimForm from "./createForm/CreateNewClaimForm";
 
 const NewRequests = () => {
     const { isAuth } = useContext(AuthContext);
-    // const [isNameFormSubmitted, setIsNameFormSubmitted] = useState<boolean>(false);
-    const [isProblemFormSubmitted, setIsProblemFormSubmitted] = useState<boolean>(false);
-    const [error, setError] = useState<string>(null);
-
-    // const onSubmitClientNameForm = useCallback((success: boolean) => {
-    //     setIsNameFormSubmitted(success);
-    // }, [])
-
-    const onSubmitProblemForm = useCallback((success: boolean) => {
-        setIsProblemFormSubmitted(success);
-    }, [])
-
-    // const submitFullForm = useCallback(() => {
-    //     if (isProblemFormSubmitted) {
-    //         // afterSubmit();
-    //         setError(null);
-    //     } else {
-    //         setError('Пожалуйста заполните все поля и повторите попытку')
-    //     }
-    // }, [isProblemFormSubmitted])
 
     return (
         <MainWrapper>
@@ -40,22 +16,12 @@ const NewRequests = () => {
                 <NewRequestDataLayerProvider>
                     <div className={styles.scroll_area}>
                         <div className={styles.main_section}>
-                            <div className={styles.main_caption}>Создать обращение</div>
-                            <CreateNewClaimForm />
-                            {/*{isAuth ? (*/}
-                            {/*    <div className={styles.create_form}>*/}
-                            {/*        /!*<ClientNameData onSubmitForm={onSubmitClientNameForm}/>*!/*/}
-                            {/*        <ClientProblemData*/}
-                            {/*            disabled={false}*/}
-                            {/*            onSubmitForm={onSubmitProblemForm}*/}
-                            {/*        />*/}
-                            {/*        {isProblemFormSubmitted && (*/}
-                            {/*            <SubmitForm error={error} />*/}
-                            {/*        )}*/}
-                            {/*    </div>*/}
-                            {/*) : (*/}
-                            {/*    <NoAuthorized />*/}
-                            {/*)}*/}
+                            <div className={styles.main_caption}>Новое обращение</div>
+                            {isAuth ? (
+                                <CreateNewClaimForm />
+                            ) : (
+                                <NoAuthorized />
+                            )}
                         </div>
                     </div>
                 </NewRequestDataLayerProvider>
