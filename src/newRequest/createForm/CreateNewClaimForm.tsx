@@ -1,41 +1,50 @@
-import React, {ChangeEvent, memo, useCallback, useMemo, useState} from "react";
+import React, {ChangeEvent, memo, useCallback, useEffect, useMemo, useState} from "react";
 import styles from "./CreateNewClaimForm.module.sass";
 import TextArea from "antd/es/input/TextArea";
 import classNames from "classnames";
-import {Button, Dropdown, Input, MenuProps, Modal, UploadFile} from "antd";
+import {Button, Dropdown, Input, MenuProps, Modal, UploadFile, message} from "antd";
 import {IoIosSearch} from "react-icons/io";
 import getOrganisationSuggestionsRequest from "../api/methods/getOrganisationSuggestionsRequest";
 import {ISuggestions} from "../api/requests/GetOrganisationSuggestionsRequest";
 import ManualForm, {SavedOrgData} from "./manualForm/ManualForm";
 import TextEditor from "../../requestItem/textEditor/TextEditor";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoWarningOutline } from "react-icons/io5";
 import {CreateNewClaimParams} from "../api/requests/PostCreateNewClaimRequest";
 import {requestCreateNewClaim} from "../api/methods/requestCreateNewClaim";
-
-interface CreateNewClaimFormProps {}
-
-enum OrganisationTabId {
-    search = 'search',
-    manual = 'manual'
-}
+import { FiInfo } from "react-icons/fi";
+import { HiOutlineInbox } from "react-icons/hi2";
 
 enum ModalType {
-    submit= 'submit',
+    submit = 'submit',
     cancel = 'cancel'
+}
+
+enum FormError {
+    organisation = 'organisation',
+    name = 'name',
+    text = 'text',
+    files = 'files'
 }
 
 interface IModalContext {
     title?: string;
     text: string;
     type: ModalType;
+    okButtonText?: string;
+    cancelButtonText?: string;
 }
+
+interface IFormError {
+    message: string;
+    type: FormError;
+}
+
+interface CreateNewClaimFormProps {}
 
 const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
     // organisation data
     const [orgData, setOrgData] = useState<SavedOrgData>(null);
-    const [currentOrgTabId, setCurrentOrgTabId] = useState<OrganisationTabId>(OrganisationTabId.search);
     const [inputSearchValue, setInputSearchValue] = useState<string>('');
-    const [searchResult, setSearchResult] = useState<ISuggestions[]>(null);
     const [dropdownItems, setDropdownItems] = useState<MenuProps['items']>([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<ISuggestions>(null);
@@ -44,13 +53,40 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
     const [claimText, setClaimText] = useState<string>('');
     const [claimFiles, setClaimFiles] = useState<UploadFile[]>([]);
     // ошибка
-    const [error, setError] = useState<string>('');
+    const [error, setError] = useState<IFormError>(null);
     // modal
     const [modalContext, setModalContext] = useState<IModalContext>(null);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     // clean fields
     const [cleanOrg, setCleanOrg] = useState<boolean>(false);
     const [cleanText, setCleanText] = useState<boolean>(false);
+
+    const [messageApi, contextHolder] = message.useMessage();
+
+    // effects
+
+    // вывод сообщения об ошибке в попапе
+    useEffect(() => {
+        if (error) messageApi.open({ content: errorMessageContent(error.message) })
+    }, [error])
+
+    const errorMessageContent = (message: string): React.ReactNode => {
+        return (
+            <div className={styles['error-message-content']}>
+                <FiInfo color={'var(--base-color__button)'} size={16}/>
+                <div className={styles['message']}>{message}</div>
+            </div>
+        )
+    }
+
+    const renderNothingFoundItem = () => {
+        return (
+            <div className={styles['nothing-found-menu-item']}>
+                <HiOutlineInbox />
+                <span className={styles['nothing-found-text']}>Нет организаций соответствующих вашему запросу</span>
+            </div>
+        )
+    }
 
     // memos
 
@@ -59,8 +95,16 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
         return !!(claimName || claimText || !!claimFiles.length || selectedItem || !isEmpty);
     }, [claimName, claimText, claimFiles.length, selectedItem, orgData])
 
+    const nothingFoundedItem = useMemo(() => {
+        return {
+            key: 'empty',
+            label: renderNothingFoundItem(),
+            onClick: () => setIsDropdownOpen(false)
+        }
+    }, [])
+
     const menuItems = useMemo<MenuProps>(() => {
-        if (!dropdownItems || !dropdownItems.length) return null
+        if (!dropdownItems || !dropdownItems.length) return { items: [nothingFoundedItem] }
         return { items: dropdownItems }
     }, [dropdownItems])
 
@@ -76,12 +120,10 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
         getOrganisationSuggestionsRequest(inputSearchValue)
             .then((res) => {
                 console.log('res', res.suggestions)
-                setSearchResult(res.suggestions);
                 createMenuItems(res.suggestions);
             })
             .catch((err) => {
                 console.log('error', err)
-                setSearchResult(null)
             })
     }, [inputSearchValue])
 
@@ -123,18 +165,18 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
         setError(null);
     }, [])
 
-    const isValidForm = useCallback((): {isValid: boolean; message?: string} => {
+    const isValidForm = useCallback((): {isValid: boolean; error?: IFormError} => {
         // нет даных об организации
-        if (!orgData) return {isValid: false, message: 'Заполните данные организации'};
+        if (!orgData) return {isValid: false, error: {type: FormError.organisation, message: 'Заполните данные организации'}};
         // полные ли данные организации
         const isFullOrgData = Object.values(orgData).every((orgValue) => orgValue !== '' && orgValue !== null);
         // нет всех данных организации
-        if (!isFullOrgData) return {isValid: false, message: 'Не все данные организации заполнены'};
+        if (!isFullOrgData) return {isValid: false, error: {type: FormError.organisation, message: 'Не все данные организации заполнены'}};
         // нет названия
-        if (!claimName) return {isValid: false, message: 'Введите название обращения'};
+        if (!claimName) return {isValid: false, error: {type: FormError.name, message: 'Введите название обращения'}};
         // нет текста
-        if (!claimText) return {isValid: false, message: 'Введите описание'};
-
+        if (!claimText) return {isValid: false,  error: {type: FormError.text, message: 'Введите описание'}};
+        // нет ошибки
         return {isValid: true}
     }, [claimName, claimText, orgData])
 
@@ -152,17 +194,17 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
         // raise poppup
         raiseModal({
             title: 'Подтверждение',
-            text: 'Вы уверены что хотите отменить обращение? Все введенные данные будут удалены',
+            text: 'Ваше обращение будет сохранено в черновике. Вы уверены, что хотите отменить обращение?',
             type: ModalType.cancel
         })
     }, []);
 
     const handleSubmitClaim = useCallback(() => {
         // validate
-        const { isValid, message } = isValidForm();
+        const { isValid, error } = isValidForm();
 
         if (!isValid) {
-            setError(message);
+            setError(error);
             return;
         }
         // raise modal with loading
@@ -207,7 +249,7 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
 
     const submitFullForm = useCallback(async () => {
         const sessionId = localStorage.getItem('id');
-        const files = claimFiles;
+        const files = claimFiles.map((file) => file.originFileObj);
         // TODO прикрутить files
         const params: CreateNewClaimParams = {
             claimName: claimName,
@@ -219,7 +261,7 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
             recipientInn: orgData.inn,
             recipientName: orgData.name,
             sessionId: sessionId,
-            file: null
+            file: files[0]
         }
         const response = await requestCreateNewClaim(params);
 
@@ -264,11 +306,23 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
         )
     }
 
+    const isOrganisationError = useMemo(() => !!error && error.type === FormError.organisation, [error])
+    const isNameError = useMemo(() => !!error && error.type === FormError.name, [error])
+    const isTextError = useMemo(() => !!error && error.type === FormError.text, [error])
+
     return (
         <div className={styles['create-new-claim-form']}>
             <div className={styles['organisation']}>
                 <div className={styles['caption']}>Организация</div>
-                <div className={styles['description']}>Введите данные организации или выполните ее поиск</div>
+                <div
+                    className={classNames(
+                        styles['description'],
+                        isOrganisationError && styles['_red']
+                    )}
+                >
+                    <span>Введите данные организации или выполните ее поиск</span>
+                    {isOrganisationError && <IoWarningOutline className={styles['warning-icon']} size={15}/>}
+                </div>
                 <div className={styles['pick-block']}>
                     {/*<div className={styles['tabs']}>*/}
                     {/*    <div*/}
@@ -353,6 +407,7 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
                 value={cleanText ? '' : claimName}
                 autoSize
             />
+            <div className={classNames(styles['warning-line'], isNameError && styles['_red'] )} />
             <div className={styles['text']}>
                 <div className={styles['claim-text-caption']}>Текст обращения</div>
                 <TextEditor
@@ -360,12 +415,12 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
                     placeHolder='Используйте меню выше чтобы форматировать описание'
                     showButtons={false}
                     toolBarClassName={styles['editor-tool-bar']}
-                    editTextClassName={styles['editor-edit-text']}
+                    editTextClassName={classNames(
+                        styles['editor-edit-text'],
+                        isTextError && styles['_red']
+                    )}
                     clean={cleanText}
                 />
-            </div>
-            <div className={styles['error-block']}>
-                {error ? error : null}
             </div>
             <div className={styles['submit-block']}>
                 <Button
@@ -395,6 +450,7 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
             >
                 <div>{modalContext?.text}</div>
             </Modal>
+            {contextHolder}
         </div>
     )
 })

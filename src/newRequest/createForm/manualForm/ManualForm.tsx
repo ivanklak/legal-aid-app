@@ -59,14 +59,17 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
         switch (id) {
             case InputID.name: {
                 setName(value);
+                // save in drafts
                 break;
             }
             case InputID.inn: {
                 setInn(value);
+                // save in drafts
                 break;
             }
             case InputID.address: {
                 setAddress(value);
+                // save in drafts
                 break;
             }
         }
