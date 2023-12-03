@@ -1,7 +1,6 @@
 import React, {useContext} from "react";
 import MainWrapper from "../components/mainWrapper/MainWrapper";
 import styles from "./NewRequest.module.css";
-import CenterContent from "../components/centerContent/CenterContent";
 import AuthContext from "../App/Layers/AuthProvider";
 import NoAuthorized from "../components/noAuthorized/NoAuthorized";
 import NewRequestDataLayerProvider from "./NewRequestDataLayer";
@@ -12,16 +11,15 @@ const NewRequests = () => {
 
     return (
         <MainWrapper>
-            <CenterContent className={styles.new_request}>
+            <div className={styles.new_request}>
                 <NewRequestDataLayerProvider>
                     <div className={styles.scroll_area}>
                         <div className={styles.main_section}>
                             <div className={styles.main_caption}>Новое обращение</div>
-                            {isAuth ? (
-                                <CreateNewClaimForm />
-                            ) : (
-                                <NoAuthorized />
-                            )}
+                            {isAuth
+                                ? <CreateNewClaimForm />
+                                : <NoAuthorized />
+                            }
                         </div>
                     </div>
                 </NewRequestDataLayerProvider>
@@ -53,7 +51,7 @@ const NewRequests = () => {
                 {/*        />*/}
                 {/*    </div>*/}
                 {/*</div>*/}
-            </CenterContent>
+            </div>
         </MainWrapper>
     );
 }

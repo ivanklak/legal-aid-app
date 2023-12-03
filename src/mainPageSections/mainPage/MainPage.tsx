@@ -1,10 +1,8 @@
 import React, {FC, useContext} from "react";
 import styles from "./MainPage.module.css";
-import NavbarContext from "../../App/context/NavbarContext";
 import MainWrapper from "../../components/mainWrapper/MainWrapper";
 import Claims from "../claims/Claims";
 import RightSideBar from "../rightSideBar/RightSideBar";
-import CenterContent from "../../components/centerContent/CenterContent";
 import AuthContext from "../../App/Layers/AuthProvider";
 import NoAuthorized from "../../components/noAuthorized/NoAuthorized";
 
@@ -47,7 +45,6 @@ export interface INotifications {
 }
 
 const MainPage: FC = () => {
-    const { isNavbarClose } = useContext(NavbarContext);
     const { isAuth } = useContext(AuthContext);
 
     const notificationsFromServer: Array<INotifications> = [
@@ -60,7 +57,7 @@ const MainPage: FC = () => {
 
     return (
         <MainWrapper>
-            <CenterContent>
+            <div className={styles.main_page}>
                 <div className={styles.appeals}>
                     <div className={styles.main_caption}>Обращения</div>
                     {/*<Claims />*/}
@@ -71,7 +68,7 @@ const MainPage: FC = () => {
                     )}
                 </div>
                 <RightSideBar notifications={notificationsFromServer}/>
-            </CenterContent>
+            </div>
         </MainWrapper>
     );
 }

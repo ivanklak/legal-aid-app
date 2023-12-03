@@ -1,3 +1,12 @@
+.main_page {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    max-width: 3840px;
+    overflow: auto;
+    margin: 0px auto 0px;
+}
+
 .menu {
     display: flex;
     width: 100%;
@@ -28,7 +37,7 @@
     font-size: 24px;
     line-height: 28px;
     font-weight: 500;
-    margin: 20px 0;
+    margin: 28px 0;
 }
 
 .caption {

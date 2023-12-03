@@ -7,27 +7,18 @@ interface TabProps {
     path: string;
     name: string;
     icon: JSX.Element;
-    isNavbarClose: boolean;
     isActive: boolean;
 }
 
-const Tab: FC<TabProps> = ({path, name, icon, isNavbarClose, isActive}) => {
+const Tab: FC<TabProps> = ({path, name, icon, isActive}) => {
     return (
         <NavLink
             to={path}
             className={classNames(styles.tab, isActive && styles.active)}
         >
-            <i className={classNames(
-                styles.icon,
-                isActive && styles.icon_active
-            )}>
-                {icon}
-            </i>
-            <div className={classNames(
-                styles.name,
-                isNavbarClose && styles.hide_name
-            )}>
-                {name}
+            <div className={styles.tab_body}>
+                <span className={styles.icon}>{icon}</span>
+                <div className={styles.name}>{name}</div>
             </div>
         </NavLink>
     )

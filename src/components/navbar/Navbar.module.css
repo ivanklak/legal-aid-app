@@ -1,18 +1,27 @@
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 260px;
+.navbar {
+    width: 250px;
+    z-index: 3;
     background: rgba(241, 241, 241, 0.5);
-    z-index: 100;
-    transition: all 0.5s ease;
-    border-right: 1px solid rgba(241, 241, 241, 0.9);
-    /*background: rgb(253,251,255);*/
-    /*background: linear-gradient(122deg, rgba(253,251,255,0.96) 0%, rgba(249,241,255,0.9) 80%, rgba(245,231,255,0.9) 100%);*/
+    padding-bottom: 32px;
+    position: absolute;
+    height: calc(100vh - 60px);
 }
+
+/*.sidebar {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    position: relative;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    bottom: 0;*/
+/*    width: 260px;*/
+/*    background: rgba(241, 241, 241, 0.5);*/
+/*    z-index: 100;*/
+/*    transition: all 0.5s ease;*/
+/*    border-right: 1px solid rgba(241, 241, 241, 0.9);*/
+/*    !*background: rgb(253,251,255);*!*/
+/*    !*background: linear-gradient(122deg, rgba(253,251,255,0.96) 0%, rgba(249,241,255,0.9) 80%, rgba(245,231,255,0.9) 100%);*!*/
+/*}*/
 
 .close {
     width: 80px;
@@ -95,7 +104,11 @@
 }
 
 .tabs_container {
-    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    height: 100%;
+    overflow: hidden auto;
 }
 
 .navbar_footer {

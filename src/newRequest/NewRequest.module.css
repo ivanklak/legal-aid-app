@@ -1,12 +1,18 @@
 .new_request {
     height: 100%;
+    width: 100%;
+    max-width: 3840px;
+    overflow: auto;
+    margin: 0px auto 0px;
+    flex-direction: column;
+    gap: 32px;
 }
 
 .main_caption {
     font-family: "Roboto", sans-serif;
     font-size: 24px;
     font-weight: 500;
-    margin: 20px 0;
+    margin: 28px 0;
 }
 
 .main_section {
