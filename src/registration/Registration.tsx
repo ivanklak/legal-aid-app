@@ -76,6 +76,7 @@ const Registration = () => {
         } catch (e) {
             console.log('e', e)
             setError(true);
+            // TODO непорядок - если ошибка 403 -> пользователь уже существует
         }
     };
 
