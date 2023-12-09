@@ -58,7 +58,7 @@
     height: 100%;
     align-items: center;
     box-sizing: border-box;
-    color: var(--base-color__black);
+    color: rgb(61, 61, 61);
     cursor: pointer;
     display: flex;
     flex-grow: 0;
@@ -72,17 +72,35 @@
     transition: background-color .1s,color;
     white-space: nowrap;
     margin: 0 4px;
-    border-radius: 50%;
+    border-radius: 6px;
 }
 
 .panel_item:hover {
-    border-radius: 50%;
-    background-color: rgba(64, 150, 255, 0.5);
+    background: rgba(100, 100, 100, 0.1);
+    color: var(--base-color__black);
 }
 
 .notification_button {
-    padding: 4px;
-    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(61, 61, 61);
+    transition: all 0.1s ease-in 0s;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.notification_button:hover {
+    background: rgba(100, 100, 100, 0.1);
+    color: var(--base-color__black);
+}
+
+.notification_button_active {
+    background: rgba(100, 100, 100, 0.1);
+    color: var(--base-color__black);
+    box-shadow: rgb(172, 156, 255) 0px 0px 0px 1px;
 }
 
 .settings_button {

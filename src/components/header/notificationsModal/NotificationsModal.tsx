@@ -4,6 +4,7 @@ import {INotifications, NotificationsTitle} from "../../../mainPageSections/main
 import styles from "./NotificationsModal.module.sass";
 import classNames from "classnames";
 import {useNavigate} from "react-router-dom";
+import {IoClose} from "react-icons/io5";
 
 interface NotificationsModalProps {
     open: boolean
@@ -28,6 +29,14 @@ const NotificationsModal = memo<NotificationsModalProps>(({open, setOpenModal}) 
         navigate('/notifications')
     }, [navigate])
 
+    const renderCloseIcon = (): React.ReactNode => {
+        return (
+            <div className={styles.close_icon}>
+                <IoClose size={18}/>
+            </div>
+        )
+    }
+
     return (
         <Modal
             title="Уведомления"
@@ -45,6 +54,7 @@ const NotificationsModal = memo<NotificationsModalProps>(({open, setOpenModal}) 
             footer={null}
             className={styles.modalStyle}
             bodyStyle={{position: "relative", height: '80%'}}
+            closeIcon={renderCloseIcon()}
         >
             <div className={styles.content}>
                 {!notificationsFromServer.length ? (
