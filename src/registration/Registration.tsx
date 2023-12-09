@@ -1,12 +1,13 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import styles from "./Registration.module.sass";
-import {Button, Checkbox, Form, Input} from "antd";
+import {Button, Checkbox, Form, Input, message} from "antd";
 import { UserOutlined } from '@ant-design/icons';
 import { MdAlternateEmail } from 'react-icons/md';
 import { HiOutlineLockClosed } from 'react-icons/hi';
 import { HiOutlineRocketLaunch } from "react-icons/hi2";
-import {Link} from "react-router-dom";
-import {useAuth} from "../components/hooks/useAuth";
+import {Link, useNavigate} from "react-router-dom";
+import {ValidateStatus} from "antd/es/form/FormItem";
+import {requestCreateAccount} from "../service/network/registration/methods/createAccount";
 
 export enum InputType {
     userName,
@@ -27,28 +28,124 @@ const AGREEMENT_TEXT = 'Я подтверждаю, что ознакомлен �
 
 const Registration = () => {
     const [form] = Form.useForm();
-    const {isAuth} = useAuth();
+    const navigate = useNavigate();
+    const [messageApi, contextHolder] = message.useMessage();
+    // inputs values
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [confirmPassword, setConfirmPassword] = useState<string>('');
+    // pwds statuses
+    const [passwordValidStatus, setPasswordValidStatus] = useState<ValidateStatus>('');
+    const [confirmPasswordValidStatus, setConfirmPasswordValidStatus] = useState<ValidateStatus>('');
+    // checkbox
+    const [checkboxValue, setCheckboxValue] = useState<boolean>(false);
+    // disable
+    const [regButtonActive, setRegButtonActive] = useState<boolean>(false);
+    // errors
+    const [error, setError] = useState<boolean>(false);
 
-    const [pwdNumbersError, setPwdNumbersError] = useState<boolean>(false);
+    useEffect(() => {
+        if (!name ||
+            !email ||
+            passwordValidStatus !== 'success' ||
+            confirmPasswordValidStatus !== 'success' ||
+            !checkboxValue
+        ) {
+            setRegButtonActive(false);
+        } else {
+            setRegButtonActive(true);
+        }
+    }, [checkboxValue, confirmPasswordValidStatus, email, name, passwordValidStatus])
 
     const onSubmitForm = async (values: IRegisterFormData) => {
-        console.log('Received values of form: ', values);
-        //TODO validation ?
-        const isValidPassword = checkNumbers(values.password);
-        if (!isValidPassword) {
-            setPwdNumbersError(true);
+        try {
+            const response = await requestCreateAccount({
+                firstName: name,
+                email: email,
+                password: password,
+                agreementCheckbox: checkboxValue
+            })
+
+            if (response) {
+                messageApi.open({
+                    type: "success",
+                    content: "Аккаунт успешно создан"
+                }).then(() => navigate('/login'))
+            }
+        } catch (e) {
+            console.log('e', e)
+            setError(true);
+        }
+    };
+
+    const handleInputChange = (type: InputType, value: string) => {
+        switch (type) {
+            case InputType.userName: {
+                setName(value);
+                break;
+            }
+            case InputType.email: {
+                setEmail(value);
+                break;
+            }
+            case InputType.password: {
+                validatePassword(value);
+                setPassword(value);
+                break;
+            }
+            case InputType.confirmPassword: {
+                validateConfirmPassword(value);
+                setConfirmPassword(value);
+                break;
+            }
+        }
+    }
+
+    const handleCheckboxChange = useCallback((value: boolean) => {
+        setCheckboxValue(value);
+    }, [])
+
+    // проверка требований к паролю
+    const validatePassword = useCallback((value: string) => {
+        // пароль меньше 8 символов
+        if (value.length < 8) {
+            setPasswordValidStatus('');
             return;
         }
+        // пароль имеет цифры
+        const hasNumbers = checkNumbers(value);
+        // пароль имеет буквы
+        const hasLetters = checkLetters(value);
+        if (!hasNumbers || !hasLetters) {
+            setPasswordValidStatus('error');
+            return;
+        }
+        // хороший пароль
+        setPasswordValidStatus('success');
+    }, [])
 
-        setPwdNumbersError(false);
-        // await registerUser({
-        //     username: values.name,
-        //     email: values.email,
-        //     password: values.password,
-        //     confirmPassword: values.confirmPassword,
-        //     checkbox: values.checkbox
-        // });
-    };
+    // проверка требований к повтору пароля
+    const validateConfirmPassword = useCallback((value: string) => {
+        // пароль меньше 8 символов
+        if (value.length < 8) {
+            setConfirmPasswordValidStatus('');
+            return;
+        }
+        // пароли не совпадают
+        if (value !== password) {
+            setConfirmPasswordValidStatus('error');
+            return;
+        }
+        // пароли совпадают
+        setConfirmPasswordValidStatus('success');
+    }, [password])
+
+    // проверка на буквы
+    const checkLetters = (password: string): boolean => {
+        const pwdArray = password.split('');
+        return pwdArray.some((letter) => letter.toUpperCase() !== letter.toLowerCase())
+    }
 
     const checkNumbers = (password: string): boolean => {
         const pwdArray = password.split('');
@@ -61,11 +158,7 @@ const Registration = () => {
             }
         }
 
-        return !(!numbers.length || numbers.length === 1);
-    }
-
-    const handleFieldsChange = () => {
-        setPwdNumbersError(false);
+        return numbers.length > 0;
     }
 
     return (
@@ -74,7 +167,6 @@ const Registration = () => {
             className={styles.registration}
             name="register"
             onFinish={onSubmitForm}
-            onFieldsChange={handleFieldsChange}
         >
             <div className={styles.container}>
                 <div className={styles.info_container}>
@@ -83,124 +175,72 @@ const Registration = () => {
                 <div className={styles.inputs_container}>
                     <div className={styles.caption}>Регистрация</div>
                     <span className={styles.text}>После регистрации вам станут доступны все возможности сервиса.</span>
-                    <Form.Item
-                        name="name"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Пожалуйста введите свое имя',
-                            },
-                        ]}
-                    >
+                    <Form.Item name="name">
                         <Input
                             allowClear
                             size="large"
                             placeholder="Имя"
                             prefix={<UserOutlined />}
-                            // onChange={(e) => handleInputChange(InputType.userName, e)}
+                            onChange={(e) => handleInputChange(InputType.userName, e.target.value)}
                             required
                         />
                     </Form.Item>
-                    <Form.Item
-                        name="email"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Пожалуйста введите свой E-mail',
-                            },
-                        ]}
-                    >
+                    <Form.Item name="email">
                         <Input
                             allowClear
                             size="large"
                             placeholder="E-mail"
                             prefix={<MdAlternateEmail />}
-                            // onChange={(e) => handleInputChange(InputType.email, e)}
+                            onChange={(e) => handleInputChange(InputType.email, e.target.value)}
                             type='email'
                         />
                     </Form.Item>
                     <Form.Item
                         name="password"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Пожалуйста введите пароль',
-                            },
-                            {
-                                min: 8,
-                                message: 'Мин. 8 символов: цифры и латинские буквы',
-                            },
-                            // ({ getFieldValue }) => ({
-                            //     validator(_, value) {
-                            //         const pwd: string = getFieldValue('password');
-                            //         if (!value) {
-                            //             return Promise.resolve();
-                            //         }
-                            //         if (pwd === value && pwd.length < 8) {
-                            //             return Promise.reject(new Error('Мин. 8 символов: цифры и латинские буквы'));
-                            //         }
-                            //         if (pwd === value && pwd.length >= 8) {
-                            //             return Promise.resolve();
-                            //         }
-                            //     },
-                            // }),
-                        ]}
                         hasFeedback={true}
+                        validateStatus={passwordValidStatus}
+                        className={styles['password-item']}
                     >
                         <Input.Password
-                            allowClear
                             size="large"
                             placeholder="Пароль"
                             prefix={<HiOutlineLockClosed />}
-                            // onChange={(e) => handleInputChange(InputType.password, e)}
+                            onChange={(e) => handleInputChange(InputType.password, e.target.value)}
                         />
+                        <span className={styles['title']}>Мин. 8 символов: цифры и латинские буквы</span>
                     </Form.Item>
                     <Form.Item
                         name="confirm"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Пожалуйста подтвердите пароль',
-                            },
-                            ({ getFieldValue }) => ({
-                                validator(_, value) {
-                                    if (!value || getFieldValue('password') === value) {
-                                        return Promise.resolve();
-                                    }
-                                    return Promise.reject(new Error('Введеный пароль не соответствует'));
-                                },
-                            }),
-                        ]}
                         hasFeedback={true}
+                        validateStatus={confirmPasswordValidStatus}
                         dependencies={['password']}
                     >
                         <Input.Password
-                            allowClear
                             size="large"
                             placeholder="Подтвердите пароль"
                             prefix={<HiOutlineLockClosed />}
+                            onChange={(e) => handleInputChange(InputType.confirmPassword, e.target.value)}
                         />
                     </Form.Item>
                     <Form.Item
                         name="agreement"
                         valuePropName="checked"
-                        rules={[
-                            {
-                                validator: (_, value) =>
-                                    value ? Promise.resolve() : Promise.reject(new Error('Нужно принять правила')),
-                            },
-                        ]}
                     >
                         <div className={styles.checkbox_block}>
-                            <Checkbox>{AGREEMENT_TEXT}</Checkbox>
+                            <Checkbox
+                                value={checkboxValue}
+                                onChange={(e) => handleCheckboxChange(e.target.checked)}
+                            >
+                                {AGREEMENT_TEXT}
+                            </Checkbox>
                         </div>
                     </Form.Item>
                     <div className={styles.pwd_description}>
-                        <div>{pwdNumbersError && 'Пароль не соответствует требованию: минимум 2 цифры'}</div>
-                        {/*<div>{error && error.message}</div>*/}
+                        {/*<div>{pwdNumbersError && 'Пароль не соответствует требованию: минимум 2 цифры'}</div>*/}
+                        <div>{error && 'Произошла ошибка.'}</div>
                     </div>
                     <div className={styles.buttons_block}>
-                        <Button disabled={pwdNumbersError} size="large" className={styles.button_body} htmlType="submit">
+                        <Button disabled={!regButtonActive} size="large" className={styles.button_body} htmlType="submit">
                             <div className={styles.button_content}>
                                 <HiOutlineRocketLaunch />
                                 <div>Создать аккаунт</div>
@@ -213,6 +253,7 @@ const Registration = () => {
                 <span>Уже есть аккаунт?</span>
                 <Link to={'/login'} className={styles.link}>Войти</Link>
             </div>
+            {contextHolder}
         </Form>
     )
 }
