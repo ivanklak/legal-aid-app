@@ -71,6 +71,17 @@ html, body {
 
   --base-color__success: rgba(71, 248, 127, 0.4);
   --base-color__success2: rgb(161, 140, 92);
+
+  --base-color__warningRed: rgb(235, 94, 94);
+
+  --button__primary: rgb(100, 78, 215);
+  --button__secondary: rgb(234, 255, 150);
+  --button__darkGray: rgb(37, 37, 37);
+  --button__textWhite: rgb(245, 245, 245);
+  --button__textBlack: rgb(14, 14, 14);
+
+  --button__primary-hover: rgb(123, 97, 255);
+
 }
 
 body .ql-container {

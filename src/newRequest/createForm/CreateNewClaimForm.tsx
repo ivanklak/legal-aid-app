@@ -2,7 +2,7 @@ import React, {ChangeEvent, memo, useCallback, useEffect, useMemo, useState} fro
 import styles from "./CreateNewClaimForm.module.sass";
 import TextArea from "antd/es/input/TextArea";
 import classNames from "classnames";
-import {Button, Dropdown, Input, MenuProps, Modal, UploadFile, message} from "antd";
+import {Dropdown, Input, MenuProps, Modal, UploadFile, message} from "antd";
 import {IoIosSearch} from "react-icons/io";
 import getOrganisationSuggestionsRequest from "../api/methods/getOrganisationSuggestionsRequest";
 import {ISuggestions} from "../api/requests/GetOrganisationSuggestionsRequest";
@@ -13,6 +13,7 @@ import {CreateNewClaimParams} from "../api/requests/PostCreateNewClaimRequest";
 import {requestCreateNewClaim} from "../api/methods/requestCreateNewClaim";
 import { FiInfo } from "react-icons/fi";
 import { HiOutlineInbox } from "react-icons/hi2";
+import Button from "../../controls/button/Button";
 
 enum ModalType {
     submit = 'submit',
@@ -424,16 +425,14 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
             </div>
             <div className={styles['submit-block']}>
                 <Button
-                    type="default"
-                    title="Отмена"
+                    className={styles['cancel-button']}
                     onClick={handleCancelClaim}
                     disabled={!showCancelButton}
                 >
                     Отмена
                 </Button>
                 <Button
-                    type="primary"
-                    title="Зарегистрировать обращение"
+                    className={styles['submit-button']}
                     onClick={handleSubmitClaim}
                 >
                     Отправить

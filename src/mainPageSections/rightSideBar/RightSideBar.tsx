@@ -56,11 +56,7 @@ const RightSideBar: FC<RightSideBarProps> = ({notifications}) => {
             <div className={styles.create_new}>
                 {contextHolder}
                 <div className={styles.button_container} onClick={onCreateClick}>
-                    <div className={styles.create_button}>
-                        <div className={styles.create_icon}>
-                            <BsPlusSquareDotted size="25" color="var(--base-color__white)" />
-                        </div>
-                    </div>
+                    <BsPlusSquareDotted size="25" color="var(--base-color__black)" />
                 </div>
                 <div className={styles.create_text}>
                     <div className={styles.create_caption}>Новое обращение</div>

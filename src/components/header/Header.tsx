@@ -5,6 +5,7 @@ import classNames from "classnames";
 import {Input, Modal, Tooltip} from 'antd';
 import NotificationsModal from "./notificationsModal/NotificationsModal";
 import {IoIosNotificationsOutline} from "react-icons/io";
+import { IoSearchOutline } from "react-icons/io5";
 const { Search } = Input;
 
 const Header: FC = () => {
@@ -12,7 +13,7 @@ const Header: FC = () => {
 
     const [openModal, setOpenModal] = useState<boolean>(false);
 
-    const onSearch = useCallback((value: string) => {
+    const onChange = useCallback((value: any) => {
         console.log('searching', value)
     }, [])
 
@@ -25,13 +26,20 @@ const Header: FC = () => {
     },[])
 
     return (
-        <div className={styles.home_content}>
+        <header className={styles.header_content}>
             <span className={styles.text}>доносы.ру</span>
-            <div className={styles.center_header_panel}></div>
-            <div className={styles.right_header_panel}>
+            <div className={styles.center_header_panel}>
                 <div className={styles.search}>
-                    <Search placeholder="Поиск" allowClear onSearch={onSearch} style={{ width: 200 }} />
+                    <IoSearchOutline size={16} />
+                    <Input
+                        placeholder="Поиск"
+                        bordered={false}
+                        onChange={onChange}
+                        style={{ width: 200 }}
+                    />
                 </div>
+            </div>
+            <div className={styles.right_header_panel}>
                 <div
                     className={classNames(
                         styles.notification_button,
@@ -61,7 +69,7 @@ const Header: FC = () => {
                 {/*    </div>*/}
                 {/*</Tooltip>*/}
             </div>
-        </div>
+        </header>
     );
 }
 

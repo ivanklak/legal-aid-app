@@ -1,13 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
 
-.home_content {
+.header_content {
     position: fixed;
     height: 56px;
     display: flex;
     align-items: center;
     width: 100%;
     transition: all 0.5s ease;
-    border-bottom: 2px solid rgba(241, 241, 241, 0.8);
+    border-bottom: 2px solid rgba(241, 241, 241, 0.5);
     z-index: 10;
 }
 
@@ -38,6 +38,7 @@
 }
 
 .center_header_panel {
+    width: 320px;
     display: flex;
     flex-flow: row;
     flex-grow: 1;
@@ -122,5 +123,8 @@
 }
 
 .search {
-    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    color: rgb(61, 61, 61);
+    margin-left: 140px;
 }
