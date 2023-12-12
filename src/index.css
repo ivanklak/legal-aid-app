@@ -73,6 +73,9 @@ html, body {
   --base-color__success2: rgb(161, 140, 92);
 
   --base-color__warningRed: rgb(235, 94, 94);
+  --base-color__backgroundGray: rgba(241, 241, 241, 0.5);
+
+  --base-color__textDark: rgb(61, 61, 61);
 
   --button__primary: rgb(100, 78, 215);
   --button__secondary: rgb(234, 255, 150);

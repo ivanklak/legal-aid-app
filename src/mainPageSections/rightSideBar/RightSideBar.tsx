@@ -3,6 +3,7 @@ import styles from "./RightSideBar.module.css";
 import {INotifications} from "../mainPage/MainPage";
 import {useNavigate} from "react-router-dom";
 import {BsPlusSquareDotted} from "react-icons/bs";
+import { BsPlusSquare } from "react-icons/bs";
 import AuthContext from "../../App/Layers/AuthProvider";
 import {Button, notification} from "antd";
 
@@ -56,7 +57,7 @@ const RightSideBar: FC<RightSideBarProps> = ({notifications}) => {
             <div className={styles.create_new}>
                 {contextHolder}
                 <div className={styles.button_container} onClick={onCreateClick}>
-                    <BsPlusSquareDotted size="25" color="var(--base-color__black)" />
+                    <BsPlusSquare className={styles.plus_icon} size="25" />
                 </div>
                 <div className={styles.create_text}>
                     <div className={styles.create_caption}>Новое обращение</div>

@@ -2,7 +2,7 @@
   box-sizing: border-box
   padding: 4px 12px
   background-color: var(--button__secondary)
-  color: var(--button__textBlack)
+  color: var(--base-color__textDark)
   display: inline-flex
   -webkit-box-pack: center
   justify-content: center
@@ -20,6 +20,10 @@
   border-radius: 4px
   transition: background 0.3s ease 0s, color 0.3s ease 0s, box-shadow 0.3s ease 0s
   text-decoration: none
+
+  &:hover
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), rgb(234, 255, 150)
+    color: var(--button__textBlack)
 
   &._disabled
     pointer-events: none
