@@ -53,7 +53,7 @@ const NotificationsModal = memo<NotificationsModalProps>(({open, setOpenModal}) 
             maskClosable={true}
             footer={null}
             className={styles.modalStyle}
-            bodyStyle={{position: "relative", height: '80%'}}
+            bodyStyle={{position: "relative"}}
             closeIcon={renderCloseIcon()}
         >
             <div className={styles.content}>

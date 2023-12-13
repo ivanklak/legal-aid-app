@@ -97,6 +97,11 @@
 
 .list {
     color: var(--button__primary);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-color 125ms ease-out;
+    text-decoration-color: #ac9cff80;
     cursor: pointer;
 }
 
