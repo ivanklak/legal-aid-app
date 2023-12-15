@@ -59,12 +59,14 @@ const MainPage: FC = () => {
         <MainWrapper>
             <div className={styles.main_page}>
                 <div className={styles.appeals}>
-                    <div className={styles.main_caption}>Обращения</div>
                     {/*<Claims />*/}
                     {isAuth ? (
-                        <Claims />
+                        <>
+                            <div className={styles.main_caption}>Обращения</div>
+                            <Claims />
+                        </>
                     ) : (
-                        <NoAuthorized />
+                        <NoAuthorized className={styles.no_auth} />
                     )}
                 </div>
                 <RightSideBar notifications={notificationsFromServer}/>

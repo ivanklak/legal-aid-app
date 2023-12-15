@@ -1,10 +1,15 @@
-import React, {useCallback} from "react";
+import React, {memo, useCallback} from "react";
 import styles from "./NoAuthorized.module.sass";
 import {useNavigate} from "react-router-dom";
 import {RiStackFill} from "react-icons/ri";
 import Button from "../../controls/button/Button";
+import classNames from "classnames";
 
-const NoAuthorized = () => {
+interface NoAuthorizedProps {
+    className?: string;
+}
+
+const NoAuthorized = memo<NoAuthorizedProps>(({className}) => {
     const navigate = useNavigate();
 
     const onLoginClick = useCallback(() => {
@@ -12,7 +17,7 @@ const NoAuthorized = () => {
     }, [navigate])
 
     return (
-        <div className={styles.no_auth_container}>
+        <div className={classNames(styles.no_auth_container, className)}>
             <RiStackFill className={styles.icon} size={60} />
             <div className={styles.caption}>Войдите в личный кабинет</div>
             <div className={styles.title}>чтобы увидеть ваши обращения</div>
@@ -26,6 +31,6 @@ const NoAuthorized = () => {
             </div>
         </div>
     )
-}
+})
 
 export default NoAuthorized;
