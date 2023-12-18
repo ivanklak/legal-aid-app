@@ -1,0 +1,80 @@
+.header-no-auth
+  position: relative
+  z-index: 9999
+  height: 48px
+
+  .header-container
+    width: 100%
+    background: var(--base-color__white)
+    border-bottom: 2px solid rgba(241, 241, 241, 0.5)
+    display: flex
+    flex-direction: column
+    top: 0
+    position: fixed
+    transition: all 0.2s ease 0s
+    transform: translateY(0%)
+
+    &._hidden
+      transform: translateY(-100%)
+
+    .header-body
+      width: 100%
+      max-width: 1200px
+      padding-left: 0
+      padding-right: 0
+      margin: 0 auto
+      position: relative
+      z-index: 99999
+
+      .content
+        margin: 0 auto
+        display: flex
+        align-items: center
+        justify-content: space-between
+        height: 48px
+        padding: 16px 32px
+
+        .logo
+          display: flex
+          align-items: center
+          justify-content: center
+
+          .company-icon
+            color: var(--button__textBlack)
+
+        .auth-container
+          display: flex
+          align-items: center
+          gap: 12px
+
+          .sign-in-button
+            flex: 1 !important
+            background-color: transparent !important
+            &:hover
+              background-color: transparent !important
+
+          .reg-button
+            flex: 1 !important
+
+      .navigation
+        background: transparent
+        position: absolute
+        top: 0
+        left: 64px
+        height: 48px
+        padding: 16px 32px
+        display: flex
+        align-items: center
+        gap: 24px
+
+        .item
+          font-family: "Roboto", sans-serif
+          font-size: 14px
+          color: var(--base-color__textDark)
+          display: flex
+          flex-direction: column
+          text-decoration: none
+
+          &:hover
+            color: var(--button__textBlack)
+

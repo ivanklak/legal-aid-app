@@ -1,16 +1,15 @@
-import React, {FC, useCallback, useContext, useState} from "react";
+import React, {FC, useCallback, useState} from "react";
 import styles from './Header.module.css';
-import NavbarContext from "../../App/context/NavbarContext";
 import classNames from "classnames";
-import {Input, Modal, Tooltip} from 'antd';
+import {Input} from 'antd';
 import NotificationsModal from "./notificationsModal/NotificationsModal";
 import {IoIosNotificationsOutline} from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
-const { Search } = Input;
+import {useAuth} from "../hooks/useAuth";
+import NotAuthHeader from "./notAuthHeader/NotAuthHeader";
 
 const Header: FC = () => {
-    const {isNavbarClose} = useContext(NavbarContext);
-
+    const {isAuth} = useAuth();
     const [openModal, setOpenModal] = useState<boolean>(false);
 
     const onChange = useCallback((value: any) => {
@@ -24,6 +23,8 @@ const Header: FC = () => {
     const handleModal = useCallback((val: boolean) => {
         setOpenModal(val)
     },[])
+
+    if (!isAuth) return <NotAuthHeader />
 
     return (
         <header className={styles.header_content}>

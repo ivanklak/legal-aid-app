@@ -5,6 +5,7 @@ import Unauthorized from "../components/Unauthorized";
 import Home from "../components/Home";
 import Missing from "../components/Missing";
 import Registration from "../registration/Registration";
+import HomePage from "../pages/HomePage/HomePage";
 
 const AppRoutes: FC = () => (
     <Routes>

@@ -9,22 +9,41 @@ import Notifications from "../notifications/Notifications";
 import Categories from "../categories/Categories";
 import ContentBody from "./contentBody/ContentBody";
 import RequestItem from "../requestItem/RequestItem";
+import HomePage from "../pages/HomePage/HomePage";
+import {useAuth} from "./hooks/useAuth";
 
-const Home: FC = () => (
-    <>
-        <Header/>
-        <ContentBody>
-            <Navbar/>
-            <Routes>
-                <Route path='/' element={<MainPage/>}/>
-                <Route path='category' element={<Categories/>} />
-                <Route path='myRequests' element={<MyRequests/>}/>
-                <Route path='myRequests/:id' element={<RequestItem/>}/>
-                <Route path='newRequest' element={<NewRequests/>}/>
-                <Route path='notifications' element={<Notifications/>} />
-            </Routes>
-        </ContentBody>
-    </>
-)
+const Home: FC = () => {
+    const {isAuth} = useAuth();
+
+    console.log('isAuth', isAuth)
+
+    return (
+        <>
+            <Header/>
+            <ContentBody>
+                {!isAuth ? (
+                    <>
+                        <Routes>
+                            <Route path='/' element={<HomePage/>}/>
+                        </Routes>
+                    </>
+                ) : (
+                    <>
+                        <Navbar/>
+                        <Routes>
+                            <Route path='/' element={<HomePage/>}/>
+                            <Route path='dashboard' element={<MainPage/>}/>
+                            <Route path='category' element={<Categories/>} />
+                            <Route path='myRequests' element={<MyRequests/>}/>
+                            <Route path='myRequests/:id' element={<RequestItem/>}/>
+                            <Route path='newRequest' element={<NewRequests/>}/>
+                            <Route path='notifications' element={<Notifications/>} />
+                        </Routes>
+                    </>
+                )}
+            </ContentBody>
+        </>
+    )
+}
 
 export default Home;
