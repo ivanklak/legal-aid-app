@@ -20,28 +20,24 @@ const Home: FC = () => {
     return (
         <>
             <Header/>
-            <ContentBody>
-                {!isAuth ? (
-                    <>
-                        <Routes>
-                            <Route path='/' element={<HomePage/>}/>
-                        </Routes>
-                    </>
-                ) : (
-                    <>
-                        <Navbar/>
-                        <Routes>
-                            <Route path='/' element={<HomePage/>}/>
-                            <Route path='dashboard' element={<MainPage/>}/>
-                            <Route path='category' element={<Categories/>} />
-                            <Route path='myRequests' element={<MyRequests/>}/>
-                            <Route path='myRequests/:id' element={<RequestItem/>}/>
-                            <Route path='newRequest' element={<NewRequests/>}/>
-                            <Route path='notifications' element={<Notifications/>} />
-                        </Routes>
-                    </>
-                )}
-            </ContentBody>
+            {!isAuth ? (
+                <Routes>
+                    <Route path='/' element={<HomePage/>}/>
+                </Routes>
+            ) : (
+                <ContentBody>
+                    <Navbar/>
+                    <Routes>
+                        <Route path='/' element={<HomePage/>}/>
+                        <Route path='dashboard' element={<MainPage/>}/>
+                        <Route path='category' element={<Categories/>} />
+                        <Route path='myRequests' element={<MyRequests/>}/>
+                        <Route path='myRequests/:id' element={<RequestItem/>}/>
+                        <Route path='newRequest' element={<NewRequests/>}/>
+                        <Route path='notifications' element={<Notifications/>} />
+                    </Routes>
+                </ContentBody>
+            )}
         </>
     )
 }

@@ -85,6 +85,10 @@ html, body {
 
   --button__primary-hover: rgb(123, 97, 255);
 
+  /* fonts */
+  --fonts-display: TWK Everett, Inter, 'Hevetica Neue', Helvetica, apple-system, sans-serif;
+  --fonts-default: Inter, 'Hevetica Neue', Helvetica, apple-system, sans-serif;
+
 }
 
 body .ql-container {

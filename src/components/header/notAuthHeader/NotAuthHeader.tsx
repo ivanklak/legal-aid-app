@@ -2,7 +2,7 @@ import React, {memo, useCallback} from "react";
 import styles from "./NotAuthHeader.module.sass";
 import Button from "../../../controls/button/Button";
 import {Link, useNavigate} from "react-router-dom";
-import { ImHammer2 } from "react-icons/im";
+import { BsBoxes } from "react-icons/bs";
 
 interface NotAuthHeaderProps {}
 
@@ -24,7 +24,7 @@ const NotAuthHeader = memo<NotAuthHeaderProps>(() => {
                 <div className={styles['header-body']}>
                     <div className={styles['content']}>
                         <Link to={'/'} className={styles['logo']}>
-                            <ImHammer2 size={24} className={styles['company-icon']} />
+                            <BsBoxes size={22} className={styles['company-icon']} />
                         </Link>
                         <div className={styles['auth-container']}>
                             <Button
