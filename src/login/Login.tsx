@@ -73,7 +73,7 @@ const Login = () => {
         }
         // save in context
         setAuthData(response);
-        navigate(from, {replace: true});
+        navigate('/dashboard', {replace: true});
         // save in storage
         localStorage.setItem("token", response.access_token);
         localStorage.setItem('id', response.sessionId);

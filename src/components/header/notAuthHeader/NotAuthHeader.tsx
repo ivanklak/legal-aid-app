@@ -3,11 +3,13 @@ import styles from "./NotAuthHeader.module.sass";
 import Button from "../../../controls/button/Button";
 import {Link, useNavigate} from "react-router-dom";
 import { BsBoxes } from "react-icons/bs";
+import {useAuth} from "../../hooks/useAuth";
+import { IoAccessibilityOutline } from "react-icons/io5";
 
 interface NotAuthHeaderProps {}
 
 const NotAuthHeader = memo<NotAuthHeaderProps>(() => {
-
+    const {isAuth} = useAuth();
     const navigate = useNavigate();
 
     const handleSignIn = useCallback(() => {
@@ -27,18 +29,26 @@ const NotAuthHeader = memo<NotAuthHeaderProps>(() => {
                             <BsBoxes size={22} className={styles['company-icon']} />
                         </Link>
                         <div className={styles['auth-container']}>
-                            <Button
-                                className={styles['sign-in-button']}
-                                onClick={handleSignIn}
-                            >
-                                Войти
-                            </Button>
-                            <Button
-                                className={styles['reg-button']}
-                                onClick={handleRegister}
-                            >
-                                Регистрация
-                            </Button>
+                            {isAuth ? (
+                                <div className={styles['avatar']}>
+                                    <IoAccessibilityOutline size={18} />
+                                </div>
+                            ) : (
+                              <>
+                                  <Button
+                                      className={styles['sign-in-button']}
+                                      onClick={handleSignIn}
+                                  >
+                                      Войти
+                                  </Button>
+                                  <Button
+                                      className={styles['reg-button']}
+                                      onClick={handleRegister}
+                                  >
+                                      Регистрация
+                                  </Button>
+                              </>
+                            )}
                         </div>
                     </div>
                     <div className={styles['navigation']}>

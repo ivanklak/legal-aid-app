@@ -23,7 +23,7 @@ export const AuthProvider: FC = ({ children }) => {
     const [isAuth, setIsAuth] = useState<boolean>(false);
     const [authData, setAuthData] = useState<IAuthData>(null);
     const [userData, setUserData] = useState<IUserData>(null);
-    const [isAuthInProgress, setIsAuthInProgress] = useState<boolean>(false);
+    const [isAuthInProgress, setIsAuthInProgress] = useState<boolean>(true);
 
     useEffect(() => {
         checkAuth();

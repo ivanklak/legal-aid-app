@@ -13,7 +13,7 @@ import { HiOutlineDocumentPlus } from "react-icons/hi2";
 import { IoIosNotificationsOutline } from "react-icons/io"
 
 enum Pathname {
-    Home = "/",
+    Home = "/dashboard",
     Category = '/category',
     MyRequests = '/myRequests',
     NewRequest = '/newRequest',
@@ -50,7 +50,7 @@ const Navbar: FC = () => {
             <NavbarAccount />
             <div className={navbar_styles.tabs_container}>
                 <Tab
-                    path='/'
+                    path='/dashboard'
                     name='Главная'
                     icon={<RxDashboard size={16} />}
                     isActive={currentPage === Pathname.Home}

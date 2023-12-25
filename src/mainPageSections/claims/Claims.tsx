@@ -38,7 +38,7 @@ const Claims: FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const onAllAppealsClick = () => {
-        return navigate('myRequests')
+        navigate('/myRequests')
     }
 
     const createTableRows = useCallback((): any => {

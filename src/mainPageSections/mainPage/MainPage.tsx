@@ -1,10 +1,9 @@
-import React, {FC, useContext} from "react";
+import React, {FC, useContext, useEffect} from "react";
 import styles from "./MainPage.module.css";
 import MainWrapper from "../../components/mainWrapper/MainWrapper";
 import Claims from "../claims/Claims";
 import RightSideBar from "../rightSideBar/RightSideBar";
 import AuthContext from "../../App/Layers/AuthProvider";
-import NoAuthorized from "../../components/noAuthorized/NoAuthorized";
 
 export enum Status {
     success = "Решено",
@@ -59,15 +58,8 @@ const MainPage: FC = () => {
         <MainWrapper>
             <div className={styles.main_page}>
                 <div className={styles.appeals}>
-                    {/*<Claims />*/}
-                    {isAuth ? (
-                        <>
-                            <div className={styles.main_caption}>Обращения</div>
-                            <Claims />
-                        </>
-                    ) : (
-                        <NoAuthorized className={styles.no_auth} />
-                    )}
+                    <div className={styles.main_caption}>Обращения</div>
+                    <Claims />
                 </div>
                 <RightSideBar notifications={notificationsFromServer}/>
             </div>
