@@ -86,39 +86,62 @@
           display: flex
           flex-direction: column
           border-radius: 6px
-          background-color: #cac0ff
+          background-color: #7B61FF
           overflow: hidden
+          padding: 18px
 
           .title-container
-            padding: 16px
-            background-color: #b0a0ff
+            //background-color: #b0a0ff
 
             .item-title
               display: inline-flex
               font-family: var(--fonts-default)
               letter-spacing: -0.025em
               font-weight: 500
-              background-color: #cac0ff
+              background-color: #1D1D1D
+              color: #7B61FF
               padding: 6px 12px
               border-radius: 16px
               font-size: 16px
+              //box-shadow: rgb(38, 38, 38) 0px 0px 0px 1px
 
             .item-caption
               font-weight: 500
-              font-family: var(--fonts-display)
-              letter-spacing: -0.025em
+              font-family: var(--fonts-default)
+              letter-spacing: -0.05em
               line-height: 140%
               font-size: 28px
-              color: var(--button__textBlack)
+              color: var(--button__textWhite)
               margin-top: 12px
 
           .item-text
-            font-weight: 400
+            font-weight: 500
             font-family: var(--fonts-default)
-            letter-spacing: -0.0125em
+            letter-spacing: -0.025em
             font-size: 18px
-            color: var(--button__textBlack)
-            padding: 16px
+            color: var(--button__textWhite)
+            opacity: 0.6
             line-height: 140%
+            margin-top: 12px
+
+          .find-out-link
+            font-size: 18px
+            letter-spacing: -0.025em
+            color: #E3FF73
+            display: inline-flex
+            align-items: center
+            gap: 4px
+            transition: color 0.6s ease 0s
+            margin-top: 12px
+            text-decoration: none
+            &:hover
+              color: #F1FFB9
+              text-decoration: underline
+
+              .chevron-icon
+                color: #E3FF73
+                &:hover
+                  color: #F1FFB9
+
 
 
