@@ -57,11 +57,30 @@ const MainPage: FC = () => {
     return (
         <MainWrapper>
             <div className={styles.main_page}>
-                <div className={styles.appeals}>
-                    <div className={styles.main_caption}>Обращения</div>
-                    <Claims />
+                <div className={styles.status_container}>
+                    <div className={styles.status_item}>
+                        <div className={styles.status_item_caption}>Всего обращений</div>
+                        <div className={styles.status_item_number}>98</div>
+                    </div>
+                    <div className={styles.status_item}>
+                        <div className={styles.status_item_caption}>Создано</div>
+                        <div className={styles.status_item_number}>10</div>
+                    </div>
+                    <div className={styles.status_item}>
+                        <div className={styles.status_item_caption}>На рассмотрении</div>
+                        <div className={styles.status_item_number}>18</div>
+                    </div>
+                    <div className={styles.status_item}>
+                        <div className={styles.status_item_caption}>Решено</div>
+                        <div className={styles.status_item_number}>70</div>
+                    </div>
                 </div>
-                <RightSideBar notifications={notificationsFromServer}/>
+                <div className={styles.main_section}>
+                    <div className={styles.appeals}>
+                        <Claims />
+                    </div>
+                    <RightSideBar notifications={notificationsFromServer}/>
+                </div>
             </div>
         </MainWrapper>
     );

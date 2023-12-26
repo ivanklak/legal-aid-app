@@ -1,5 +1,6 @@
 .main_page {
     display: flex;
+    flex-direction: column;
     height: 100%;
     width: 100%;
     max-width: 3840px;
@@ -89,4 +90,43 @@
 
 .no_auth {
     margin-top: 28px;
+}
+
+.status_container {
+    display: flex;
+    width: 100%;
+    margin: 28px 0;
+    padding: 0 20px;
+    gap: 16px;
+}
+
+.status_item {
+    display: flex;
+    flex: 1 1;
+    max-width: 240px;
+    flex-direction: column;
+    padding: 16px;
+    border-radius: 6px;
+    background: rgba(241, 241, 241, 0.5);
+    border: 1px solid rgba(241, 241, 241, 0.7);
+    box-shadow: 0 2px 5px 0 rgba(197, 201, 206, 0.2);
+}
+
+.status_item_caption {
+    font-family: var(--fonts-default);
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    white-space: nowrap;
+}
+
+.status_item_number {
+    font-family: var(--fonts-default);
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.main_section {
+    display: flex;
+    width: 100%;
 }
