@@ -42,6 +42,8 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
     useEffect(() => {
         if (!selectedOrganisation) return;
 
+        localStorage.setItem("claim.draft.orgData", JSON.stringify(selectedOrganisation));
+
         setName(selectedOrganisation.value);
         setInn(selectedOrganisation.data.inn);
 
@@ -60,16 +62,19 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
             case InputID.name: {
                 setName(value);
                 // save in drafts
+                localStorage.setItem("claim.draft.orgName", JSON.stringify(value));
                 break;
             }
             case InputID.inn: {
                 setInn(value);
                 // save in drafts
+                localStorage.setItem("claim.draft.orgInn", JSON.stringify(value));
                 break;
             }
             case InputID.address: {
                 setAddress(value);
                 // save in drafts
+                localStorage.setItem("claim.draft.orgAddress", JSON.stringify(value));
                 break;
             }
         }

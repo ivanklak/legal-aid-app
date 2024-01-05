@@ -43,6 +43,7 @@ const TextEditor = memo<TextEditorProps>(({onChange, saveComment, placeHolder, t
         } else {
             setEditorActive(true);
             onChange(value, addedFiles);
+            localStorage.setItem("claim.draft.text", JSON.stringify(value));
         }
     }, [addedFiles, onChange])
 
@@ -63,6 +64,7 @@ const TextEditor = memo<TextEditorProps>(({onChange, saveComment, placeHolder, t
     const handleFilesChanged = useCallback((files: UploadFile[]) => {
         setAddedFiles(files);
         onChange(editorValue === '<p><br></p>' ? '' : editorValue, files);
+        localStorage.setItem("claim.draft.files", JSON.stringify(files));
     }, [editorValue, onChange])
 
     return (

@@ -19,6 +19,7 @@ export default abstract class PostFormDataRequest<TData> {
 
     const formData = new FormData();
     Object.entries(body).forEach(([key, value]) => {
+      console.log('[key, value]', [key, value])
       formData.append(key, value);
     });
 

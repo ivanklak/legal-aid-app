@@ -24,7 +24,8 @@ enum FormError {
     organisation = 'organisation',
     name = 'name',
     text = 'text',
-    files = 'files'
+    files = 'files',
+    unknown = 'unknown'
 }
 
 interface IModalContext {
@@ -184,6 +185,7 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
     const handleChangeClaimName = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setClaimName(event.target.value);
         setError(null);
+        localStorage.setItem("claim.draft.name", JSON.stringify(event.target.value));
     }, [])
 
     const raiseModal = useCallback((context: IModalContext) => {
@@ -230,6 +232,7 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
             setClaimName('');
             cleanOrgFields();
             cleanTextFields();
+            messageApi.open({ content: errorMessageContent('Черновик сохранен') })
         }
         setModalOpen(false);
     };
@@ -264,9 +267,15 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
             sessionId: sessionId,
             file: files[0]
         }
-        const response = await requestCreateNewClaim(params);
 
-        console.log('requestCreateNewClaim response', response)
+        try {
+            const response = await requestCreateNewClaim(params);
+
+            console.log('requestCreateNewClaim response', response)
+        } catch (error) {
+            console.log('error', {error})
+            setError({type: FormError.unknown, message: 'Неизвестная ошибка сервера. Попробуйте позже.'})
+        }
     }, [claimName, claimText, orgData?.address, orgData?.inn, orgData?.name])
 
 
