@@ -6,26 +6,26 @@ const token = "e609610cda4cf031e8f51bedefa7adaf4d805aaa";
 
 interface IAddress {
     value: string;
-    invalidity: any;
-    unrestricted_value: string;
-    data: {
+    invalidity?: any;
+    unrestricted_value?: string;
+    data?: {
         postal_code: string;
     }
 }
 
 export interface ISuggestionData {
-    name: string;
-    address: IAddress;
-    inn: string;
-    kpp: string;
-    ogrn: string;
+    name?: string;
+    address?: IAddress;
+    inn?: string;
+    kpp?: string;
+    ogrn?: string;
 }
 
 // TODO надо допилить интерфейс ответа
 export interface ISuggestions {
     data: ISuggestionData;
-    value: string;
-    unrestricted_value: string;
+    value?: string;
+    unrestricted_value?: string;
 }
 
 type Data = {

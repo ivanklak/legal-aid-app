@@ -14,6 +14,7 @@ import {requestCreateNewClaim} from "../api/methods/requestCreateNewClaim";
 import { FiInfo } from "react-icons/fi";
 import { HiOutlineInbox } from "react-icons/hi2";
 import Button from "../../controls/button/Button";
+import {useDraftCreatorContext} from "../DraftCreator";
 
 enum ModalType {
     submit = 'submit',
@@ -65,7 +66,14 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
 
     const [messageApi, contextHolder] = message.useMessage();
 
+    const {createOrEditDraft, cleanDraft} = useDraftCreatorContext();
+
     // effects
+
+    // когда уходим со страницы --> отчищаем черновик
+    useEffect(() => {
+        return () => cleanDraft();
+    }, [])
 
     // вывод сообщения об ошибке в попапе
     useEffect(() => {
@@ -188,6 +196,11 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
         localStorage.setItem("claim.draft.name", JSON.stringify(event.target.value));
     }, [])
 
+    const handleClaimNameBlur = useCallback(() => {
+        // создаем или добавляем черновик
+        !!claimName && createOrEditDraft({name: claimName})
+    }, [claimName])
+
     const raiseModal = useCallback((context: IModalContext) => {
         setModalContext(context);
         setModalOpen(true);
@@ -232,7 +245,10 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
             setClaimName('');
             cleanOrgFields();
             cleanTextFields();
+            // сообщение
             messageApi.open({ content: errorMessageContent('Черновик сохранен') })
+            // отчистка созданного черновика (он уже соханился на серваке)
+            cleanDraft();
         }
         setModalOpen(false);
     };
@@ -414,6 +430,7 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
                 className={styles['enter-title']}
                 placeholder="Введите название"
                 onChange={handleChangeClaimName}
+                onBlur={handleClaimNameBlur}
                 value={cleanText ? '' : claimName}
                 autoSize
             />

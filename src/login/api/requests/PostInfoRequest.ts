@@ -7,6 +7,7 @@ export interface InfoResponse {
 }
 
 export interface IUserData {
+    id: number;
     firstName: string;
     lastLame: string;
     patronymic: string;

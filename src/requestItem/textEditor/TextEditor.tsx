@@ -6,6 +6,7 @@ import EditorToolbar, {formats, modules} from "./EditorToolbar";
 import {DeltaStatic, Sources} from "quill";
 import UploadFiles from "../../components/uploadFilesNew/UploadFiles";
 import classNames from "classnames";
+import {useDraftCreatorContext} from "../../newRequest/DraftCreator";
 
 interface TextEditorProps {
     onChange?: (text: string, files?: UploadFile[]) => void;
@@ -21,6 +22,8 @@ const TextEditor = memo<TextEditorProps>(({onChange, saveComment, placeHolder, t
     const [editorValue, setEditorValue] = useState<string>('');
     const [editorActive, setEditorActive] = useState<boolean>(false);
     const [addedFiles, setAddedFiles] = useState<UploadFile[]>([]);
+
+    const {createOrEditDraft} = useDraftCreatorContext();
 
     useEffect(() => {
         if (clean) {
@@ -67,6 +70,11 @@ const TextEditor = memo<TextEditorProps>(({onChange, saveComment, placeHolder, t
         localStorage.setItem("claim.draft.files", JSON.stringify(files));
     }, [editorValue, onChange])
 
+    const saveInDraft = useCallback(() => {
+        // сохраняем в черновик
+        !!editorValue && editorValue !== '<p><br></p>' && createOrEditDraft({text: editorValue});
+    }, [editorValue])
+
     return (
         <>
             <EditorToolbar className={toolBarClassName} />
@@ -82,6 +90,7 @@ const TextEditor = memo<TextEditorProps>(({onChange, saveComment, placeHolder, t
                 placeholder={placeHolder ? placeHolder : 'Добавить комментарий...'}
                 formats={formats}
                 modules={modules}
+                onBlur={saveInDraft}
             />
             <UploadFiles clean={clean} onFilesChanged={handleFilesChanged} />
             {needToShowButtons && editorActive && (

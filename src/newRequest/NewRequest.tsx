@@ -5,6 +5,7 @@ import AuthContext from "../App/Layers/AuthProvider";
 import NoAuthorized from "../components/noAuthorized/NoAuthorized";
 import NewRequestDataLayerProvider from "./NewRequestDataLayer";
 import CreateNewClaimForm from "./createForm/CreateNewClaimForm";
+import DraftCreator from "./DraftCreator";
 
 const NewRequests = () => {
     const { isAuth } = useContext(AuthContext);
@@ -13,15 +14,17 @@ const NewRequests = () => {
         <MainWrapper>
             <div className={styles.new_request}>
                 <NewRequestDataLayerProvider>
-                    <div className={styles.scroll_area}>
-                        <div className={styles.main_section}>
-                            <div className={styles.main_caption}>Новое обращение</div>
-                            {isAuth
-                                ? <CreateNewClaimForm />
-                                : <NoAuthorized />
-                            }
+                    <DraftCreator>
+                        <div className={styles.scroll_area}>
+                            <div className={styles.main_section}>
+                                <div className={styles.main_caption}>Новое обращение</div>
+                                {isAuth
+                                    ? <CreateNewClaimForm />
+                                    : <NoAuthorized />
+                                }
+                            </div>
                         </div>
-                    </div>
+                    </DraftCreator>
                 </NewRequestDataLayerProvider>
                 {/*<div className={styles.right_sideBar}>*/}
                 {/*    <div className={styles.caption}>*/}

@@ -3,6 +3,7 @@ import {ISuggestions} from "../../api/requests/GetOrganisationSuggestionsRequest
 import styles from "./ManualForm.module.sass";
 import {Input} from "antd";
 import classNames from "classnames";
+import {useDraftCreatorContext} from "../../DraftCreator";
 
 enum InputID {
     name,
@@ -31,6 +32,8 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
     const [error, setError] = useState<boolean>(false);
     const [message, setMessage] = useState<string>(null);
 
+    const {createOrEditDraft} = useDraftCreatorContext();
+
     useEffect(() => {
         if (clean) {
             setName('');
@@ -43,6 +46,8 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
         if (!selectedOrganisation) return;
 
         localStorage.setItem("claim.draft.orgData", JSON.stringify(selectedOrganisation));
+        // сохраняем организацию в черновик
+        createOrEditDraft({orgData: selectedOrganisation});
 
         setName(selectedOrganisation.value);
         setInn(selectedOrganisation.data.inn);
@@ -61,24 +66,41 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
         switch (id) {
             case InputID.name: {
                 setName(value);
-                // save in drafts
-                localStorage.setItem("claim.draft.orgName", JSON.stringify(value));
                 break;
             }
             case InputID.inn: {
                 setInn(value);
-                // save in drafts
-                localStorage.setItem("claim.draft.orgInn", JSON.stringify(value));
                 break;
             }
             case InputID.address: {
                 setAddress(value);
-                // save in drafts
-                localStorage.setItem("claim.draft.orgAddress", JSON.stringify(value));
                 break;
             }
         }
     }, [])
+
+    const saveInDraft = useCallback((id: InputID) => {
+        switch (id) {
+            case InputID.name: {
+                if (!name) break;
+                localStorage.setItem("claim.draft.orgName", JSON.stringify(name));
+                createOrEditDraft({orgName: name});
+                break;
+            }
+            case InputID.inn: {
+                if (!inn) break;
+                localStorage.setItem("claim.draft.orgInn", JSON.stringify(inn));
+                createOrEditDraft({orgInn: inn});
+                break;
+            }
+            case InputID.address: {
+                if (!address) break;
+                localStorage.setItem("claim.draft.orgAddress", JSON.stringify(address));
+                createOrEditDraft({orgAddress: address});
+                break;
+            }
+        }
+    }, [address, inn, name])
 
     return (
         <div className={styles['organisation-data']}>
@@ -93,6 +115,7 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
                         placeholder="ООО <Название компании>"
                         allowClear
                         disabled={disabled}
+                        onBlur={() => saveInDraft(InputID.name)}
                     />
                 </div>
                 <div className={classNames(
@@ -108,6 +131,7 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
                         placeholder="1234567890"
                         allowClear
                         disabled={disabled}
+                        onBlur={() => saveInDraft(InputID.inn)}
                     />
                 </div>
             </div>
@@ -122,6 +146,7 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
                         placeholder="Индекс, город, улица, номер дома, помещение"
                         allowClear
                         disabled={disabled}
+                        onBlur={() => saveInDraft(InputID.address)}
                     />
                 </div>
             </div>

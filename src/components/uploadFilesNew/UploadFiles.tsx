@@ -4,6 +4,7 @@ import {Modal, Upload, UploadFile} from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import { pdfjs, Document, Page } from 'react-pdf';
+import {useDraftCreatorContext} from "../../newRequest/DraftCreator";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
@@ -29,6 +30,8 @@ const UploadFiles = React.memo<UploadFilesProps>(({onFilesChanged, clean}) => {
     const [previewPdf, setPreviewPdf] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
     const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+    const {createOrEditDraft} = useDraftCreatorContext();
 
     useEffect(() => {
         if (clean) {
@@ -70,6 +73,9 @@ const UploadFiles = React.memo<UploadFilesProps>(({onFilesChanged, clean}) => {
         //         fileList:[file]
         //     });
         // }.bind(this);
+
+        // сохраняем файлы в черновик
+        createOrEditDraft({file: file});
 
         return false
     }
