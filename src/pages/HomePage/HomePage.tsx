@@ -4,6 +4,9 @@ import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../../components/hooks/useAuth";
 import NotAuthHeader from "../../components/header/notAuthHeader/NotAuthHeader";
 import {BsChevronRight} from "react-icons/bs";
+import { IoLockClosedOutline } from "react-icons/io5";
+import { CiBullhorn } from "react-icons/ci";
+import { HiOutlineBuildingLibrary } from "react-icons/hi2";
 
 interface HomePageProps {}
 
@@ -42,7 +45,12 @@ const HomePage = memo<HomePageProps>(() => {
                         <div className={styles['row']}>
                             <div className={styles['item']}>
                                 <div className={styles['title-container']}>
-                                    <div className={styles['item-title']}>Приватно</div>
+                                    <div className={styles['title-header']}>
+                                        <div className={styles['title-icon']}>
+                                            <IoLockClosedOutline />
+                                        </div>
+                                        <div className={styles['item-title']}>Приватно</div>
+                                    </div>
                                     <div className={styles['item-caption']}>Напрямую в организацию.</div>
                                 </div>
                                 <div className={styles['item-text']}>Получайте уведомления по вашему обращению. Ведите деловую переписку с организацией.</div>
@@ -53,7 +61,12 @@ const HomePage = memo<HomePageProps>(() => {
                             </div>
                             <div className={styles['item']}>
                                 <div className={styles['title-container']}>
-                                    <div className={styles['item-title']}>Публично</div>
+                                    <div className={styles['title-header']}>
+                                        <div className={styles['title-icon']}>
+                                            <CiBullhorn />
+                                        </div>
+                                        <div className={styles['item-title']}>Публично</div>
+                                    </div>
                                     <div className={styles['item-caption']}>Чтобы все увидели.</div>
                                 </div>
                                 <div className={styles['item-text']}>Все пользователи смогут видеть, поддерживать или дополнять ваше обращение.</div>
@@ -64,7 +77,12 @@ const HomePage = memo<HomePageProps>(() => {
                             </div>
                             <div className={styles['item']}>
                                 <div className={styles['title-container']}>
-                                    <div className={styles['item-title']}>Куда следует</div>
+                                    <div className={styles['title-header']}>
+                                        <div className={styles['title-icon']}>
+                                            <HiOutlineBuildingLibrary />
+                                        </div>
+                                        <div className={styles['item-title']}>Куда следует</div>
+                                    </div>
                                     <div className={styles['item-caption']}>Если не знаете куда.</div>
                                 </div>
                                 <div className={styles['item-text']}>Направьте свою жалобу в компетентные органы. Мы сами оформим все официально.</div>
