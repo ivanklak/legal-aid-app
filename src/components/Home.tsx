@@ -1,5 +1,4 @@
 import React, {FC, useEffect, useState} from "react";
-import Header from "./header/Header";
 import {Route, Routes} from "react-router-dom";
 import MainPage from "../mainPageSections/mainPage/MainPage";
 import MyRequests from "./myRequests/MyRequests";
@@ -12,6 +11,10 @@ import {useAuth} from "./hooks/useAuth";
 import ProtectedRoute, {ProtectedRouteProps} from "./ProtectedRoute";
 import {LoaderCircle} from "./loader/Loader.Circle";
 import {useLocation} from "react-router";
+import UseCasesPage from "../pages/UseCasesPage/UseCasesPage";
+import CategoriesPage from "../pages/CategoriesPage/CategoriesPage";
+import ContactsPage from "../pages/ContactsPage/ContactsPage";
+import SupportPage from "../pages/SupportPage/SupportPage";
 
 const Home: FC = () => {
     const {isAuth, isAuthInProgress} = useAuth();
@@ -39,6 +42,10 @@ const Home: FC = () => {
     return isAuthInProgress ? <LoaderCircle /> : (
         <Routes>
             <Route path='/' element={<HomePage/>}/>
+            <Route path='use-cases' element={<UseCasesPage />} />
+            <Route path='categories' element={<CategoriesPage />} />
+            <Route path='support' element={<SupportPage />} />
+            <Route path='contacts' element={<ContactsPage />} />
             <Route path='dashboard' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MainPage/>} />} />
             <Route path='category' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Categories/>} />} />
             <Route path='myRequests' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MyRequests/>} />} />
