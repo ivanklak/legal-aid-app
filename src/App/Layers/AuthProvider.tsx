@@ -1,6 +1,6 @@
 import React, {createContext, FC, useEffect, useState} from "react";
 import {AuthService, IAuthData, IUserData} from "../../login/api/AuthServise";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {requestInfo} from "../../login/api/methods/requestInfo";
 
 export interface IAuthContext {
@@ -20,6 +20,7 @@ export const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 export const AuthProvider: FC = ({ children }) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [isAuth, setIsAuth] = useState<boolean>(false);
     const [authData, setAuthData] = useState<IAuthData>(null);
     const [userData, setUserData] = useState<IUserData>(null);
@@ -36,7 +37,8 @@ export const AuthProvider: FC = ({ children }) => {
             await requestGetInfo();
         } else {
             console.log('no token ==> go to login');
-            navigate('/login');
+            location.pathname !== '/' && navigate('/login');
+            setIsAuthInProgress(false);
         }
     }
 

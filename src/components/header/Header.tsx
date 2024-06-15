@@ -7,6 +7,7 @@ import {IoIosNotificationsOutline} from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import {useAuth} from "../hooks/useAuth";
 import NotAuthHeader from "./notAuthHeader/NotAuthHeader";
+import {Link} from "react-router-dom";
 
 const Header: FC = () => {
     const {isAuth} = useAuth();
@@ -28,7 +29,7 @@ const Header: FC = () => {
 
     return (
         <header className={styles.header_content}>
-            <span className={styles.text}>доносы.ру</span>
+            <Link to={'/'} className={styles.text}>доносы.ру</Link>
             <div className={styles.center_header_panel}>
                 <div className={styles.search}>
                     <IoSearchOutline size={16} />
