@@ -447,6 +447,7 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
                         isTextError && styles['_red']
                     )}
                     clean={cleanText}
+                    withDraft={true}
                 />
             </div>
             <div className={styles['submit-block']}>

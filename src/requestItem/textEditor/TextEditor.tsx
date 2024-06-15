@@ -16,9 +16,10 @@ interface TextEditorProps {
     editTextClassName?: string;
     showButtons?: boolean;
     clean?: boolean;
+    withDraft?: boolean;
 }
 
-const TextEditor = memo<TextEditorProps>(({onChange, saveComment, placeHolder, toolBarClassName, editTextClassName, showButtons, clean}) => {
+const TextEditor = memo<TextEditorProps>(({onChange, saveComment, placeHolder, toolBarClassName, editTextClassName, showButtons, clean, withDraft}) => {
     const [editorValue, setEditorValue] = useState<string>('');
     const [editorActive, setEditorActive] = useState<boolean>(false);
     const [addedFiles, setAddedFiles] = useState<UploadFile[]>([]);
@@ -42,10 +43,10 @@ const TextEditor = memo<TextEditorProps>(({onChange, saveComment, placeHolder, t
         const currentLength = editor.getLength();
         if (currentLength <= 1) {
             setEditorActive(false);
-            onChange('', addedFiles);
+            onChange && onChange('', addedFiles);
         } else {
             setEditorActive(true);
-            onChange(value, addedFiles);
+            onChange && onChange(value, addedFiles);
             localStorage.setItem("claim.draft.text", JSON.stringify(value));
         }
     }, [addedFiles, onChange])
@@ -61,19 +62,19 @@ const TextEditor = memo<TextEditorProps>(({onChange, saveComment, placeHolder, t
     }, [])
 
     const handleEditorFocus = useCallback(() => {
-        setEditorActive(true)
+        setEditorActive(true);
     }, [])
 
     const handleFilesChanged = useCallback((files: UploadFile[]) => {
         setAddedFiles(files);
-        onChange(editorValue === '<p><br></p>' ? '' : editorValue, files);
+        onChange && onChange(editorValue === '<p><br></p>' ? '' : editorValue, files);
         localStorage.setItem("claim.draft.files", JSON.stringify(files));
     }, [editorValue, onChange])
 
     const saveInDraft = useCallback(() => {
         // сохраняем в черновик
-        !!editorValue && editorValue !== '<p><br></p>' && createOrEditDraft({text: editorValue});
-    }, [editorValue])
+        withDraft && !!editorValue && editorValue !== '<p><br></p>' && createOrEditDraft({text: editorValue});
+    }, [withDraft, editorValue])
 
     return (
         <>

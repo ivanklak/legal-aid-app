@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useParams} from "react-router";
-import CenterContent from "../components/centerContent/CenterContent";
 import MainWrapper from "../components/mainWrapper/MainWrapper";
 import styles from "./RequestItem.module.sass";
 import ClaimActions from "./claimActions/ClaimActions";
@@ -9,6 +8,7 @@ import getClaimsRequest from "../mainPageSections/api/metods/getClaimsRequest";
 import {ClaimsItemResponse} from "../mainPageSections/api/requests/GetClaimsRequest";
 import TextEditor from "./textEditor/TextEditor";
 import {sendComment} from "../service/network/requestItem/methods/sendComment";
+import DraftCreator from "../newRequest/DraftCreator";
 
 const CAPTION = 'Читос или кузя лакомкин?';
 const ITEM_DESCRIPTION = 'Многие меня спрашивают читос или кузя лакомкин. Скажу по секрету, что между ними стоит еще один титан. Это русская картошка. ' +
@@ -51,6 +51,7 @@ const RequestItem = () => {
             setIsLoading(false);
         } catch (err) {
             console.log('handleSaveComment err', err)
+            console.log('handleSaveComment err', {err})
             setIsLoading(false);
         }
     }, [id, sessionId])
@@ -65,7 +66,7 @@ const RequestItem = () => {
 
     return isLoading && !data ? renderLoader() : (
         <MainWrapper>
-            <CenterContent>
+            <DraftCreator>
                 <div className={styles.main_info}>
                     <div className={styles.form}>
                         <div className={styles.caption}>{data.name}</div>
@@ -92,7 +93,7 @@ const RequestItem = () => {
                     </div>
                 </div>
                 <AdditionalInfo />
-            </CenterContent>
+            </DraftCreator>
         </MainWrapper>
     )
 }
