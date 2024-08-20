@@ -50,7 +50,7 @@ const Home: FC = () => {
             <Route path='category' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Categories/>} />} />
             <Route path='myRequests' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MyRequests/>} />} />
             <Route path='myRequests/:id' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<RequestItem/>} />} />
-            <Route path='newRequest' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<NewRequests/>} />} />
+            <Route path='newRequest' element={<NewRequests/>} />
             <Route path='notifications' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Notifications/>} />} />
         </Routes>
     )
