@@ -1,10 +1,13 @@
 import React, {createContext, FC, useCallback, useContext, useState} from "react";
+import {IReason} from "./newRequestForm/parts/newRequestReasonPart/NewRequestReasonPart";
 
 interface NewRequestDataLayerData {
+    reason: IReason;
     claimTitle: string;
     claimText: string;
     organisationData: IOrganisationData;
     files: any[],
+    setReason: (item: IReason) => void;
     setClaimTitle: (title: string) => void;
     setClaimText: (text: string) => void;
     setOrganisationData: (data: IOrganisationData) => void;
@@ -31,9 +34,11 @@ export const useSafeNewRequestDataLayerContext = () => {
 };
 
 const NewRequestDataLayerProvider: FC = ({ children}) => {
+    const [reason, setReason] = useState<IReason>(null);
+    const [organisationData, setOrganisationData] = useState<IOrganisationData>(null);
+
     const [claimTitle, setClaimTitle] = useState<string>('');
     const [claimText, setClaimText] = useState<string>('');
-    const [organisationData, setOrganisationData] = useState<IOrganisationData>(null);
     const [files, setFiles] = useState<any>([]);
 
     // const saveNewOrganisationData = useCallback((data: Partial<IOrganisationData>) => {
@@ -48,10 +53,12 @@ const NewRequestDataLayerProvider: FC = ({ children}) => {
     return (
         <NewRequestDataLayerContext.Provider
             value={{
+                reason,
                 claimTitle,
                 claimText,
                 organisationData,
                 files,
+                setReason,
                 setClaimTitle,
                 setClaimText,
                 setOrganisationData,

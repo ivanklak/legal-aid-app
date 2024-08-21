@@ -19,3 +19,104 @@
       &:hover
         background-color: var(--button__primary-hover)
         box-shadow: 0 0 0 2px #3434341A
+
+  .org-part-content
+    display: flex
+    flex-direction: column
+    padding: 16px
+    background: rgba(241, 241, 241, 0.5)
+    border-radius: 6px
+    margin-top: 20px
+
+    .caption
+      display: flex
+      font-size: 22px
+      font-weight: 500
+      margin-bottom: 8px
+
+    .description
+      display: flex
+      align-items: flex-end
+      font-size: 14px
+      line-height: 18px
+      font-weight: 400
+      margin-bottom: 8px
+      &._red
+        color: var(--base-color__red500)
+
+      .warning-icon
+        margin-bottom: 3px
+        margin-left: 4px
+
+    .pick-block
+      display: flex
+      align-items: center
+      justify-content: space-between
+
+      .tabs
+        display: flex
+        align-items: center
+        padding: 4px
+        border-radius: 6px
+        background: #e2e2e2
+        width: 100%
+
+        .tabs-item
+          padding: 6px 11px
+          color: black
+          cursor: pointer
+          border-radius: 4px
+          font-size: 14px
+          line-height: 16px
+          background: var(--base-color__white)
+          white-space: nowrap
+
+          &._search-input
+            padding: 0
+            width: 100%
+
+          &._active
+            color: var(--base-color__button)
+
+          &:nth-child(2)
+            margin-left: 4px
+
+          &:last-child
+            margin-left: 4px
+
+          &:first-child
+            margin-left: 0
+
+    .content
+      margin-top: 12px
+      display: flex
+      flex-direction: column
+
+.org-search
+  width: 100%
+  padding: 3px 11px
+
+.icon
+  display: flex
+  align-items: center
+  justify-content: center
+  padding-left: 6px !important
+  padding-right: 6px !important
+
+  &._trash
+    margin-left: 12px
+
+  &._trash:hover
+    color: rgba(203, 60, 60, 0.94) !important
+
+  &:hover
+    color: var(--base-color__grey500) !important
+
+.nothing-found-menu-item
+  width: 100%
+  display: flex
+  align-items: center
+  justify-content: center
+
+  .nothing-found-text
+    margin-left: 8px

@@ -6,6 +6,7 @@ import NewRequestRequestInfoPart from "./parts/newRequestRequestInfoPart/NewRequ
 import NewRequestUserDataPart from "./parts/newRequestUserDataPart/NewRequestUserDataPart";
 import NewRequestFinalPart from "./parts/newRequestFinalPart/NewRequestFinalPart";
 import {Steps} from "antd";
+import {Status} from "rc-steps/lib/interface";
 
 interface NewRequestFormProps {}
 
@@ -92,8 +93,13 @@ const NewRequestForm = memo<NewRequestFormProps>(({}) => {
 
     return (
         <div>
-            <Steps current={currentPartId} items={requestParts} />
-            {steps[currentPartId].content}
+            <Steps current={currentPartId}
+                items={requestParts}
+                responsive={false}
+            />
+            <div className={styles['content']}>
+                {steps[currentPartId].content}
+            </div>
         </div>
     )
 })

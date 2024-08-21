@@ -2,6 +2,7 @@ import React, {memo, useState} from "react";
 import styles from "./NewRequestReasonPart.module.sass";
 import classNames from "classnames";
 import Button from "../../../../controls/button/Button";
+import {useSafeNewRequestDataLayerContext} from "../../../NewRequestDataLayer";
 
 interface NewRequestReasonPartProps {
     onNextPageClick: () => void;
@@ -11,7 +12,7 @@ const CAPTION = 'Причина обращения';
 
 type ReasonId = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
-interface IReason {
+export interface IReason {
     id: ReasonId;
     text: string;
 }
@@ -27,20 +28,24 @@ const reasons: IReason[] = [
 ]
 
 const NewRequestReasonPart = memo<NewRequestReasonPartProps>(({onNextPageClick}) => {
-    const [selectedReasonId, setSelectedReasonId] = useState<ReasonId>(null);
+    const {reason, setReason} = useSafeNewRequestDataLayerContext();
+    const [selectedReasonId, setSelectedReasonId] = useState<ReasonId>(reason?.id || null);
 
-    const handleSelectReason = (id: ReasonId) => {
-        if (id === selectedReasonId) {
+    const handleSelectReason = (item: IReason) => {
+        if (item.id === selectedReasonId) {
             setSelectedReasonId(null);
+            setReason(null);
             return;
         }
 
-        setSelectedReasonId(id);
+        setSelectedReasonId(item.id);
+        setReason(item);
     }
 
     return (
         <div className={styles['reason-part']}>
             <h2 className={styles['caption']}>{CAPTION}</h2>
+            <div>Описание подраздела Описание подраздела Описание подраздела Описание подраздела Описание подраздела Описание подраздела Описание подраздела</div>
             {reasons.map((item) => (
                 <div
                     key={item.id}
@@ -48,13 +53,13 @@ const NewRequestReasonPart = memo<NewRequestReasonPartProps>(({onNextPageClick})
                         styles['reason-item'],
                         item.id === selectedReasonId && styles['_selected']
                     )}
-                    onClick={() => handleSelectReason(item.id)}
+                    onClick={() => handleSelectReason(item)}
                 >
                     {item.text}
                 </div>
             ))}
             <div className={styles['buttons']}>
-                <Button onClick={onNextPageClick}>Next</Button>
+                <Button onClick={onNextPageClick}>Далее</Button>
             </div>
         </div>
     )

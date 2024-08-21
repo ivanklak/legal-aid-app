@@ -16,6 +16,7 @@ export default class JSONResponseHandler<TData> implements IResponseHandler<TDat
 
       return data;
     } catch (err) {
+      console.log('JSONResponseHandler -> err', {err})
       throw new JSONResponseParseError(handledResponse, err);
     }
   }

@@ -15,8 +15,8 @@ const NewRequestRequestInfoPart = memo<NewRequestRequestInfoPartProps>(({onPrevP
             <h2 className={styles['caption']}>{CAPTION}</h2>
             <div>тут что-то буит</div>
             <div className={styles['buttons']}>
-                <Button onClick={onPrevPageClick}>Prev</Button>
-                <Button onClick={onNextPageClick}>Next</Button>
+                <Button onClick={onPrevPageClick}>Назад</Button>
+                <Button onClick={onNextPageClick}>Далее</Button>
             </div>
         </div>
     )
