@@ -14,8 +14,8 @@ const NewRequestFinalPart = memo<NewRequestFinalPartProps>(({onPrevPageClick}) =
             <h2 className={styles['caption']}>{CAPTION}</h2>
             <div>тут будет итог всего обращение</div>
             <div className={styles['buttons']}>
-                <Button onClick={onPrevPageClick}>Назад</Button>
-                <Button onClick={() => {console.log('== Отправлено ==')}}>Отправить</Button>
+                <Button onClick={onPrevPageClick} className={styles['back-btn']}>Назад</Button>
+                <Button onClick={() => {console.log('Отправлено')}} className={styles['send-btn']}>Отправить</Button>
             </div>
         </div>
     )

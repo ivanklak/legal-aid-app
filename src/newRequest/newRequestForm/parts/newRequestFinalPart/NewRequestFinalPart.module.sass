@@ -9,7 +9,21 @@
     justify-content: flex-end
     margin-top: 24px
 
-    & > button
+    & > *:last-child
+      margin-left: 8px
+
+    .back-btn
+      width: unset
+      min-width: 100px
+      border: 1px solid #ececec
+      background-color: #f8f8f8
+      color: rgba(0, 0, 0, 0.8)
+
+      &:hover
+        background-color: rgba(248, 248, 248, 0.9)
+        box-shadow: 0 0 0 2px rgba(248, 248, 248, 0.9)
+
+    .send-btn
       width: unset
       min-width: 134px
       border: 1px solid #ececec

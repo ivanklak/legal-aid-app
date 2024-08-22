@@ -184,8 +184,8 @@ const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>
                 </div>
             </div>
             <div className={styles['buttons']}>
-                <Button onClick={onPrevPageClick}>Назад</Button>
-                <Button onClick={onNextPageClick}>Далее</Button>
+                <Button onClick={onPrevPageClick} className={styles['back-btn']}>Назад</Button>
+                <Button onClick={onNextPageClick} className={styles['next-btn']}>Далее</Button>
             </div>
         </div>
     )
