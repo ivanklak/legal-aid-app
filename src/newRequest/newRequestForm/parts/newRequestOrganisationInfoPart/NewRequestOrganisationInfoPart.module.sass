@@ -1,8 +1,13 @@
-.org-part
+.info-container
+  display: flex
+  flex-direction: column
 
   .caption
-    margin: 20px 0
     color: #000000
+
+  .description
+    color: #383838
+    margin: 12px 0
 
   .buttons
     display: flex
@@ -101,10 +106,12 @@
           &:first-child
             margin-left: 0
 
-    .content
-      margin-top: 12px
-      display: flex
-      flex-direction: column
+  .content
+    margin-top: 20px
+    display: flex
+    flex-direction: column
+    padding: 24px 16px
+    border-top: 1px solid #e2e2e2
 
 .org-search
   width: 100%
@@ -134,3 +141,17 @@
 
   .nothing-found-text
     margin-left: 8px
+
+.menu-item
+  overflow-x: scroll
+
+  .item-key
+    color: var(--base-color__grey500)
+
+  .item-name
+    color: black
+
+    &:after
+      content: '|'
+      margin-left: 8px
+      margin-right: 8px

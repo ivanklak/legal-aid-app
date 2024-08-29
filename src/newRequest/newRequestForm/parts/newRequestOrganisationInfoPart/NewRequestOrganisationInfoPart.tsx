@@ -9,6 +9,7 @@ import {ISuggestions} from "../../../api/requests/GetOrganisationSuggestionsRequ
 import {HiOutlineInbox} from "react-icons/hi2";
 import getOrganisationSuggestionsRequest from "../../../api/methods/getOrganisationSuggestionsRequest";
 import {IoWarningOutline} from "react-icons/io5";
+import OrganisationForm from "../../components/organisationForm/OrganisationForm";
 
 interface NewRequestOrganisationInfoPartProps {
     onPrevPageClick: () => void;
@@ -23,9 +24,6 @@ const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>
     const [dropdownItems, setDropdownItems] = useState<MenuProps['items']>([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<ISuggestions>(null);
-    // clean fields
-    const [cleanOrg, setCleanOrg] = useState<boolean>(false);
-    const [cleanText, setCleanText] = useState<boolean>(false);
 
     const renderNothingFoundItem = () => {
         return (
@@ -80,7 +78,7 @@ const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>
     const handleDropdownItemClick = useCallback((item: ISuggestions) => {
         setSelectedItem(item);
         setIsDropdownOpen(false);
-        setInputSearchValue('');
+        // setInputSearchValue('');
     }, [])
 
     const createMenuItems = useCallback((suggestions: ISuggestions[]) => {
@@ -97,6 +95,7 @@ const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>
 
     const handleSearch = useCallback(() => {
         if (!inputSearchValue) return;
+        //
         getOrganisationSuggestionsRequest(inputSearchValue)
             .then((res) => {
                 console.log('res', res.suggestions)
@@ -113,35 +112,33 @@ const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>
     }, [])
 
     const renderOrganisationData = (): JSX.Element => {
-        return <ManualForm clean={cleanOrg} saveOrganisationData={handleSaveOrganisationData} />
+        return <ManualForm saveOrganisationData={handleSaveOrganisationData} />
+    }
+
+    const handleCloseOrganisationForm = () => {
+        setSelectedItem(null);
     }
 
     const renderSelectedItem = (): JSX.Element => {
         if (!selectedItem) return null;
         return (
-            <ManualForm
-                clean={cleanOrg}
-                selectedOrganisation={selectedItem}
-                saveOrganisationData={handleSaveOrganisationData}
-            />
+            <OrganisationForm data={selectedItem} onClose={handleCloseOrganisationForm} />
         )
     }
 
+    const isNextButtonDisabled = useMemo<boolean>(() => {
+        if (selectedItem) return !selectedItem;
+
+        if (!orgData) return true;
+
+        return !Object.values(orgData).every((val) => !!val)
+    }, [orgData, selectedItem])
+
     return (
-        <div className={styles['org-part']}>
+        <div className={styles['info-container']}>
             <h2 className={styles['caption']}>{CAPTION}</h2>
-            <div>Описание подраздела Описание подраздела Описание подраздела Описание подраздела Описание подраздела Описание подраздела Описание подраздела</div>
+            <div className={styles['description']}>Воспользуйтесь поиском или впишите данные организации вручную. <br />Описание подраздела Описание подраздела Описание подраздела Описание подраздела Описание подраздела Описание подраздела Описание подраздела</div>
             <div className={styles['org-part-content']}>
-                <div className={styles['caption']}>Организация</div>
-                <div
-                    className={classNames(
-                        styles['description'],
-                        // isOrganisationError && styles['_red']
-                    )}
-                >
-                    <span>Введите данные организации или выполните ее поиск</span>
-                    {/*{isOrganisationError && <IoWarningOutline className={styles['warning-icon']} size={15}/>}*/}
-                </div>
                 <div className={styles['pick-block']}>
                     <Dropdown
                         autoAdjustOverflow={true}
@@ -179,13 +176,13 @@ const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>
                         </div>
                     </Dropdown>
                 </div>
-                <div className={styles['content']}>
-                    {selectedItem ? renderSelectedItem() : renderOrganisationData()}
-                </div>
+            </div>
+            <div className={styles['content']}>
+                {selectedItem ? renderSelectedItem() : renderOrganisationData()}
             </div>
             <div className={styles['buttons']}>
                 <Button onClick={onPrevPageClick} className={styles['back-btn']}>Назад</Button>
-                <Button onClick={onNextPageClick} className={styles['next-btn']}>Далее</Button>
+                <Button disabled={isNextButtonDisabled} onClick={onNextPageClick} className={styles['next-btn']}>Далее</Button>
             </div>
         </div>
     )

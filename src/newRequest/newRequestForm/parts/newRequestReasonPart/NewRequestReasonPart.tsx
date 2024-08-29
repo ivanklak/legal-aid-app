@@ -59,7 +59,7 @@ const NewRequestReasonPart = memo<NewRequestReasonPartProps>(({onNextPageClick})
                 </div>
             ))}
             <div className={styles['buttons']}>
-                <Button onClick={onNextPageClick}>Далее</Button>
+                <Button disabled={!selectedReasonId} onClick={onNextPageClick}>Далее</Button>
             </div>
         </div>
     )

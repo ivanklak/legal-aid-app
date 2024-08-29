@@ -4,6 +4,28 @@
     margin: 20px 0
     color: #000000
 
+  .description
+    margin-top: 12px
+
+    .description-caption
+      display: flex
+      font-size: 16px
+      font-weight: 500
+      margin-bottom: 4px
+
+    .editor-tool-bar
+      border: 1px solid #d9d9d9 !important
+
+    .editor-edit-text
+      & > div
+        border-bottom: 1px solid #d9d9d9 !important
+        border-left: 1px solid #d9d9d9 !important
+        border-right: 1px solid #d9d9d9 !important
+        border-top: none
+        font-size: 14px
+      &._red > div
+        border-color: var(--base-color__red500) !important
+
   .buttons
     display: flex
     justify-content: flex-end
