@@ -1,5 +1,7 @@
 import React, {createContext, FC, useCallback, useContext, useState} from "react";
 import {IReason} from "./newRequestForm/parts/newRequestReasonPart/NewRequestReasonPart";
+import {ISuggestions} from "./api/requests/GetOrganisationSuggestionsRequest";
+import {SavedOrgData} from "./createForm/manualForm/ManualForm";
 
 interface NewRequestDataLayerData {
     reason: IReason;
@@ -14,12 +16,7 @@ interface NewRequestDataLayerData {
     setFiles: (files: any) => void;
 }
 
-interface IOrganisationData {
-    name: string;
-    inn: string;
-    address: string;
-    kpp?: string;
-}
+export type IOrganisationData = SavedOrgData | ISuggestions;
 
 export const NewRequestDataLayerContext = createContext<NewRequestDataLayerData | undefined>(undefined);
 

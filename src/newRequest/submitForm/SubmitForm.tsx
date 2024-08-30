@@ -22,10 +22,10 @@ const SubmitForm = memo<SubmitFormProps>(({error}) => {
             claimText: claimData.claimText,
             contentSum: "1500000",
             contentType: "Appeal",
-            recipientAddress: claimData.organisationData.address,
+            recipientAddress: 'claimData.organisationData.address',
             recipientEmail: "",
-            recipientInn: claimData.organisationData.inn,
-            recipientName: claimData.organisationData.name,
+            recipientInn: 'claimData.organisationData.inn',
+            recipientName: 'claimData.organisationData.name',
             sessionId: sessionId,
             file: null
         }

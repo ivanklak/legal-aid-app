@@ -8,8 +8,8 @@ import ManualForm, {SavedOrgData} from "../../../createForm/manualForm/ManualFor
 import {ISuggestions} from "../../../api/requests/GetOrganisationSuggestionsRequest";
 import {HiOutlineInbox} from "react-icons/hi2";
 import getOrganisationSuggestionsRequest from "../../../api/methods/getOrganisationSuggestionsRequest";
-import {IoWarningOutline} from "react-icons/io5";
 import OrganisationForm from "../../components/organisationForm/OrganisationForm";
+import {IOrganisationData, useSafeNewRequestDataLayerContext} from "../../../NewRequestDataLayer";
 
 interface NewRequestOrganisationInfoPartProps {
     onPrevPageClick: () => void;
@@ -19,11 +19,26 @@ interface NewRequestOrganisationInfoPartProps {
 const CAPTION = 'Информация об организации';
 
 const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>(({onPrevPageClick, onNextPageClick}) => {
-    const [orgData, setOrgData] = useState<SavedOrgData>(null);
+    const {organisationData, setOrganisationData} = useSafeNewRequestDataLayerContext();
+
+    const isSuggestion = (info: IOrganisationData): info is ISuggestions => {
+        return info && Boolean((info as ISuggestions).data) && Boolean((info as ISuggestions).value)
+    }
+
+    const savedOrgData = useMemo<SavedOrgData>(() => {
+        if (!organisationData || isSuggestion(organisationData)) return null;
+        return organisationData
+    }, [organisationData])
+
+    const savedSuggestion = useMemo<ISuggestions>(() => {
+        return organisationData && isSuggestion(organisationData) ? organisationData : null
+    }, [organisationData])
+
+    const [orgData, setOrgData] = useState<SavedOrgData>(savedOrgData);
     const [inputSearchValue, setInputSearchValue] = useState<string>('');
     const [dropdownItems, setDropdownItems] = useState<MenuProps['items']>([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-    const [selectedItem, setSelectedItem] = useState<ISuggestions>(null);
+    const [selectedItem, setSelectedItem] = useState<ISuggestions>(savedSuggestion);
 
     const renderNothingFoundItem = () => {
         return (
@@ -112,7 +127,7 @@ const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>
     }, [])
 
     const renderOrganisationData = (): JSX.Element => {
-        return <ManualForm saveOrganisationData={handleSaveOrganisationData} />
+        return <ManualForm data={orgData} saveOrganisationData={handleSaveOrganisationData} />
     }
 
     const handleCloseOrganisationForm = () => {
@@ -133,6 +148,17 @@ const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>
 
         return !Object.values(orgData).every((val) => !!val)
     }, [orgData, selectedItem])
+
+    const handlePrevPageClick = () => {
+        setOrganisationData(selectedItem ? selectedItem : orgData);
+        onPrevPageClick();
+    }
+
+    const handleNextPageClick = () => {
+        if (!selectedItem && !orgData) return;
+        setOrganisationData(selectedItem ? selectedItem : orgData);
+        onNextPageClick();
+    }
 
     return (
         <div className={styles['info-container']}>
@@ -181,8 +207,8 @@ const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>
                 {selectedItem ? renderSelectedItem() : renderOrganisationData()}
             </div>
             <div className={styles['buttons']}>
-                <Button onClick={onPrevPageClick} className={styles['back-btn']}>Назад</Button>
-                <Button disabled={isNextButtonDisabled} onClick={onNextPageClick} className={styles['next-btn']}>Далее</Button>
+                <Button onClick={handlePrevPageClick} className={styles['back-btn']}>Назад</Button>
+                <Button disabled={isNextButtonDisabled} onClick={handleNextPageClick} className={styles['next-btn']}>Далее</Button>
             </div>
         </div>
     )

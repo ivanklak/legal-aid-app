@@ -6,7 +6,7 @@ import { BsBuildings } from "react-icons/bs";
 
 interface OrganisationFormProps {
     data: ISuggestions;
-    onClose: () => void;
+    onClose?: () => void;
 }
 
 const OrganisationForm = memo<OrganisationFormProps>(({data, onClose}) => {
@@ -14,12 +14,14 @@ const OrganisationForm = memo<OrganisationFormProps>(({data, onClose}) => {
     if (!data) return null;
     return (
         <div className={styles['organisation-form']}>
-            <div
-                onClick={onClose}
-                className={styles['close-btn-container']}
-            >
-                <IoClose size={20} />
-            </div>
+            {onClose && (
+                <div
+                    onClick={onClose}
+                    className={styles['close-btn-container']}
+                >
+                    <IoClose size={18} />
+                </div>
+            )}
             <div className={styles['organisation-icon']}>
                 <BsBuildings size={56} />
             </div>

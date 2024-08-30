@@ -9,6 +9,8 @@ import classNames from "classnames";
 import {useDraftCreatorContext} from "../../newRequest/DraftCreator";
 
 interface TextEditorProps {
+    value?: string;
+    files?: UploadFile[];
     onChange?: (text: string, files?: UploadFile[]) => void;
     saveComment?: (text: string, files?: UploadFile[]) => void;
     placeHolder?: string;
@@ -19,10 +21,10 @@ interface TextEditorProps {
     withDraft?: boolean;
 }
 
-const TextEditor = memo<TextEditorProps>(({onChange, saveComment, placeHolder, toolBarClassName, editTextClassName, showButtons, clean, withDraft}) => {
-    const [editorValue, setEditorValue] = useState<string>('');
+const TextEditor = memo<TextEditorProps>(({value, files, onChange, saveComment, placeHolder, toolBarClassName, editTextClassName, showButtons, clean, withDraft}) => {
+    const [editorValue, setEditorValue] = useState<string>(value ? value : '');
     const [editorActive, setEditorActive] = useState<boolean>(false);
-    const [addedFiles, setAddedFiles] = useState<UploadFile[]>([]);
+    const [addedFiles, setAddedFiles] = useState<UploadFile[]>(files ? files : []);
 
     const {createOrEditDraft} = useDraftCreatorContext();
 
@@ -73,7 +75,7 @@ const TextEditor = memo<TextEditorProps>(({onChange, saveComment, placeHolder, t
 
     const saveInDraft = useCallback(() => {
         // сохраняем в черновик
-        withDraft && !!editorValue && editorValue !== '<p><br></p>' && createOrEditDraft({text: editorValue});
+        // withDraft && !!editorValue && editorValue !== '<p><br></p>' && createOrEditDraft({text: editorValue});
     }, [withDraft, editorValue])
 
     return (
@@ -93,7 +95,7 @@ const TextEditor = memo<TextEditorProps>(({onChange, saveComment, placeHolder, t
                 modules={modules}
                 onBlur={saveInDraft}
             />
-            <UploadFiles clean={clean} onFilesChanged={handleFilesChanged} />
+            <UploadFiles files={files} clean={clean} onFilesChanged={handleFilesChanged} />
             {needToShowButtons && editorActive && (
                 <div className={styles.controls}>
                     <Button

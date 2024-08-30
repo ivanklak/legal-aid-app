@@ -93,7 +93,7 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
         const isValid = validateSubmitData();
         if (isValid) {
             saveOrganisationData({name, inn, kpp, address});
-            setOrganisationData({name, inn, kpp, address});
+            setOrganisationData({name, inn, address});
             setError(false);
         }
     }, [address, inn, kpp, name, saveOrganisationData, validateSubmitData])

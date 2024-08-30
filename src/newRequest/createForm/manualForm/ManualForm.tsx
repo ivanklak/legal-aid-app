@@ -18,16 +18,16 @@ export interface SavedOrgData {
 }
 
 interface ManualFormProps {
-    selectedOrganisation?: ISuggestions;
     saveOrganisationData: (data: SavedOrgData) => void;
+    data?: SavedOrgData;
     disabled?: boolean
     clean?: boolean
 }
 
-const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisationData, disabled, clean}) => {
-    const [name, setName] = useState<string>(selectedOrganisation ? selectedOrganisation.value : '');
-    const [inn, setInn] = useState<string>(selectedOrganisation ? selectedOrganisation.data.inn : '');
-    const [address, setAddress] = useState<string>(selectedOrganisation ? selectedOrganisation.data.address.value :'');
+const ManualForm: FC<ManualFormProps> = ({data, saveOrganisationData, disabled, clean}) => {
+    const [name, setName] = useState<string>(data ? data.name : '');
+    const [inn, setInn] = useState<string>(data ? data.inn : '');
+    const [address, setAddress] = useState<string>(data ? data.address :'');
 
     const [error, setError] = useState<boolean>(false);
     const [message, setMessage] = useState<string>(null);
@@ -43,18 +43,16 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
     }, [clean])
 
     useEffect(() => {
-        if (!selectedOrganisation) return;
+        if (!data) return;
 
-        localStorage.setItem("claim.draft.orgData", JSON.stringify(selectedOrganisation));
+        localStorage.setItem("claim.draft.orgData", JSON.stringify(data));
         // сохраняем организацию в черновик
-        createOrEditDraft({orgData: selectedOrganisation});
+        // createOrEditDraft({orgData: selectedOrganisation});
 
-        setName(selectedOrganisation.value);
-        setInn(selectedOrganisation.data.inn);
-
-        const fullAddress = `${selectedOrganisation.data.address.data.postal_code}, ${selectedOrganisation.data.address.value}`;
-        setAddress(fullAddress);
-    }, [selectedOrganisation])
+        setName(data.name);
+        setInn(data.inn);
+        setAddress(data.address);
+    }, [data])
 
     useEffect(() => {
         saveOrganisationData({name, inn, address});
@@ -84,19 +82,19 @@ const ManualForm: FC<ManualFormProps> = ({selectedOrganisation, saveOrganisation
             case InputID.name: {
                 if (!name) break;
                 localStorage.setItem("claim.draft.orgName", JSON.stringify(name));
-                createOrEditDraft({orgName: name});
+                // createOrEditDraft({orgName: name});
                 break;
             }
             case InputID.inn: {
                 if (!inn) break;
                 localStorage.setItem("claim.draft.orgInn", JSON.stringify(inn));
-                createOrEditDraft({orgInn: inn});
+                // createOrEditDraft({orgInn: inn});
                 break;
             }
             case InputID.address: {
                 if (!address) break;
                 localStorage.setItem("claim.draft.orgAddress", JSON.stringify(address));
-                createOrEditDraft({orgAddress: address});
+                // createOrEditDraft({orgAddress: address});
                 break;
             }
         }

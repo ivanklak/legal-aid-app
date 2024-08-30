@@ -1,9 +1,10 @@
-import React, {memo, useCallback, useState} from "react";
+import React, {memo, useCallback, useEffect, useState} from "react";
 import styles from "./NewRequestRequestInfoPart.module.sass";
 import Button from "../../../../controls/button/Button";
 import TextEditor from "../../../../requestItem/textEditor/TextEditor";
 import classNames from "classnames";
 import {UploadFile} from "antd";
+import {useSafeNewRequestDataLayerContext} from "../../../NewRequestDataLayer";
 
 interface NewRequestRequestInfoPartProps {
     onPrevPageClick: () => void;
@@ -13,9 +14,21 @@ interface NewRequestRequestInfoPartProps {
 const CAPTION = 'Обращение';
 
 const NewRequestRequestInfoPart = memo<NewRequestRequestInfoPartProps>(({onPrevPageClick, onNextPageClick}) => {
-    const [descriptionText, setDescriptionText] = useState<string>('');
-    const [files, setFiles] = useState<UploadFile[]>([]);
+    const {
+        claimText,
+        setClaimText,
+        files: filesGlobal,
+        setFiles: setFilesGlobal
+    } = useSafeNewRequestDataLayerContext();
+
+    const [descriptionText, setDescriptionText] = useState<string>(claimText ? claimText : '');
+    const [files, setFiles] = useState<UploadFile[]>(filesGlobal ? filesGlobal : []);
     const [error, setError] = useState<string>('');
+
+    useEffect(() => {
+        setClaimText(descriptionText);
+        setFilesGlobal(files);
+    }, [descriptionText, files, setClaimText, setFilesGlobal])
 
     const handleChangeTextEditor = useCallback((text: string, files: UploadFile[]) => {
         setDescriptionText(text);
@@ -29,6 +42,8 @@ const NewRequestRequestInfoPart = memo<NewRequestRequestInfoPartProps>(({onPrevP
             <div className={styles['description']}>
                 <div className={styles['description-caption']}>Текст обращения</div>
                 <TextEditor
+                    value={descriptionText}
+                    files={files}
                     onChange={handleChangeTextEditor}
                     placeHolder='Используйте меню выше чтобы форматировать описание'
                     showButtons={false}
@@ -42,7 +57,7 @@ const NewRequestRequestInfoPart = memo<NewRequestRequestInfoPartProps>(({onPrevP
             </div>
             <div className={styles['buttons']}>
                 <Button onClick={onPrevPageClick} className={styles['back-btn']}>Назад</Button>
-                <Button onClick={onNextPageClick} className={styles['next-btn']}>Далее</Button>
+                <Button disabled={!descriptionText} onClick={onNextPageClick} className={styles['next-btn']}>Далее</Button>
             </div>
         </div>
     )

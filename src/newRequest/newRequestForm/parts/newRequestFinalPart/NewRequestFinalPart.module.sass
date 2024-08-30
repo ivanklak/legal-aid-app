@@ -4,6 +4,61 @@
     margin: 20px 0
     color: #000000
 
+  .final-content
+    display: flex
+    flex-direction: column
+
+    .content-block
+      display: flex
+      align-items: flex-start
+      justify-content: flex-start
+      margin-bottom: 12px
+
+      .block-caption
+        display: flex
+        justify-content: center
+        font-size: 16px
+        font-weight: 500
+        margin-bottom: 8px
+        background: rgba(123, 97, 255, 0.2)
+        padding: 12px
+        border-radius: 8px
+        min-width: 130px
+        max-width: 140px
+
+      .block-description
+        width: 100%
+        margin-left: 20px
+
+      .editor-tool-bar
+        border: 1px solid #d9d9d9 !important
+
+        .editor-edit-text
+          & > div
+            border-bottom: 1px solid #d9d9d9 !important
+            border-left: 1px solid #d9d9d9 !important
+            border-right: 1px solid #d9d9d9 !important
+            border-top: none
+            font-size: 14px
+          &._red > div
+            border-color: var(--base-color__red500) !important
+
+      .login-user-data
+        background: #f8f8f8
+        border-radius: 8px
+        padding: 16px
+        width: 100%
+
+        .name
+          font-size: 20px
+          font-weight: 500
+          margin-bottom: 8px
+
+        .data-item
+          font-size: 16px
+          font-weight: 400
+          margin-bottom: 6px
+
   .buttons
     display: flex
     justify-content: flex-end

@@ -304,7 +304,7 @@ const CreateNewClaimForm = memo<CreateNewClaimFormProps>(({}) => {
         return (
             <ManualForm
                 clean={cleanOrg}
-                selectedOrganisation={selectedItem}
+                // data={selectedItem}
                 saveOrganisationData={handleSaveOrganisationData}
             />
         )
