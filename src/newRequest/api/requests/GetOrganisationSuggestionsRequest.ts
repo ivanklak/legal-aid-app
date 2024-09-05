@@ -19,10 +19,12 @@ export interface ISuggestionData {
     inn?: string;
     kpp?: string;
     ogrn?: string;
+    secondName?: string;
 }
 
 // TODO надо допилить интерфейс ответа
 export interface ISuggestions {
+    id?: string;
     data: ISuggestionData;
     value?: string;
     unrestricted_value?: string;

@@ -1,12 +1,13 @@
-import React, {memo, useMemo, useState} from "react";
+import React, {memo, useEffect, useMemo, useState} from "react";
 import styles from "./NewRequestForm.module.sass";
 import NewRequestReasonPart from "./parts/newRequestReasonPart/NewRequestReasonPart";
 import NewRequestOrganisationInfoPart from "./parts/newRequestOrganisationInfoPart/NewRequestOrganisationInfoPart";
 import NewRequestRequestInfoPart from "./parts/newRequestRequestInfoPart/NewRequestRequestInfoPart";
 import NewRequestUserDataPart from "./parts/newRequestUserDataPart/NewRequestUserDataPart";
 import NewRequestFinalPart from "./parts/newRequestFinalPart/NewRequestFinalPart";
+import {useSafeNewRequestDataLayerContext} from "../NewRequestDataLayer";
 import {Steps} from "antd";
-import {Status} from "rc-steps/lib/interface";
+import {partners} from "./utils/partners";
 
 interface NewRequestFormProps {}
 
@@ -24,8 +25,26 @@ interface IRequestPart {
     content: React.ReactNode;
 }
 
+const PARTNER_ID_PARAM = 'id';
+
 const NewRequestForm = memo<NewRequestFormProps>(({}) => {
     const [currentPartId, setCurrentPartId] = useState<number>(PageId.reason);
+    const {setPartnerId, setOrganisationData} = useSafeNewRequestDataLayerContext();
+
+    useEffect(() => {
+        const searchString = new URLSearchParams(window.location.search);
+        if (searchString.has(PARTNER_ID_PARAM)) {
+            const id = searchString.get(PARTNER_ID_PARAM);
+            if (!id?.length) return;
+            //
+            setPartnerId(id);
+            //
+            const partnerData = partners.find((p) => p.id === id);
+            if (!partnerData) return;
+            //
+            setOrganisationData(partnerData);
+        }
+    }, [])
 
     const handleNextPage = () => {
         if (currentPartId === steps.length - 1) return;

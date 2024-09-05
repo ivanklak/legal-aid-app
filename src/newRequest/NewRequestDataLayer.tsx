@@ -1,14 +1,16 @@
-import React, {createContext, FC, useCallback, useContext, useState} from "react";
+import React, {createContext, FC, useContext, useState} from "react";
 import {IReason} from "./newRequestForm/parts/newRequestReasonPart/NewRequestReasonPart";
 import {ISuggestions} from "./api/requests/GetOrganisationSuggestionsRequest";
 import {SavedOrgData} from "./createForm/manualForm/ManualForm";
 
 interface NewRequestDataLayerData {
+    partnerId: string;
     reason: IReason;
     claimTitle: string;
     claimText: string;
     organisationData: IOrganisationData;
     files: any[],
+    setPartnerId: (id: string) => void;
     setReason: (item: IReason) => void;
     setClaimTitle: (title: string) => void;
     setClaimText: (text: string) => void;
@@ -32,6 +34,7 @@ export const useSafeNewRequestDataLayerContext = () => {
 
 const NewRequestDataLayerProvider: FC = ({ children}) => {
     const [reason, setReason] = useState<IReason>(null);
+    const [partnerId, setPartnerId] = useState<string>('');
     const [organisationData, setOrganisationData] = useState<IOrganisationData>(null);
 
     const [claimTitle, setClaimTitle] = useState<string>('');
@@ -50,11 +53,13 @@ const NewRequestDataLayerProvider: FC = ({ children}) => {
     return (
         <NewRequestDataLayerContext.Provider
             value={{
+                partnerId,
                 reason,
                 claimTitle,
                 claimText,
                 organisationData,
                 files,
+                setPartnerId,
                 setReason,
                 setClaimTitle,
                 setClaimText,

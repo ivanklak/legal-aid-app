@@ -27,10 +27,10 @@ const OrganisationForm = memo<OrganisationFormProps>(({data, onClose}) => {
             </div>
             <div className={styles['organisation-data']}>
                 <div className={styles['name']}>{data.value}</div>
-                <div>Инн: {data.data.inn}</div>
-                {data.data.ogrn && <div>Огрн: {data.data.ogrn}</div>}
                 <div>Адресс: {data.data.address.value}</div>
+                <div>Инн: {data.data.inn}</div>
                 <div>КПП: {data.data.kpp}</div>
+                {data.data.ogrn && <div>Огрн: {data.data.ogrn}</div>}
             </div>
         </div>
     )

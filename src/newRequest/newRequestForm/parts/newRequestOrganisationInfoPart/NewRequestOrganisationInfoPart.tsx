@@ -1,4 +1,4 @@
-import React, {ChangeEvent, memo, useCallback, useMemo, useState} from "react";
+import React, {ChangeEvent, memo, useCallback, useEffect, useMemo, useState} from "react";
 import styles from "./NewRequestOrganisationInfoPart.module.sass";
 import Button from "../../../../controls/button/Button";
 import classNames from "classnames";
@@ -19,7 +19,19 @@ interface NewRequestOrganisationInfoPartProps {
 const CAPTION = 'Информация об организации';
 
 const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>(({onPrevPageClick, onNextPageClick}) => {
-    const {organisationData, setOrganisationData} = useSafeNewRequestDataLayerContext();
+    const {organisationData, setOrganisationData, partnerId, setPartnerId} = useSafeNewRequestDataLayerContext();
+    const [isAddedInfoNoticeVisible, setIsAddedInfoNoticeVisible] = useState<boolean>(false);
+
+    console.log('partnerId', partnerId)
+    console.log('organisationData', organisationData)
+
+    useEffect(() => {
+        if (organisationData && partnerId) {
+            setIsAddedInfoNoticeVisible(true);
+        } else {
+            setIsAddedInfoNoticeVisible(false);
+        }
+    }, [organisationData, partnerId])
 
     const isSuggestion = (info: IOrganisationData): info is ISuggestions => {
         return info && Boolean((info as ISuggestions).data) && Boolean((info as ISuggestions).value)
@@ -94,6 +106,10 @@ const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>
         setSelectedItem(item);
         setIsDropdownOpen(false);
         // setInputSearchValue('');
+        if (isAddedInfoNoticeVisible) {
+            setIsAddedInfoNoticeVisible(false);
+            setPartnerId('');
+        }
     }, [])
 
     const createMenuItems = useCallback((suggestions: ISuggestions[]) => {
@@ -132,6 +148,10 @@ const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>
 
     const handleCloseOrganisationForm = () => {
         setSelectedItem(null);
+        if (isAddedInfoNoticeVisible) {
+            setIsAddedInfoNoticeVisible(false);
+            setPartnerId('');
+        }
     }
 
     const renderSelectedItem = (): JSX.Element => {
@@ -203,6 +223,12 @@ const NewRequestOrganisationInfoPart = memo<NewRequestOrganisationInfoPartProps>
                     </Dropdown>
                 </div>
             </div>
+            {isAddedInfoNoticeVisible && (
+                <div className={styles['notice']}>
+                    <div className={styles['notice-caption']}>Организация добавлена. Можете пропустить этот шаг</div>
+                    <div className={styles['notice-text']}>Если данные неверны, вы можете выполнить поиск или ввести информацию вручную удалив текущий выбор.</div>
+                </div>
+            )}
             <div className={styles['content']}>
                 {selectedItem ? renderSelectedItem() : renderOrganisationData()}
             </div>
