@@ -5,10 +5,15 @@ import styles from "./RequestItem.module.sass";
 import ClaimActions from "./claimActions/ClaimActions";
 import AdditionalInfo from "./additionalInfo/AdditionalInfo";
 import getClaimsRequest from "../mainPageSections/api/metods/getClaimsRequest";
-import {ClaimsItemResponse} from "../mainPageSections/api/requests/GetClaimsRequest";
+import {ClaimsItemResponse, IComment} from "../mainPageSections/api/requests/GetClaimsRequest";
 import TextEditor from "./textEditor/TextEditor";
 import {sendComment} from "../service/network/requestItem/methods/sendComment";
 import DraftCreator from "../newRequest/DraftCreator";
+import {IFullRequestInfo} from "../newRequest/newRequestForm/parts/newRequestFinalPart/NewRequestFinalPart";
+import {LoaderCircle} from "../components/loader/Loader.Circle";
+import classNames from "classnames";
+import {formats} from "./textEditor/EditorToolbar";
+import ReactQuill from "react-quill";
 
 const CAPTION = 'Читос или кузя лакомкин?';
 const ITEM_DESCRIPTION = 'Многие меня спрашивают читос или кузя лакомкин. Скажу по секрету, что между ними стоит еще один титан. Это русская картошка. ' +
@@ -19,10 +24,35 @@ const RequestItem = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [data, setData] = useState<ClaimsItemResponse>(null);
     const sessionId = localStorage.getItem('id');
+    const [error, setError] = useState<string>('');
 
     useEffect(() => {
         console.log('id', id)
-        requestClaims();
+        // requestClaims();
+
+        testRequestClaim(id)
+            .then((data) => {
+                if (!data) {
+                    setData(null);
+                    setError('Жалобы не существует');
+                } else {
+                    setData({
+                        contentType: '',
+                        createdDate: '2023-06-12 16:52', // "2023-06-12 16:52:48.343"
+                        genId: data.id, //"1e3ec6b0-0d2e-4671-89a1-a637ae4b7986"
+                        name: data.reason.text, //"Жалоба на врача"
+                        status: data.status, //"RESOLVED"
+                        text: data.requestText, //"Колоноскопия прошла не успешно - я обосрался"
+                        comments: []
+                    })
+                }
+                setIsLoading(false);
+            })
+            .catch(() => {
+                console.error('Невозможно получить данные по id')
+                setError('Невозможно получить данные по id');
+                setIsLoading(false);
+            })
     }, [id])
 
     const requestClaims = useCallback(async () => {
@@ -42,6 +72,45 @@ const RequestItem = () => {
         }
     }, [id, sessionId])
 
+    const testRequestClaim = (reqId: string): Promise<IFullRequestInfo> => {
+        setIsLoading(true);
+
+        return new Promise((resolve, reject) => {
+            if (!reqId) {
+                reject();
+                return;
+            }
+
+            const existedRequestsString = localStorage.getItem('user_requests');
+
+            let existedRequestsArray: IFullRequestInfo[] = [];
+
+            try {
+                if (existedRequestsString) {
+                    const parsedRegUsers: IFullRequestInfo[] = JSON.parse(existedRequestsString) || [];
+
+                    if (parsedRegUsers?.length) {
+                        existedRequestsArray.push(...parsedRegUsers);
+                    }
+                }
+            } catch (e) {
+                console.error('Cannot parse user_requests in FinalPArt -> existedRequestsString', existedRequestsString);
+            }
+
+            if (!existedRequestsArray.length) {
+                resolve(null)
+            } else {
+                const requestInfo: IFullRequestInfo = existedRequestsArray.find((data) => data.id === reqId);
+
+                if (!requestInfo) {
+                    resolve(null);
+                } else {
+                    window.setTimeout(() => resolve(requestInfo), 300)
+                }
+            }
+        })
+    }
+
     const handleSaveComment = useCallback(async (text: string) => {
         const params = { claimId: id, sessionId: sessionId, text: text };
         try {
@@ -56,22 +125,27 @@ const RequestItem = () => {
         }
     }, [id, sessionId])
 
-    const renderLoader = () => {
-        return (
-            <div>loader</div>
-        )
-    }
-
+    if (error) return <div>{error}</div>
     if (!data) return null;
 
-    return isLoading && !data ? renderLoader() : (
+    return isLoading && !data ? <LoaderCircle /> : (
         <MainWrapper>
             <DraftCreator>
                 <div className={styles.main_info}>
                     <div className={styles.form}>
                         <div className={styles.caption}>{data.name}</div>
                         <div className={styles.description}>Описание</div>
-                        <div className={styles.description_text}>{data.text}</div>
+                        <ReactQuill
+                            className={classNames(
+                                styles.description_text
+                            )}
+                            theme="snow"
+                            onChange={() => {}}
+                            value={data.text || ''}
+                            formats={formats}
+                            modules={{toolbar: null}}
+                            readOnly={true}
+                        />
                         <div className={styles.attachments}>Вложения</div>
                         <div className={styles.attachment_items}>
                             <div className={styles.attach_item}>

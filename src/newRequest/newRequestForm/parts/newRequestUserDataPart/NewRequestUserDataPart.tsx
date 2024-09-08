@@ -119,7 +119,10 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
         setIsLoading(true);
 
         return new Promise((resolve, reject) => {
-            if (!value) reject();
+            if (!value) {
+                reject();
+                return;
+            }
 
             window.setTimeout(() => {
                 const existedUsersString = localStorage.getItem('reg_users');

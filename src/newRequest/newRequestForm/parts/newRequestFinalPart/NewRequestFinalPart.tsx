@@ -5,11 +5,21 @@ import {IOrganisationData, useSafeNewRequestDataLayerContext} from "../../../New
 import {useAuth} from "../../../../components/hooks/useAuth";
 import {ISuggestions} from "../../../api/requests/GetOrganisationSuggestionsRequest";
 import OrganisationForm from "../../components/organisationForm/OrganisationForm";
-import classNames from "classnames";
-import TextEditor from "../../../../requestItem/textEditor/TextEditor";
 import {Modal} from "antd";
 import {LoaderCircle} from "../../../../components/loader/Loader.Circle";
 import {useNavigate} from "react-router-dom";
+import {IReason} from "../newRequestReasonPart/NewRequestReasonPart";
+import {formats} from "../../../../requestItem/textEditor/EditorToolbar";
+import ReactQuill from "react-quill";
+
+export interface IFullRequestInfo {
+    id: string;
+    reason: IReason;
+    org: IOrganisationData;
+    requestText: string;
+    files: any[];
+    status: string;
+}
 
 interface NewRequestFinalPartProps {
     onPrevPageClick: () => void;
@@ -22,6 +32,7 @@ const NewRequestFinalPart = memo<NewRequestFinalPartProps>(({onPrevPageClick}) =
     const {userData} = useAuth();
     const navigate = useNavigate();
 
+    const [createdId, setCreatedId] = useState<string>('');
     const [successDialogOpened, setSuccessDialogOpened] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
@@ -48,10 +59,22 @@ const NewRequestFinalPart = memo<NewRequestFinalPartProps>(({onPrevPageClick}) =
     }
 
     const handleSendClaimRequest = () => {
-        sendClaim()
-            .then((value) => {
-                if (value) {
-                    setSuccessDialogOpened(value);
+        const newRequestId = String(Math.floor(1000 + Math.random() * 9000));
+
+        const payload: IFullRequestInfo = {
+            id: newRequestId,
+            requestText: claimText,
+            files: files,
+            reason: reason,
+            org: organisationData,
+            status: 'created'
+        }
+
+        sendClaim(payload)
+            .then((data) => {
+                if (data) {
+                    setCreatedId(data.id);
+                    setSuccessDialogOpened(true);
                     setError('');
                 } else {
                     setError('Что-то пошло не так :(')
@@ -65,7 +88,7 @@ const NewRequestFinalPart = memo<NewRequestFinalPartProps>(({onPrevPageClick}) =
             })
     }
 
-    const sendClaim = (): Promise<boolean> => {
+    const sendClaim = (payload: IFullRequestInfo): Promise<IFullRequestInfo> => {
         setIsLoading(true);
         return new Promise((resolve, reject) => {
             if (!reason || !organisationData || !claimText || !userData) {
@@ -73,13 +96,40 @@ const NewRequestFinalPart = memo<NewRequestFinalPartProps>(({onPrevPageClick}) =
                 return;
             }
 
+            const existedRequestsString = localStorage.getItem('user_requests');
+
+            let existedRequestsArray: IFullRequestInfo[] = [];
+
+            try {
+                if (existedRequestsString) {
+                    const parsedRegUsers: IFullRequestInfo[] = JSON.parse(existedRequestsString) || [];
+
+                    if (parsedRegUsers?.length) {
+                        existedRequestsArray.push(...parsedRegUsers);
+                    }
+                }
+            } catch (e) {
+                console.error('Cannot parse user_requests in FinalPArt -> existedRequestsString', existedRequestsString);
+            }
+
+            existedRequestsArray.push(payload);
+
+            const requestsToSend = JSON.stringify(existedRequestsArray);
+
+            localStorage.setItem('user_requests', requestsToSend);
+
             window.setTimeout(() => {
-                resolve(true);
-            }, 1500)
+                resolve(payload);
+            }, 1000)
         })
     }
 
     const handleModalOk = () => {
+        setSuccessDialogOpened(false);
+        navigate(createdId ? `/myRequests/${createdId}` : '/myRequests');
+    }
+
+    const handleModalCancel = () => {
         setSuccessDialogOpened(false);
         navigate('/myRequests');
     }
@@ -99,17 +149,16 @@ const NewRequestFinalPart = memo<NewRequestFinalPartProps>(({onPrevPageClick}) =
                 <div className={styles['content-block']}>
                     <div className={styles['block-caption']}>Обращение</div>
                     <div className={styles['block-description']}>
-                        <TextEditor
-                            value={claimText}
-                            files={files}
+                        <ReactQuill
+                            className={styles['editor-edit-text']}
+                            theme="snow"
                             onChange={() => {}}
-                            placeHolder='Используйте меню выше чтобы форматировать описание'
-                            showButtons={false}
-                            toolBarClassName={styles['editor-tool-bar']}
-                            editTextClassName={classNames(
-                                styles['editor-edit-text']
-                            )}
+                            value={claimText || ''}
+                            formats={formats}
+                            modules={{toolbar: null}}
+                            readOnly={true}
                         />
+                        {files && <div>files are here</div>}
                     </div>
                 </div>
                 <div className={styles['content-block']}>
@@ -134,8 +183,8 @@ const NewRequestFinalPart = memo<NewRequestFinalPartProps>(({onPrevPageClick}) =
                 title={'Обращение отправлено'}
                 open={successDialogOpened}
                 onOk={handleModalOk}
-                onCancel={handleModalOk}
-                okText="Мои обращения"
+                onCancel={handleModalCancel}
+                okText="К обращению"
                 cancelText="Закрыть"
             >
                 <div>{'Вы успешно создали обращение. Наши специалисты рассмотрят его в ближайшее время. Следить за статусом обращения можно в разделе "Мои обращения".' }</div>
