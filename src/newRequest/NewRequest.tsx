@@ -6,6 +6,9 @@ import NoAuthorized from "../components/noAuthorized/NoAuthorized";
 import NewRequestDataLayerProvider from "./NewRequestDataLayer";
 import DraftCreator from "./DraftCreator";
 import NewRequestForm from "./newRequestForm/NewRequestForm";
+import Header from "../components/header/Header";
+import ContentBody from "../components/contentBody/ContentBody";
+import Navbar from "../components/navbar/Navbar";
 
 const REDIRECTED_SEARCH_PARAM = 'external';
 
@@ -24,11 +27,17 @@ const NewRequests = memo<NewRequestsProps>(() => {
         return hasExternalSearchParams()
             ? <div className={styles.request_container}>{children}</div>
             : (
-                <MainWrapper>
-                    <div className={styles.new_request}>
-                        {children}
-                    </div>
-                </MainWrapper>
+                <>
+                    <Header/>
+                    <ContentBody>
+                        <Navbar/>
+                        <MainWrapper>
+                            <div className={styles.new_request}>
+                                {children}
+                            </div>
+                        </MainWrapper>
+                    </ContentBody>
+                </>
             )
     }
 
@@ -38,11 +47,9 @@ const NewRequests = memo<NewRequestsProps>(() => {
                 <div className={styles.scroll_area}>
                     <div className={styles.main_section}>
                         <div className={styles.main_caption}>Новое обращение</div>
-                        {hasExternalSearchParams()
+                        {hasExternalSearchParams() || isAuth
                             ? <NewRequestForm />
-                            : isAuth
-                                ? <NewRequestForm />
-                                : <NoAuthorized />
+                            : <NoAuthorized />
                         }
                     </div>
                 </div>
