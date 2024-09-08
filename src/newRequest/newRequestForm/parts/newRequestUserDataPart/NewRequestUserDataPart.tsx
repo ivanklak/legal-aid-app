@@ -7,6 +7,9 @@ import {Checkbox, Segmented} from "antd";
 import {useAuth} from "../../../../components/hooks/useAuth";
 import {IUserData} from "../../../../login/api/AuthServise";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
+import NewRequestRegistrationForm, {
+    TRegistrationPayload
+} from "../../components/newRequestRegistrationForm/NewRequestRegistrationForm";
 
 interface NewRequestUserDataPartProps {
     onPrevPageClick: () => void;
@@ -15,12 +18,10 @@ interface NewRequestUserDataPartProps {
 
 type TPageId = 'login' | 'registration';
 
-const CAPTION = 'Оставьте ваши контакты';
 const pages = [
     {label: 'Логин', value: 'login'},
     {label: 'Регистрация', value: 'registration'},
 ]
-const loginEmails = ['test@gmail.com', 'test@test.com'];
 
 const MOCK_USERS: IUserData[] = [
     {
@@ -51,18 +52,11 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
     const [currentPageId, setCurrentPageId] = useState<TPageId>('login');
     const {userData, setUserData, isAuth, setIsAuth} = useAuth();
 
-    const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [inn, setInn] = useState<string>('');
-    const [address, setAddress] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [hasAgreement, setHasAgreement] = useState<boolean>(false);
-
-    const handleNameChange = (value: string, event?: React.ChangeEvent<HTMLInputElement>) => {
-        setName(value);
-    }
 
     const handleEmailChange = (value: string, event?: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(value);
@@ -70,11 +64,6 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
 
     const handlePasswordChange = (value: string) => {
         setPassword(value);
-    }
-
-    const handleNameClear = () => {
-        setName('');
-        setError('');
     }
 
     const handleEmailClear = () => {
@@ -94,12 +83,23 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
         }
 
         testUserLogin(email)
-            .then((userData) => {
+            .then((userData: TRegistrationPayload) => {
                 if (!userData) {
                     setError('Не верный email или пароль');
                     setIsAuth(false);
                 } else {
-                    setUserData(userData);
+                    setUserData({
+                        firstName: userData.name,
+                        lastLame: userData.lastName,
+                        patronymic: '', // отчество что ли ?
+                        id: Number(userData.id),
+                        email: userData.email,
+                        phone: '',
+                        address: userData.address,
+                        inn: userData.inn,
+                        status: '',
+                        passNumber: userData.passNumber
+                    });
                     setIsAuth(true);
                     setError(null);
                 }
@@ -112,26 +112,33 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
             })
     }
 
-    const handleRegisterClick = () => {
-        if (!name || !email || !password) {
-            setError('Заполните все поля');
-            return;
-        }
-    }
-
-    const testUserLogin = (value: string): Promise<IUserData> => {
+    const testUserLogin = (value: string): Promise<TRegistrationPayload> => {
         setIsLoading(true);
 
         return new Promise((resolve, reject) => {
             if (!value) reject();
 
             window.setTimeout(() => {
-                const isValidEmail = loginEmails.includes(value);
+                const existedUsersString = localStorage.getItem('reg_users');
 
-                if (!isValidEmail) {
+                let existedUsersArray: TRegistrationPayload[] = [];
+
+                try {
+                    if (existedUsersString) {
+                        const parsedRegUsers: TRegistrationPayload[] = JSON.parse(existedUsersString) || [];
+
+                        if (parsedRegUsers?.length) {
+                            existedUsersArray.push(...parsedRegUsers);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Cannot parse reg_users in LoginForm -> existedUsersString', existedUsersString);
+                }
+
+                if (!existedUsersArray.length) {
                     resolve(null);
                 } else {
-                    const reqUserData = MOCK_USERS.find((data) => data.email === value)
+                    const reqUserData: TRegistrationPayload = existedUsersArray.find((data) => data.email === value);
 
                     if (!reqUserData) {
                         resolve(null);
@@ -184,54 +191,12 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
         )
     }
 
-    const renderRegistrationForm = () => {
-        return (
-            <>
-                <Input
-                    value={name}
-                    placeholder={'Имя'}
-                    className={styles['login-item']}
-                    tabIndex={0}
-                    onChange={handleNameChange}
-                    error={null}
-                    size={InputSize.Medium}
-                    name={'client_name'}
-                    onClear={handleNameClear}
-                />
-                <Input
-                    type='email'
-                    value={email}
-                    placeholder={'Email'}
-                    className={styles['login-item']}
-                    tabIndex={0}
-                    onChange={handleEmailChange}
-                    error={null}
-                    size={InputSize.Medium}
-                    name={'client_email'}
-                    onClear={handleEmailClear}
-                />
-                <Input
-                    type='password'
-                    value={password}
-                    placeholder={'Пароль'}
-                    className={styles['login-item']}
-                    tabIndex={0}
-                    onChange={handlePasswordChange}
-                    error={null}
-                    size={InputSize.Medium}
-                    name={'client_password'}
-                    onClear={handlePasswordClear}
-                />
-                <div className={styles['error']}>{error ? error : ''}</div>
-                <Button disabled={email.length < 4} onClick={handleRegisterClick}>Зарегистрироваться</Button>
-            </>
-        )
-    }
-
     const renderContentByCurrentId = () => {
         switch (currentPageId) {
             case "login": return renderLoginForm();
-            case "registration": return renderRegistrationForm();
+            case "registration": {
+                return <NewRequestRegistrationForm />
+            }
         }
     }
 
@@ -243,8 +208,9 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
                 {isAuth && userData ? (
                     <div className={styles['login-user-data']}>
                         <div className={styles['name']}>{userData.firstName} {userData.lastLame}</div>
-                        <div className={styles['data-item']}>Email: {userData.email}</div>
                         <div className={styles['data-item']}>Адресс: {userData.address}</div>
+                        <div className={styles['data-item']}>Email: {userData.email}</div>
+                        {userData.passNumber && <div className={styles['data-item']}>Номер паспорта: {userData.passNumber}</div>}
                         <div className={styles['data-item']}>ИНН: {userData.inn}</div>
                     </div>
                 ) : (

@@ -24,6 +24,7 @@ export interface IUserData {
     address: string;
     inn: string;
     status: string;
+    passNumber?: string;
 }
 
 export interface IRefreshData {
