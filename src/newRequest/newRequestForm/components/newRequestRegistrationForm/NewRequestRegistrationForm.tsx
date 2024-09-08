@@ -187,6 +187,7 @@ const NewRequestRegistrationForm = memo<NewRequestRegistrationFormProps>(({}) =>
             const usersToSave = JSON.stringify(existedUsersArray);
 
             localStorage.setItem('reg_users', usersToSave);
+            localStorage.setItem('last_id', testNewUserId);
 
             window.setTimeout(() => {
                 resolve(newUserData)

@@ -100,6 +100,9 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
                         status: '',
                         passNumber: userData.passNumber
                     });
+                    // обязательно - для восстановления сессии
+                    localStorage.setItem('last_id', userData.id);
+                    //
                     setIsAuth(true);
                     setError(null);
                 }

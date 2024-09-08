@@ -38,9 +38,11 @@ const NewRequests = memo<NewRequestsProps>(() => {
                 <div className={styles.scroll_area}>
                     <div className={styles.main_section}>
                         <div className={styles.main_caption}>Новое обращение</div>
-                        {hasExternalSearchParams() || isAuth
+                        {hasExternalSearchParams()
                             ? <NewRequestForm />
-                            : <NoAuthorized />
+                            : isAuth
+                                ? <NewRequestForm />
+                                : <NoAuthorized />
                         }
                     </div>
                 </div>

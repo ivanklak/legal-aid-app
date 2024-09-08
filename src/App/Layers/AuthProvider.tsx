@@ -2,6 +2,9 @@ import React, {createContext, FC, useEffect, useState} from "react";
 import {AuthService, IAuthData, IUserData} from "../../login/api/AuthServise";
 import {useLocation, useNavigate} from "react-router-dom";
 import {requestInfo} from "../../login/api/methods/requestInfo";
+import {
+    TRegistrationPayload
+} from "../../newRequest/newRequestForm/components/newRequestRegistrationForm/NewRequestRegistrationForm";
 
 export interface IAuthContext {
     isAuth: boolean;
@@ -27,7 +30,8 @@ export const AuthProvider: FC = ({ children }) => {
     const [isAuthInProgress, setIsAuthInProgress] = useState<boolean>(true);
 
     useEffect(() => {
-        checkAuth();
+        // checkAuth();
+        testCheckAuth();
     }, [])
 
     const checkAuth = async () => {
@@ -40,6 +44,76 @@ export const AuthProvider: FC = ({ children }) => {
             location.pathname !== '/' && navigate('/login');
             setIsAuthInProgress(false);
         }
+    }
+
+    const testCheckAuth = () => {
+        setIsAuthInProgress(true);
+
+        restoreUserSession()
+            .then((data: TRegistrationPayload) => {
+                if (!data) {
+                    setIsAuth(false);
+                    console.log('не получилось восстановить сессию')
+                } else {
+                    setIsAuth(true);
+                    setUserData({
+                        firstName: data.name,
+                        lastLame: data.lastName,
+                        patronymic: '', // отчество что ли ?
+                        id: Number(data.id),
+                        email: data.email,
+                        phone: '',
+                        address: data.address,
+                        inn: data.inn,
+                        status: '',
+                        passNumber: data.passNumber
+                    });
+                    console.log('=== сессия успешно восстановлена ===')
+                }
+                setIsAuthInProgress(false);
+            })
+            .catch(() => {
+                console.log('error, нет lastUserId или existedUsers')
+                setIsAuthInProgress(false);
+            })
+    }
+
+    const restoreUserSession = (): Promise<TRegistrationPayload> => {
+        return new Promise((resolve, reject) => {
+            const lastUserId = localStorage.getItem('last_id');
+            const existedUsersString = localStorage.getItem('reg_users');
+
+            if (!lastUserId || !existedUsersString) {
+                reject(null);
+                return;
+            }
+
+            let existedUsersArray: TRegistrationPayload[] = [];
+
+            try {
+                if (existedUsersString) {
+                    const parsedRegUsers: TRegistrationPayload[] = JSON.parse(existedUsersString) || [];
+
+                    if (parsedRegUsers?.length) {
+                        existedUsersArray.push(...parsedRegUsers);
+                    }
+                }
+            } catch (e) {
+                console.error('Cannot parse reg_users in AuthProvider -> existedUsersString', existedUsersString);
+            }
+
+            if (!existedUsersArray.length) {
+                resolve(null);
+            } else {
+                const reqUserData: TRegistrationPayload = existedUsersArray.find((data) => data.id === lastUserId);
+
+                if (!reqUserData) {
+                    resolve(null);
+                } else {
+                    window.setTimeout(() =>  resolve(reqUserData), 500)
+                }
+            }
+        })
     }
 
     const requestGetInfo = async () => {
