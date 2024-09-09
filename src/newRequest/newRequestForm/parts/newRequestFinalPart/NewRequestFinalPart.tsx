@@ -11,6 +11,7 @@ import {useNavigate} from "react-router-dom";
 import {IReason} from "../newRequestReasonPart/NewRequestReasonPart";
 import {formats} from "../../../../requestItem/textEditor/EditorToolbar";
 import ReactQuill from "react-quill";
+import {IComment} from "../../../../mainPageSections/api/requests/GetClaimsRequest";
 
 export interface IFullRequestInfo {
     id: string;
@@ -19,6 +20,7 @@ export interface IFullRequestInfo {
     requestText: string;
     files: any[];
     status: string;
+    comments: IComment[];
 }
 
 interface NewRequestFinalPartProps {
@@ -67,7 +69,8 @@ const NewRequestFinalPart = memo<NewRequestFinalPartProps>(({onPrevPageClick}) =
             files: files,
             reason: reason,
             org: organisationData,
-            status: 'created'
+            status: 'created',
+            comments: []
         }
 
         sendClaim(payload)

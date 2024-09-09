@@ -5,7 +5,7 @@ import styles from "./RequestItem.module.sass";
 import ClaimActions from "./claimActions/ClaimActions";
 import AdditionalInfo from "./additionalInfo/AdditionalInfo";
 import getClaimsRequest from "../mainPageSections/api/metods/getClaimsRequest";
-import {ClaimsItemResponse, IComment} from "../mainPageSections/api/requests/GetClaimsRequest";
+import {ClaimsItemResponse, IComment, IUserInfo} from "../mainPageSections/api/requests/GetClaimsRequest";
 import TextEditor from "./textEditor/TextEditor";
 import {sendComment} from "../service/network/requestItem/methods/sendComment";
 import DraftCreator from "../newRequest/DraftCreator";
@@ -14,22 +14,53 @@ import {LoaderCircle} from "../components/loader/Loader.Circle";
 import classNames from "classnames";
 import {formats} from "./textEditor/EditorToolbar";
 import ReactQuill from "react-quill";
+import {useAuth} from "../components/hooks/useAuth";
+import {formatDate} from "../controls/dateUtils/dateUtils";
 
 const CAPTION = 'Читос или кузя лакомкин?';
 const ITEM_DESCRIPTION = 'Многие меня спрашивают читос или кузя лакомкин. Скажу по секрету, что между ними стоит еще один титан. Это русская картошка. ' +
     'Базарю. Под пивас вообще четко залетает, тает во рту, каеф. Будто девчонку первый раз попробовал. И к слову жизнь как рюкзак нагруженный пивом - чем больше пьешь пиво тем тебе легче. Главное перед мамой не спалиться'
 
+const firstMessage = 'Добрый день! Ваше обращение поступило к нам на рассморение и скоро вы получите ответ. Следите за уведомлениями. Спасибо!'
+const testAdminMessages: string[] = [
+    'Ваш комментарий принят.',
+    'Вам необходимо прислать сканы ваших документов. Просто прикрепите их к комментарию.',
+    'Спасибо, что долнили ваше обращение.',
+    'В результате рассмотрения вашего обращения было решено составить заявление в прокуратуру, а так же обратиться в суд.'
+]
+
 const RequestItem = () => {
     const {id} = useParams();
+    const {userData} = useAuth();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [data, setData] = useState<ClaimsItemResponse>(null);
     const sessionId = localStorage.getItem('id');
     const [error, setError] = useState<string>('');
 
     useEffect(() => {
-        console.log('id', id)
         // requestClaims();
+        getAllData();
+    }, [])
 
+    // const requestClaims = useCallback(async () => {
+    //
+    //     if (!sessionId) return;
+    //     try {
+    //         const response = await getClaimsRequest(sessionId);
+    //         if (response) {
+    //             console.log('res', response);
+    //             const requiredData = response.claims.find((claim) => claim.genId === id);
+    //             setData(requiredData);
+    //             setIsLoading(false);
+    //         }
+    //     } catch (err) {
+    //         console.log('requestClaims err', err)
+    //         setIsLoading(false);
+    //     }
+    // }, [id, sessionId])
+
+    //
+    const getAllData = () => {
         testRequestClaim(id)
             .then((data) => {
                 if (!data) {
@@ -43,7 +74,7 @@ const RequestItem = () => {
                         name: data.reason.text, //"Жалоба на врача"
                         status: data.status, //"RESOLVED"
                         text: data.requestText, //"Колоноскопия прошла не успешно - я обосрался"
-                        comments: []
+                        comments: data.comments || []
                     })
                 }
                 setIsLoading(false);
@@ -53,24 +84,33 @@ const RequestItem = () => {
                 setError('Невозможно получить данные по id');
                 setIsLoading(false);
             })
-    }, [id])
+    }
 
-    const requestClaims = useCallback(async () => {
+    const getCurrentRequest = (id: string): IFullRequestInfo => {
+        const existedRequestsString = localStorage.getItem('user_requests');
 
-        if (!sessionId) return;
+        let existedRequestsArray: IFullRequestInfo[] = [];
+
         try {
-            const response = await getClaimsRequest(sessionId);
-            if (response) {
-                console.log('res', response);
-                const requiredData = response.claims.find((claim) => claim.genId === id);
-                setData(requiredData);
-                setIsLoading(false);
+            if (existedRequestsString) {
+                const parsedRegUsers: IFullRequestInfo[] = JSON.parse(existedRequestsString) || [];
+
+                if (parsedRegUsers?.length) {
+                    existedRequestsArray.push(...parsedRegUsers);
+                }
             }
-        } catch (err) {
-            console.log('requestClaims err', err)
-            setIsLoading(false);
+        } catch (e) {
+            console.error('Cannot parse user_requests in FinalPArt -> existedRequestsString', existedRequestsString);
         }
-    }, [id, sessionId])
+
+        if (!existedRequestsArray.length) return null;
+
+        const requestInfo: IFullRequestInfo = existedRequestsArray.find((data) => data.id === id);
+
+        if (!requestInfo) return null;
+
+        return requestInfo;
+    }
 
     const testRequestClaim = (reqId: string): Promise<IFullRequestInfo> => {
         setIsLoading(true);
@@ -81,49 +121,153 @@ const RequestItem = () => {
                 return;
             }
 
-            const existedRequestsString = localStorage.getItem('user_requests');
-
-            let existedRequestsArray: IFullRequestInfo[] = [];
-
-            try {
-                if (existedRequestsString) {
-                    const parsedRegUsers: IFullRequestInfo[] = JSON.parse(existedRequestsString) || [];
-
-                    if (parsedRegUsers?.length) {
-                        existedRequestsArray.push(...parsedRegUsers);
-                    }
-                }
-            } catch (e) {
-                console.error('Cannot parse user_requests in FinalPArt -> existedRequestsString', existedRequestsString);
-            }
-
-            if (!existedRequestsArray.length) {
-                resolve(null)
-            } else {
-                const requestInfo: IFullRequestInfo = existedRequestsArray.find((data) => data.id === reqId);
-
-                if (!requestInfo) {
-                    resolve(null);
-                } else {
-                    window.setTimeout(() => resolve(requestInfo), 300)
-                }
-            }
+            const requestInfo = getCurrentRequest(reqId);
+            window.setTimeout(() => resolve(requestInfo), 300)
         })
     }
 
-    const handleSaveComment = useCallback(async (text: string) => {
-        const params = { claimId: id, sessionId: sessionId, text: text };
-        try {
-            const sendCommentResponse = await sendComment(params);
-
-            console.log('sendCommentResponse', sendCommentResponse);
-            setIsLoading(false);
-        } catch (err) {
-            console.log('handleSaveComment err', err)
-            console.log('handleSaveComment err', {err})
-            setIsLoading(false);
+    const handleTestSaveComment = (text: string) => {
+        const requestInfo = getCurrentRequest(id);
+        //создаем новый коммент
+        const newComment: IComment = {
+            text: text,
+            createdAt: formatDate(new Date().getTime(), 'DD/MM/YYYY'),
+            id: Math.floor(1000 + Math.random() * 9000),
+            user: {
+                first_name: userData.firstName,
+                last_name: userData.lastLame
+            }
         }
-    }, [id, sessionId])
+        // добаляем новый коммент к старым
+        let allComments: IComment[] = requestInfo.comments || [];
+        allComments.push(newComment);
+        // создаем полностью новый объект Обращения с новым комментом
+        const newRequestInfo: IFullRequestInfo = {
+            ...requestInfo,
+            comments: [...allComments]
+        }
+
+        // берем все обращения что есть
+        const existedRequestsString = localStorage.getItem('user_requests');
+        let existedRequestsArray: IFullRequestInfo[] = [];
+        try {
+            if (existedRequestsString) {
+                const parsedRegUsers: IFullRequestInfo[] = JSON.parse(existedRequestsString) || [];
+
+                if (parsedRegUsers?.length) {
+                    existedRequestsArray.push(...parsedRegUsers);
+                }
+            }
+        } catch (e) {
+            console.error('Cannot parse user_requests in FinalPArt -> existedRequestsString', existedRequestsString);
+        }
+        // удаляем старое обращение по id
+        const copyWithoutCurrentRequest = existedRequestsArray.filter((req) => req.id !== id);
+        // добавляем новое
+        copyWithoutCurrentRequest.push(newRequestInfo);
+        // в строку и сохраняем
+        const dataToSave = JSON.stringify(copyWithoutCurrentRequest);
+        localStorage.setItem('user_requests', dataToSave);
+        //
+        testRequestClaim(id)
+            .then((data) => {
+                if (!data) {
+                    setData(null);
+                    setError('Жалобы не существует');
+                } else {
+                    setData({
+                        contentType: '',
+                        createdDate: '2023-06-12 16:52', // "2023-06-12 16:52:48.343"
+                        genId: data.id, //"1e3ec6b0-0d2e-4671-89a1-a637ae4b7986"
+                        name: data.reason.text, //"Жалоба на врача"
+                        status: data.status, //"RESOLVED"
+                        text: data.requestText, //"Колоноскопия прошла не успешно - я обосрался"
+                        comments: data.comments || []
+                    })
+                }
+                setIsLoading(false);
+                testAddNewCommentFromAdmin();
+            })
+            .catch(() => {
+                console.error('Невозможно получить данные по id')
+                setError('Невозможно получить данные по id');
+                setIsLoading(false);
+            })
+    }
+
+    const getTestMessageFromAdmin = (): string => {
+        if (!data.comments?.length) return firstMessage;
+
+        const currentIndex = data.comments.length ? data.comments.length - 1 : 0;
+
+        return testAdminMessages[currentIndex] || testAdminMessages[0];
+    }
+
+    const testAddNewCommentFromAdmin = () => {
+        const requestInfo = getCurrentRequest(id);
+        // создаем новый коммент
+        const newComment: IComment = {
+            text: getTestMessageFromAdmin(),
+            createdAt: formatDate(new Date().getTime(), 'DD/MM/YYYY'),
+            id: Math.floor(1000 + Math.random() * 9000),
+            user: {
+                first_name: 'Клава',
+                last_name: '',
+                title: {
+                    id: 'admin',
+                    value: 'Менеджер клиентского сервиса МВидео'
+                }
+            }
+        }
+        // добаляем новый коммент к старым
+        let allComments: IComment[] = requestInfo.comments || [];
+        allComments.push(newComment);
+        // создаем полностью новый объект Обращения с новым комментом
+        const newRequestInfo: IFullRequestInfo = {
+            ...requestInfo,
+            comments: [...allComments]
+        }
+
+        // берем все обращения что есть
+        const existedRequestsString = localStorage.getItem('user_requests');
+        let existedRequestsArray: IFullRequestInfo[] = [];
+        try {
+            if (existedRequestsString) {
+                const parsedRegUsers: IFullRequestInfo[] = JSON.parse(existedRequestsString) || [];
+
+                if (parsedRegUsers?.length) {
+                    existedRequestsArray.push(...parsedRegUsers);
+                }
+            }
+        } catch (e) {
+            console.error('Cannot parse user_requests in FinalPArt -> existedRequestsString', existedRequestsString);
+        }
+        // удаляем старое обращение по id
+        const copyWithoutCurrentRequest = existedRequestsArray.filter((req) => req.id !== id);
+        // добавляем новое
+        copyWithoutCurrentRequest.push(newRequestInfo);
+        // в строку и сохраняем
+        const dataToSave = JSON.stringify(copyWithoutCurrentRequest);
+        localStorage.setItem('user_requests', dataToSave);
+
+        window.setTimeout(() => {
+            getAllData()
+        }, 2000)
+    }
+
+    // const handleSaveComment = useCallback(async (text: string) => {
+    //     const params = { claimId: id, sessionId: sessionId, text: text };
+    //     try {
+    //         const sendCommentResponse = await sendComment(params);
+    //
+    //         console.log('sendCommentResponse', sendCommentResponse);
+    //         setIsLoading(false);
+    //     } catch (err) {
+    //         console.log('handleSaveComment err', err)
+    //         console.log('handleSaveComment err', {err})
+    //         setIsLoading(false);
+    //     }
+    // }, [id, sessionId])
 
     if (error) return <div>{error}</div>
     if (!data) return null;
@@ -158,8 +302,8 @@ const RequestItem = () => {
                     </div>
                     <div className={styles.actions}>
                         <div className={styles.title}>Активность</div>
-                        <TextEditor saveComment={handleSaveComment} />
-                        {data.comments.length ? (
+                        <TextEditor saveComment={handleTestSaveComment} />
+                        {data.comments?.length ? (
                             <ClaimActions actions={data.comments} id={id}/>
                         ) : (
                             <div className={styles.no_activities}>Нет активности</div>

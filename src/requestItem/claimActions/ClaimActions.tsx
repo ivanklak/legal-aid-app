@@ -2,6 +2,7 @@ import React, {memo, useEffect, useState} from "react";
 import styles from "./ClaimActions.module.sass";
 import {BsPersonFill} from "react-icons/bs";
 import {IComment} from "../../mainPageSections/api/requests/GetClaimsRequest";
+import classNames from "classnames";
 
 interface IClaimAction {
     id: string;
@@ -26,17 +27,17 @@ const mockActions: IClaimAction[] = [
 
 const ClaimActions = memo<ClaimActionsProps>(({id, actions}) => {
 
-    const getDate = (dateString: string): string => {
-        if (!dateString) return null;
-
-        const dateArray = dateString.split('T');
-        const [year, month, day] = dateArray[0].split('-');
-        const hoursPart = dateArray[1].split('.');
-
-        const [hours, minutes, seconds] = hoursPart[0].split(':');
-
-        return `${day}.${month}.${year} ${hours}:${minutes}`
-    }
+    // const getDate = (dateString: string): string => {
+    //     if (!dateString) return null;
+    //
+    //     const dateArray = dateString.split('T');
+    //     const [year, month, day] = dateArray[0].split('-');
+    //     const hoursPart = dateArray[1].split('.');
+    //
+    //     const [hours, minutes, seconds] = hoursPart[0].split(':');
+    //
+    //     return `${day}.${month}.${year} ${hours}:${minutes}`
+    // }
 
     const renderActions = () => {
         if (!actions || !actions.length) return <div>no data</div>
@@ -44,14 +45,15 @@ const ClaimActions = memo<ClaimActionsProps>(({id, actions}) => {
         const actionsElements = actions.map((action) => (
             <div key={action.id} className={styles.action_item}>
                 <div className={styles.item_from_icon_container}>
-                   <div className={styles.icon}>
+                   <div className={classNames(styles.icon, action.user.title?.id === 'admin' && styles.icon_admin)}>
                        <BsPersonFill color={'white'} />
                    </div>
                 </div>
                 <div className={styles.item_main_container}>
                     <div className={styles.item_header}>
                         <div className={styles.item_from}>{action.user.first_name}</div>
-                        <div className={styles.item_date}>{getDate(action.createdAt)}</div>
+                        {action.user.title?.value && <div className={styles.item_from}>{action.user.title.value}</div>}
+                        <div className={styles.item_date}>{action.createdAt}</div>
                     </div>
                     {/*<div className={styles.item_text}>{action.text}</div>*/}
                     <div className={styles.item_text} dangerouslySetInnerHTML={{__html: action.text}} />

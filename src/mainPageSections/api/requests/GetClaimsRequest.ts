@@ -1,9 +1,15 @@
 import AxiosResponseHandler from "../../../service/api/handlers/AxiosResponseHandler";
 import AxiosPostRequest from "../../../service/api/requests/AxiosPostRequest";
 
+type IUserTitle = {
+    id: 'iam' | 'admin' | 'lawyer', // и другие
+    value: string;
+}
+
 export interface IUserInfo {
     first_name: string;
     last_name: string;
+    title?: IUserTitle;
 }
 
 export interface IComment {
