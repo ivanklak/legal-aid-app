@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.33aca391.css",
+    "main.js": "/static/js/main.28d163d7.js",
+    "static/media/pdf.worker.min.js": "/static/media/pdf.worker.min.edd13aa48dc899f7d50e.js",
+    "static/media/bgWhiteBlue.jpg": "/static/media/bgWhiteBlue.6759b25fc0c604c5af49.jpg",
+    "static/media/girl_with_key.svg": "/static/media/girl_with_key.7da4098af63d111804f0.svg",
+    "static/media/cross.svg": "/static/media/cross.7119684dd34f3c99991b12e678136722.svg",
+    "index.html": "/index.html",
+    "main.33aca391.css.map": "/static/css/main.33aca391.css.map",
+    "main.28d163d7.js.map": "/static/js/main.28d163d7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.33aca391.css",
+    "static/js/main.28d163d7.js"
+  ]
+}
