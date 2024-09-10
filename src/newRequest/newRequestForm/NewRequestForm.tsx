@@ -1,4 +1,5 @@
 import React, {memo, useEffect, useMemo, useState} from "react";
+import {useLocation} from "react-router-dom";
 import styles from "./NewRequestForm.module.sass";
 import NewRequestReasonPart from "./parts/newRequestReasonPart/NewRequestReasonPart";
 import NewRequestOrganisationInfoPart from "./parts/newRequestOrganisationInfoPart/NewRequestOrganisationInfoPart";
@@ -30,9 +31,10 @@ const PARTNER_ID_PARAM = 'id';
 const NewRequestForm = memo<NewRequestFormProps>(({}) => {
     const [currentPartId, setCurrentPartId] = useState<number>(PageId.reason);
     const {setPartnerId, setOrganisationData} = useSafeNewRequestDataLayerContext();
+    const location = useLocation();
 
     useEffect(() => {
-        const searchString = new URLSearchParams(window.location.search);
+        const searchString = new URLSearchParams(location.search);
         if (searchString.has(PARTNER_ID_PARAM)) {
             const id = searchString.get(PARTNER_ID_PARAM);
             if (!id?.length) return;

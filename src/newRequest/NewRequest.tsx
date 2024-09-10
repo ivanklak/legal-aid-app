@@ -9,6 +9,7 @@ import NewRequestForm from "./newRequestForm/NewRequestForm";
 import Header from "../components/header/Header";
 import ContentBody from "../components/contentBody/ContentBody";
 import Navbar from "../components/navbar/Navbar";
+import {useLocation} from "react-router-dom";
 
 const REDIRECTED_SEARCH_PARAM = 'external';
 
@@ -16,10 +17,13 @@ interface NewRequestsProps {}
 
 const NewRequests = memo<NewRequestsProps>(() => {
     const { isAuth } = useContext(AuthContext);
+    const location = useLocation();
+
+    console.log('location', location)
 
     // проверка параметров улра
     const hasExternalSearchParams = (): boolean => {
-        const searchString = new URLSearchParams(window.location.search);
+        const searchString = new URLSearchParams(location.search);
         return searchString.has(REDIRECTED_SEARCH_PARAM) && searchString.get(REDIRECTED_SEARCH_PARAM) === '1'
     }
 
