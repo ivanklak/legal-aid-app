@@ -7,6 +7,7 @@ import {ClaimsItemResponse} from "../api/requests/GetClaimsRequest";
 import { Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {getDateFromString} from "../../handlers/getDateFromString";
+import {IFullRequestInfo} from "../../newRequest/newRequestForm/parts/newRequestFinalPart/NewRequestFinalPart";
 
 interface IUserInfo {
     first_name: string;
@@ -37,14 +38,69 @@ const Claims: FC = () => {
     const [rows, setRows] = useState<ClaimRowData[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
+    useEffect(() => {
+        // requestClaims();
+        getClaims();
+    }, [])
+
+    const getClaims = () => {
+        testRequestClaims()
+            .then((data: IFullRequestInfo[]) => {
+                const claimItems: ClaimsItemResponse[] = data.map((item) => {
+                    return {
+                        contentType: '',
+                        createdDate: '2023-06-12 16:52', // "2023-06-12 16:52:48.343"
+                        genId: item.id, //"1e3ec6b0-0d2e-4671-89a1-a637ae4b7986"
+                        name: item.reason.text, //"Жалоба на врача"
+                        status: StatusV2.new, //"RESOLVED"
+                        text: item.requestText, //"Колоноскопия прошла не успешно - я обосрался"
+                        comments: item.comments || []
+                    }
+                })
+                setClaims(claimItems);
+                createTableRows(claimItems);
+                setLoading(false);
+            })
+            .catch((e) => {
+                console.log('нет обращений', e);
+                setLoading(false);
+            })
+    }
+
+    const testRequestClaims = (): Promise<IFullRequestInfo[]> => {
+        setLoading(true);
+        return new Promise((resolve, reject) => {
+            const existedRequestsString = localStorage.getItem('user_requests');
+            let existedRequestsArray: IFullRequestInfo[] = [];
+            try {
+                if (existedRequestsString) {
+                    const parsedRegUsers: IFullRequestInfo[] = JSON.parse(existedRequestsString) || [];
+
+                    if (parsedRegUsers?.length) {
+                        existedRequestsArray.push(...parsedRegUsers);
+                    }
+                }
+            } catch (e) {
+                console.error('Cannot parse user_requests in HomePage Claims -> existedRequestsString', existedRequestsString);
+            }
+
+            if (!existedRequestsArray.length) {
+                reject();
+                return;
+            }
+
+            resolve(existedRequestsArray);
+        })
+    }
+
     const onAllAppealsClick = () => {
         navigate('/myRequests')
     }
 
-    const createTableRows = useCallback((): any => {
-        if (!claims.length) return null;
+    const createTableRows = useCallback((claimItems: ClaimsItemResponse[]) => {
+        if (!claimItems.length) return null;
 
-        const rowsArray: ClaimRowData[] = claims.map((item) => {
+        const rowsArray: ClaimRowData[] = claimItems.map((item) => {
             return {
                 key: item.genId,
                 id: item.genId,
@@ -58,7 +114,7 @@ const Claims: FC = () => {
         })
 
         setRows(rowsArray);
-    }, [claims])
+    }, [])
 
     const requestClaims = useCallback(async () => {
         const sessionId = localStorage.getItem('id');
@@ -69,7 +125,7 @@ const Claims: FC = () => {
             if (response) {
                 console.log('res', response)
                 setClaims(response.claims);
-                createTableRows();
+                // createTableRows();
                 setLoading(false);
             }
         } catch (err) {
@@ -78,9 +134,9 @@ const Claims: FC = () => {
         }
     }, [createTableRows])
 
-    useEffect( () => {
-        requestClaims();
-    }, [JSON.stringify(claims)])
+    // useEffect( () => {
+    //     requestClaims();
+    // }, [JSON.stringify(claims)])
 
     const columns: ColumnsType<ClaimRowData> = [
         {
@@ -141,15 +197,13 @@ const Claims: FC = () => {
                 <div className={styles.expand_data}>Создано {claimRowData.createdDate}</div>
                 <div className={styles.expand_data}>Id: {claimRowData.id}</div>
                 <div className={styles.expand_data}>{claimRowData.comments.length} ответов</div>
-                <div className={styles.text}>{claimRowData.text}</div>
+                <div className={styles.text} dangerouslySetInnerHTML={{__html: claimRowData.text}} />
                 <Link to={{pathname: `/myRequests/${claimRowData.id}`}} className={styles.expand_link}>
                     Перейти к обращению
                 </Link>
             </div>
         )
     }
-
-    const renderExpandIcon = () => {}
 
     return (
         <div className={styles.claims}>
