@@ -1,8 +1,10 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {memo, useCallback, useEffect, useState} from "react";
 import styles from "./AdditionalInfo.module.sass";
 import {StatusV2} from "../../mainPageSections/mainPage/MainPage";
 import {Dropdown, MenuProps, Tag} from "antd";
-import { DownOutlined } from '@ant-design/icons';
+import {BsChevronDown} from "react-icons/bs";
+import {IOrganisationData} from "../../newRequest/NewRequestDataLayer";
+import {ISuggestions} from "../../newRequest/api/requests/GetOrganisationSuggestionsRequest";
 
 interface InfoRow {
     name: string;
@@ -18,28 +20,63 @@ const MOCK_ADD_CLAIM_INFO = {
     lastUpdate: '01.07.2023 в 19:30'
 }
 
-const AdditionalInfo = () => {
+interface AdditionalInfoProps {
+    id: string;
+    author: string;
+    org: IOrganisationData;
+}
+
+const AdditionalInfo = memo<AdditionalInfoProps>(({id, author, org}) => {
     const [rows, setRows] = useState<InfoRow[]>(null);
 
     useEffect(() => {
         createInfoRows();
     }, [])
 
+    const isSuggestion = (info: IOrganisationData): info is ISuggestions => {
+        return info && Boolean((info as ISuggestions).data) && Boolean((info as ISuggestions).value)
+    }
+
+    const renderOrgView = (name: string, address: string, inn: string) => {
+        return (
+            <div className={styles['org-table']}>
+                <div className={styles['org-row']}>
+                    <div className={styles['key']}>Название</div>
+                    <div className={styles['value']}>{name}</div>
+                </div>
+                <div className={styles['org-row']}>
+                    <div className={styles['key']}>Адрес</div>
+                    <div className={styles['value']}>{address}</div>
+                </div>
+                <div className={styles['org-row']}>
+                    <div className={styles['key']}>Инн</div>
+                    <div className={styles['value']}>{inn}</div>
+                </div>
+            </div>
+        )
+    }
+
+    const renderOrg = () => {
+        return isSuggestion(org)
+            ? renderOrgView(org.value, org.data.address.value, org.data.inn)
+            : renderOrgView(org.name, org.address, org.inn)
+    }
+
     const createInfoRows = useCallback(() => {
         const info = MOCK_ADD_CLAIM_INFO;
         const resultRows: InfoRow[] = [];
         for (let field in info) {
             if (field === 'id') {
-                resultRows.push({name: 'Номер', value: info[field]})
+                resultRows.push({name: 'Номер', value: id})
             }
             if (field === 'status'){
                 resultRows.push({name: 'Статус', value: renderStatusTag(info[field])})
             }
             if (field === 'author') {
-                resultRows.push({name: 'Автор', value: info[field]})
+                resultRows.push({name: 'Автор', value: author})
             }
             if (field === 'institution') {
-                resultRows.push({name: 'Учреждение', value: info[field]})
+                resultRows.push({name: 'Учреждение', value: renderOrg()})
             }
         }
 
@@ -137,7 +174,7 @@ const AdditionalInfo = () => {
             <div className={styles.change_status}>
                 <Dropdown menu={menuProps} trigger={['click']}>
                     {renderStatusTag(MOCK_ADD_CLAIM_INFO.status, styles.dropdown_tag, (
-                        <DownOutlined className={styles.dropdown_icon} />
+                        <BsChevronDown className={styles.dropdown_icon} size={10} />
                     ))}
                 </Dropdown>
             </div>
@@ -156,6 +193,6 @@ const AdditionalInfo = () => {
             </div>
         </div>
     )
-}
+})
 
 export default AdditionalInfo

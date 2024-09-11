@@ -6,6 +6,7 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import classNames from "classnames";
 import {Dropdown, MenuProps} from "antd";
 import { IoLogOutOutline } from "react-icons/io5";
+import {useAuth} from "../../hooks/useAuth";
 
 enum AccountMenuItems {
     logout = 'logout'
@@ -14,6 +15,7 @@ enum AccountMenuItems {
 const NavbarAccount = memo(() => {
     const location = useLocation();
     const navigate = useNavigate();
+    const {userData} = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
     const items: MenuProps['items'] = [
@@ -46,7 +48,7 @@ const NavbarAccount = memo(() => {
         <div className={styles['navbar-account']}>
             <Dropdown onOpenChange={handleOpenChange} menu={{ items, onClick }} trigger={['click']}>
                 <div className={classNames(styles['account-name'], isDropdownOpen && styles['_active'])}>
-                    <div>Пувел Диареевич</div>
+                    <div>{`${userData.firstName} ${userData.lastLame}`}</div>
                     <BsChevronDown size={10} />
                 </div>
             </Dropdown>

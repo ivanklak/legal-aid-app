@@ -34,6 +34,7 @@ const RequestItem = () => {
     const {userData} = useAuth();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [data, setData] = useState<ClaimsItemResponse>(null);
+    const [fullInfo, setFullInfo] = useState<IFullRequestInfo>(null);
     const sessionId = localStorage.getItem('id');
     const [error, setError] = useState<string>('');
 
@@ -67,6 +68,7 @@ const RequestItem = () => {
                     setData(null);
                     setError('Жалобы не существует');
                 } else {
+                    setFullInfo(data);
                     setData({
                         contentType: '',
                         createdDate: '2023-06-12 16:52', // "2023-06-12 16:52:48.343"
@@ -310,7 +312,11 @@ const RequestItem = () => {
                         )}
                     </div>
                 </div>
-                <AdditionalInfo />
+                <AdditionalInfo
+                    id={data.genId}
+                    author={`${userData.firstName} ${userData.lastLame}`}
+                    org={fullInfo.org}
+                />
             </DraftCreator>
         </MainWrapper>
     )
