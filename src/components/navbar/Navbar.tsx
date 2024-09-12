@@ -1,9 +1,6 @@
 import React, {FC, useEffect, useState} from "react";
-import navbar_styles from './Navbar.module.css';
-// @ts-ignore
-import {useLocation, useNavigate} from "react-router-dom";
-import axios from "../../service/api/axios";
-import {useAuth} from "../hooks/useAuth";
+import styles from './Navbar.module.sass';
+import {useLocation} from "react-router-dom";
 import Tab from "./tab/Tab";
 import NavbarAccount from "./account/NavbarAccount";
 import { RxDashboard } from "react-icons/rx";
@@ -21,8 +18,6 @@ enum Pathname {
 }
 
 const Navbar: FC = () => {
-    const auth = useAuth();
-    const navigate = useNavigate();
     const location = useLocation();
     const [currentPage, setCurrentPage] = useState<Pathname>(Pathname.Home)
 
@@ -30,25 +25,10 @@ const Navbar: FC = () => {
         setCurrentPage(location.pathname as Pathname)
     }, [location])
 
-    const clickLogOut = async () => {
-        const userName = auth?.userData.firstName
-        try {
-            const response = await axios.post("/auth/logout",
-                JSON.stringify({userName}),
-                {
-                    headers: {'Content-Type': 'application/json'},
-                    withCredentials: true
-                })
-            navigate("../login", {replace: true});
-            console.log(auth);
-        } catch (err) {
-        }
-    }
-
     return (
-        <aside className={navbar_styles.navbar}>
+        <aside className={styles['navbar']}>
             <NavbarAccount />
-            <div className={navbar_styles.tabs_container}>
+            <div className={styles['tabs-container']}>
                 <Tab
                     path='/dashboard'
                     name='Главная'
@@ -80,29 +60,6 @@ const Navbar: FC = () => {
                     isActive={currentPage === Pathname.Notifications}
                 />
             </div>
-            {/*<div className={navbar_styles.navbar_footer}>*/}
-            {/*    <div className={navbar_styles.footer_img}>*/}
-            {/*        <img src={Cock} alt="profileImg"/>*/}
-            {/*    </div>*/}
-            {/*    <div className={classNames(*/}
-            {/*        navbar_styles.footer_info,*/}
-            {/*        isNavbarClose && navbar_styles.footer_info_hide*/}
-            {/*    )}>*/}
-            {/*        <div>*/}
-            {/*            <div className={navbar_styles.greeting}>Добрый день</div>*/}
-            {/*            <div className={navbar_styles.footer_name}>Пувел&nbsp;Диареевич</div>*/}
-            {/*        </div>*/}
-            {/*        <div className={navbar_styles.footer_exit}>*/}
-            {/*            <i onClick={clickLogOut}>*/}
-            {/*                <Icon*/}
-            {/*                    icon="charm:sign-out"*/}
-            {/*                    color="var(--base-color__text_light)"*/}
-            {/*                    height="16"*/}
-            {/*                />*/}
-            {/*            </i>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
         </aside>
     );
 }

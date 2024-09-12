@@ -1,0 +1,56 @@
+@import "src/variables.module.sass"
+
+.burger-menu
+  position: absolute !important
+  top: 0
+  left: 0
+  width: 0
+  height: 100vh
+  max-width: calc(335px + env(safe-area-inset-left))
+  display: flex
+  flex-direction: column
+  transform: translateX(-60%)
+  transition: transform .3s ease-out
+  background: #1a1a1a
+  z-index: 999
+  @include respond-to('md')
+    display: none
+
+  &._open
+    transform: translateX(0)
+    width: 100%
+
+    .content
+      display: flex
+
+  .content
+    display: none
+    flex: 1 1 auto
+    flex-flow: column
+    overflow: hidden
+    position: relative
+    padding: 4px
+
+    .close-button
+      position: absolute
+      top: 0
+      right: 0
+      padding: 10px
+      color: #8d8d8d
+      display: flex
+      align-items: center
+      justify-content: center
+
+    .account-container
+      margin-top: 20px
+      margin-right: 6px
+      div
+        color: #8d8d8d
+      a
+        color: #8d8d8d
+
+    .tabs-container
+      display: flex
+      flex-direction: column
+      & > a
+        color: #8d8d8d

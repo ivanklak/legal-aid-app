@@ -1,0 +1,19 @@
+@import "src/variables.module.sass"
+
+.navbar
+    display: none
+    width: 250px
+    z-index: 3
+    background: rgba(241, 241, 241, 0.5)
+    padding-bottom: 32px
+    position: absolute
+    height: calc(100vh - 60px)
+    @include respond-to('md')
+        display: block
+
+    .tabs-container
+        display: flex
+        flex-direction: column
+        flex: 1 1 0
+        height: 100%
+        overflow: hidden auto

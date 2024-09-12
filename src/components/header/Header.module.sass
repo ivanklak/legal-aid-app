@@ -1,0 +1,144 @@
+@import "src/variables.module.sass"
+
+.header-content
+    position: fixed
+    height: 46px
+    display: flex
+    align-items: center
+    width: 100%
+    transition: all 0.5s ease
+    border-bottom: 2px solid rgba(241, 241, 241, 0.5)
+    z-index: 10
+    @include respond-to('md')
+        height: 56px
+
+    .center-header-panel
+        width: 320px
+        display: flex
+        flex-flow: row
+        flex-grow: 1
+        flex-shrink: 1
+        overflow: hidden
+        position: relative
+
+    .logo
+        display: none
+        color: #d5d5d5
+        font-size: 22px
+        font-weight: 600
+        margin-left: 16px
+        text-decoration: none
+        @include respond-to('md')
+            display: block
+
+    .burger-button
+        height: 32px
+        width: 32px
+        display: flex
+        align-items: center
+        justify-content: center
+        color: rgb(61, 61, 61)
+        transition: all 0.1s ease-in 0s
+        background: rgba(255, 255, 255)
+        border-radius: 6px
+        cursor: pointer
+        margin-left: 8px
+        @include respond-to('md')
+            display: none
+
+    .search
+        display: none
+        align-items: center
+        color: rgb(61, 61, 61)
+        margin-left: 140px
+        @include respond-to('md')
+            display: flex
+
+    .right-header-panel
+        align-items: center
+        display: flex
+        flex-grow: 0
+        flex-shrink: 0
+        margin-right: 8px
+        @include respond-to('md')
+            margin-right: 16px
+
+        .notification-button
+            height: 32px
+            width: 32px
+            display: flex
+            align-items: center
+            justify-content: center
+            color: rgb(61, 61, 61)
+            transition: all 0.1s ease-in 0s
+            border-radius: 6px
+            cursor: pointer
+            &:hover
+                background: rgba(100, 100, 100, 0.1)
+                color: var(--base-color__black)
+
+        .notification-button-active
+            background: rgba(100, 100, 100, 0.1)
+            color: var(--base-color__black)
+            box-shadow: rgb(172, 156, 255) 0 0 0 1px
+
+//.menu_icon
+//    display: flex
+//    align-items: center
+//    padding: 5px
+//    margin-left: 15px
+//    font-size: 25px
+//    color: var(--base-color__black)
+//    cursor: pointer
+//    transition: transform 0.7s ease
+//
+//    &:hover
+//        color: rgba(40, 40, 40, 0.82)
+
+
+//.touched
+//    transform: rotate(180deg)
+//
+//.panel_item {
+//    height: 100%;
+//    align-items: center;
+//    box-sizing: border-box;
+//    color: rgb(61, 61, 61);
+//    cursor: pointer;
+//    display: flex;
+//    flex-grow: 0;
+//    flex-shrink: 0;
+//    justify-content: center;
+//    outline: none;
+//    padding: 0 15px;
+//    position: relative;
+//    text-decoration: none;
+//    text-transform: uppercase;
+//    transition: background-color .1s,color;
+//    white-space: nowrap;
+//    margin: 0 4px;
+//    border-radius: 6px;
+//}
+//
+//.panel_item:hover {
+//    background: rgba(100, 100, 100, 0.1);
+//    color: var(--base-color__black);
+//}
+//
+//.settings_button {
+//    padding: 4px;
+//    border-radius: 50%;
+//}
+//
+//.account_button {
+//    padding: 5px;
+//}
+//
+//.account_button_background {
+//    display: flex;
+//    align-items: center;
+//    justify-content: center;
+//    padding: 3px;
+//    border-radius: 50%;
+//    background-color: rgba(252, 105, 72, 0.94);
+//}
