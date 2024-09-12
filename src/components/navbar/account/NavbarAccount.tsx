@@ -15,7 +15,7 @@ enum AccountMenuItems {
 const NavbarAccount = memo(() => {
     const location = useLocation();
     const navigate = useNavigate();
-    const {userData} = useAuth();
+    const {userData, setIsAuth, setUserData} = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
     const items: MenuProps['items'] = [
@@ -36,6 +36,9 @@ const NavbarAccount = memo(() => {
     const onClick: MenuProps['onClick'] = ({ key }) => {
         if (key === AccountMenuItems.logout) {
             // --> logout
+            localStorage.removeItem('last_id');
+            setIsAuth(false);
+            setUserData(null);
             navigate('/')
         }
     };
