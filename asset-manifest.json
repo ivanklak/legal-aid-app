@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/legal-aid-app/static/css/main.1873959c.css",
-    "main.js": "/legal-aid-app/static/js/main.70840253.js",
+    "main.css": "/legal-aid-app/static/css/main.5d5935ea.css",
+    "main.js": "/legal-aid-app/static/js/main.7bc3a86e.js",
     "static/media/pdf.worker.min.js": "/legal-aid-app/static/media/pdf.worker.min.edd13aa48dc899f7d50e.js",
     "static/media/bgWhiteBlue.jpg": "/legal-aid-app/static/media/bgWhiteBlue.6759b25fc0c604c5af49.jpg",
     "static/media/girl_with_key.svg": "/legal-aid-app/static/media/girl_with_key.7da4098af63d111804f0.svg",
     "static/media/cross.svg": "/legal-aid-app/static/media/cross.7119684dd34f3c99991b12e678136722.svg",
     "index.html": "/legal-aid-app/index.html",
-    "main.1873959c.css.map": "/legal-aid-app/static/css/main.1873959c.css.map",
-    "main.70840253.js.map": "/legal-aid-app/static/js/main.70840253.js.map"
+    "main.5d5935ea.css.map": "/legal-aid-app/static/css/main.5d5935ea.css.map",
+    "main.7bc3a86e.js.map": "/legal-aid-app/static/js/main.7bc3a86e.js.map"
   },
   "entrypoints": [
-    "static/css/main.1873959c.css",
-    "static/js/main.70840253.js"
+    "static/css/main.5d5935ea.css",
+    "static/js/main.7bc3a86e.js"
   ]
 }
