@@ -1,10 +1,10 @@
 import React, {FC} from "react";
-import styles from "./MainWrapper.module.css";
+import styles from "./MainWrapper.module.sass";
 
 const MainWrapper: FC = ({children}) => {
     return (
-        <main className={styles.main_wrapper}>
-            <div className={styles.wrapper_content}>
+        <main className={styles['main-wrapper']}>
+            <div className={styles['wrapper-content']}>
                 {children}
             </div>
         </main>

@@ -1,6 +1,6 @@
 import React, {FC, useCallback, useEffect, useState} from "react";
 import {StatusV2} from "../mainPage/MainPage";
-import styles from "./Claims.module.css";
+import styles from "./Claims.module.sass";
 import {Link, useNavigate} from "react-router-dom";
 import getClaimsRequest from "../api/metods/getClaimsRequest";
 import {ClaimsItemResponse} from "../api/requests/GetClaimsRequest";
@@ -8,6 +8,7 @@ import { Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {getDateFromString} from "../../handlers/getDateFromString";
 import {IFullRequestInfo} from "../../newRequest/newRequestForm/parts/newRequestFinalPart/NewRequestFinalPart";
+import Button from "../../controls/button/Button";
 
 interface IUserInfo {
     first_name: string;
@@ -187,18 +188,21 @@ const Claims: FC = () => {
 
     const renderName = (name: string) => {
         return (
-            <div className={styles.row_name}>{name}</div>
+            <div className={styles['row-name']}>{name}</div>
         )
     }
 
     const renderDescription = (claimRowData: ClaimRowData): JSX.Element => {
         return (
             <div>
-                <div className={styles.expand_data}>Создано {claimRowData.createdDate}</div>
-                <div className={styles.expand_data}>Id: {claimRowData.id}</div>
-                <div className={styles.expand_data}>{claimRowData.comments.length} ответов</div>
-                <div className={styles.text} dangerouslySetInnerHTML={{__html: claimRowData.text}} />
-                <Link to={{pathname: `/myRequests/${claimRowData.id}`}} className={styles.expand_link}>
+                <div className={styles['expand-data']}>Создано {claimRowData.createdDate}</div>
+                <div className={styles['expand-data']}>Id: {claimRowData.id}</div>
+                <div className={styles['expand-data']}>{claimRowData.comments.length} ответов</div>
+                <div className={styles['text']} dangerouslySetInnerHTML={{__html: claimRowData.text}} />
+                <Link
+                    to={{pathname: `/myRequests/${claimRowData.id}`}}
+                    className={styles['expand-link']}
+                >
                     Перейти к обращению
                 </Link>
             </div>
@@ -206,7 +210,7 @@ const Claims: FC = () => {
     }
 
     return (
-        <div className={styles.claims}>
+        <div className={styles['claims']}>
             <Table
                 columns={columns}
                 dataSource={rows}
@@ -220,10 +224,13 @@ const Claims: FC = () => {
                     // expandIcon: ({ expanded, onExpand, record }) => renderExpandIcon()
                 }}
             />
-            <div className={styles.allAppeals} onClick={onAllAppealsClick}>
-                <div className={styles.textButton}>
+            <div className={styles['button-container']}>
+                <Button
+                    className={styles['all-req-button']}
+                    onClick={onAllAppealsClick}
+                >
                     Все обращения
-                </div>
+                </Button>
             </div>
         </div>
     )

@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useContext, useState} from "react";
-import styles from "./RightSideBar.module.css";
+import styles from "./RightSideBar.module.sass";
 import {INotifications} from "../mainPage/MainPage";
 import {useNavigate} from "react-router-dom";
 import {BsPlusSquareDotted} from "react-icons/bs";
@@ -53,15 +53,15 @@ const RightSideBar: FC<RightSideBarProps> = ({notifications}) => {
     }, [openLoginNotification, isAuth, navigate])
 
     return (
-        <div className={styles.right_side_bar}>
-            <div className={styles.create_new}>
+        <div className={styles['right-side-bar']}>
+            <div className={styles['create-new']}>
                 {contextHolder}
-                <div className={styles.button_container} onClick={onCreateClick}>
-                    <BsPlusSquare className={styles.plus_icon} size="25" />
+                <div className={styles['button-container']} onClick={onCreateClick}>
+                    <BsPlusSquare className={styles['plus-icon']} size="25" />
                 </div>
-                <div className={styles.create_text}>
-                    <div className={styles.create_caption}>Новое обращение</div>
-                    <div className={styles.create_notice}>или выберете категорию и учреждение из <span className={styles.list} onClick={onListClick}>списка</span></div>
+                <div className={styles['create-text']}>
+                    <div className={styles['create-caption']}>Новое обращение</div>
+                    <div className={styles['create-notice']}>или выберете категорию и учреждение из <span className={styles['list']} onClick={onListClick}>списка</span></div>
                 </div>
             </div>
         </div>

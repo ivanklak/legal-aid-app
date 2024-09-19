@@ -1,5 +1,5 @@
 import React, {FC, useContext, useEffect} from "react";
-import styles from "./MainPage.module.css";
+import styles from "./MainPage.module.sass";
 import MainWrapper from "../../components/mainWrapper/MainWrapper";
 import Claims from "../claims/Claims";
 import RightSideBar from "../rightSideBar/RightSideBar";
@@ -56,27 +56,27 @@ const MainPage: FC = () => {
 
     return (
         <MainWrapper>
-            <div className={styles.main_page}>
-                <div className={styles.status_container}>
-                    <div className={styles.status_item}>
-                        <div className={styles.status_item_caption}>Всего обращений</div>
-                        <div className={styles.status_item_number}>98</div>
+            <div className={styles['main-page']}>
+                <div className={styles['status-container']}>
+                    <div className={styles['status-item']}>
+                        <div className={styles['status-item-caption']}>Всего обращений</div>
+                        <div className={styles['status-item-number']}>98</div>
                     </div>
-                    <div className={styles.status_item}>
-                        <div className={styles.status_item_caption}>Создано</div>
-                        <div className={styles.status_item_number}>10</div>
+                    <div className={styles['status-item']}>
+                        <div className={styles['status-item-caption']}>Создано</div>
+                        <div className={styles['status-item-number']}>10</div>
                     </div>
-                    <div className={styles.status_item}>
-                        <div className={styles.status_item_caption}>На рассмотрении</div>
-                        <div className={styles.status_item_number}>18</div>
+                    <div className={styles['status-item']}>
+                        <div className={styles['status-item-caption']}>На рассмотрении</div>
+                        <div className={styles['status-item-number']}>18</div>
                     </div>
-                    <div className={styles.status_item}>
-                        <div className={styles.status_item_caption}>Решено</div>
-                        <div className={styles.status_item_number}>70</div>
+                    <div className={styles['status-item']}>
+                        <div className={styles['status-item-caption']}>Решено</div>
+                        <div className={styles['status-item-number']}>70</div>
                     </div>
                 </div>
-                <div className={styles.main_section}>
-                    <div className={styles.appeals}>
+                <div className={styles['main-section']}>
+                    <div className={styles['appeals']}>
                         <Claims />
                     </div>
                     <RightSideBar notifications={notificationsFromServer}/>
