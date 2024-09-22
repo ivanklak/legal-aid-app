@@ -1,9 +1,18 @@
 @import "src/variables.module.sass"
 
 .content-body
-    position: relative
     display: flex
+    flex-direction: column
+    align-items: center
+    margin: 0
+    padding: 0
+    position: relative
+    overflow: hidden
     height: 100%
-    padding-top: 46px
-    @include respond-to('md')
-        padding-top: 56px
+
+    .inner-container
+        display: flex
+        flex-direction: row
+        align-items: flex-start
+        width: 100%
+        max-width: var(--sizes-pageWidth)

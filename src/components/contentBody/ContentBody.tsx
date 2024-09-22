@@ -5,6 +5,14 @@ interface ContentBodyProps {
     children: React.ReactNode
 }
 
-const ContentBody: FC<ContentBodyProps> = ({children}) => <div className={styles['content-body']}>{children}</div>
+const ContentBody: FC<ContentBodyProps> = ({children}) => {
+    return (
+        <div className={styles['content-body']}>
+            <div className={styles['inner-container']}>
+                {children}
+            </div>
+        </div>
+    )
+}
 
 export default ContentBody;

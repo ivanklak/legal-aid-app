@@ -78,7 +78,7 @@ const MyRequests = () => {
     }
 
     const handleRequestClick = (id: string) => {
-        navigate(`/myRequests/${id}`)
+        navigate(`/mySpace/myRequests/${id}`)
     }
 
     const isSuggestion = (info: IOrganisationData): info is ISuggestions => {

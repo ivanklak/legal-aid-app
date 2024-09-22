@@ -1,7 +1,11 @@
-import React, {FC} from "react";
+import React, {memo} from "react";
 import styles from "./MainWrapper.module.sass";
 
-const MainWrapper: FC = ({children}) => {
+interface MainWrapperProps {
+    children: React.ReactNode
+}
+
+const MainWrapper = memo<MainWrapperProps>(({children}) => {
     return (
         <main className={styles['main-wrapper']}>
             <div className={styles['wrapper-content']}>
@@ -9,6 +13,6 @@ const MainWrapper: FC = ({children}) => {
             </div>
         </main>
     )
-}
+})
 
 export default MainWrapper;

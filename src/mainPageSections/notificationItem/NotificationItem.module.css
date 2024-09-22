@@ -31,19 +31,19 @@
 }
 
 .itemSuccessIcon {
-    background: url("../../App/resources/flat-color-icons_ok.svg") center/cover no-repeat;
+    /*background: url("../../App/resources/flat-color-icons_ok.svg") center/cover no-repeat;*/
     width: 30px;
     height: 30px;
 }
 
 .itemNewStatusIcon {
-    background: url("../../App/resources/akar-icons_more-horizontal.svg") center/cover no-repeat;
+    /*background: url("../../App/resources/akar-icons_more-horizontal.svg") center/cover no-repeat;*/
     width: 30px;
     height: 30px;
 }
 
 .itemSentIcon {
-    background: url("../../App/resources/bi_send-check-fill.svg") center/cover no-repeat;
+    /*background: url("../../App/resources/bi_send-check-fill.svg") center/cover no-repeat;*/
     width: 30px;
     height: 30px;
 }

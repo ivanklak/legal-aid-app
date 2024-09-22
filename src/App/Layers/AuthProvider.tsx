@@ -1,4 +1,4 @@
-import React, {createContext, FC, useEffect, useState} from "react";
+import React, {createContext, memo, useEffect, useState} from "react";
 import {AuthService, IAuthData, IUserData} from "../../login/api/AuthServise";
 import {useLocation, useNavigate} from "react-router-dom";
 import {requestInfo} from "../../login/api/methods/requestInfo";
@@ -21,7 +21,11 @@ export interface IAuthContext {
 
 export const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
-export const AuthProvider: FC = ({ children }) => {
+interface AuthProviderProps {
+    children: React.ReactNode
+}
+
+export const AuthProvider = memo<AuthProviderProps>(({ children }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -171,6 +175,6 @@ export const AuthProvider: FC = ({ children }) => {
             {children}
         </AuthContext.Provider>
     )
-}
+})
 
 export default AuthContext;

@@ -1,9 +1,10 @@
 import React, {FC} from "react";
-import styles from "./App.module.css";
+import styles from "./App.module.sass";
 import AppRoutes from "./routes";
 import {AuthProvider} from "./Layers/AuthProvider";
-import NavbarDataLayer from "./Layers/NavbarDataLayer";
 import {ConfigProvider} from "antd";
+import {HashRouter} from "react-router-dom";
+import NotAuthHeader from "../components/header/notAuthHeader/NotAuthHeader";
 
 enum Roles {
     User = "USER",
@@ -12,7 +13,6 @@ enum Roles {
 }
 
 const App: FC = () => {
-
     return (
         <ConfigProvider
             theme={{
@@ -21,13 +21,13 @@ const App: FC = () => {
                 },
             }}
         >
-            <div className={styles.wrapper}>
-                {/*<div className={styles.bgImage}></div>*/}
-                <AuthProvider>
-                    <NavbarDataLayer>
+            <div className={styles['wrapper']}>
+                <HashRouter>
+                    <AuthProvider>
+                        <NotAuthHeader />
                         <AppRoutes />
-                    </NavbarDataLayer>
-                </AuthProvider>
+                    </AuthProvider>
+                </HashRouter>
             </div>
         </ConfigProvider>
     )

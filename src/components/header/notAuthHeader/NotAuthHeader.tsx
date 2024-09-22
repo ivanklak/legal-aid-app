@@ -52,8 +52,7 @@ const NotAuthHeader = memo<NotAuthHeaderProps>(() => {
                         </div>
                     </div>
                     <div className={styles['navigation']}>
-                        {isAuth && <Link to={'/dashboard'} className={styles['item']}>Мое пространство</Link>}
-                        <Link to={'/categories'} className={styles['item']}>Категории</Link>
+                        {isAuth && <Link to={'/mySpace/dashboard'} className={styles['item']}>Мое пространство</Link>}
                         <Link to={'/use-cases'} className={styles['item']}>Возможности</Link>
                         <Link to={'/support'} className={styles['item']}>Поддержка</Link>
                         <Link to={'/contacts'} className={styles['item']}>Контакты</Link>

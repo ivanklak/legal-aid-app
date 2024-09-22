@@ -1,8 +1,7 @@
-import React, {FC, useCallback, useContext, useState} from "react";
+import React, {FC, useCallback, useContext} from "react";
 import styles from "./RightSideBar.module.sass";
 import {INotifications} from "../mainPage/MainPage";
 import {useNavigate} from "react-router-dom";
-import {BsPlusSquareDotted} from "react-icons/bs";
 import { BsPlusSquare } from "react-icons/bs";
 import AuthContext from "../../App/Layers/AuthProvider";
 import {Button, notification} from "antd";
@@ -46,7 +45,7 @@ const RightSideBar: FC<RightSideBarProps> = ({notifications}) => {
 
     const onCreateClick = useCallback(() => {
         if (isAuth) {
-            navigate('/newRequest')
+            navigate('/mySpace/newRequest')
         } else {
             openLoginNotification();
         }

@@ -1,0 +1,102 @@
+@import './reset.module.sass'
+
+html
+  overflow: hidden
+
+html, body
+  height: 100%
+  width: 100%
+  margin: 0
+  padding: 0
+  background: var(--base-color__white)
+
+
+application
+  position: absolute
+  top: 0
+  left: 0
+  bottom: 0
+  right: 0
+  overflow: hidden
+  background: #ffffff
+  color: #000000
+
+
+*:root
+  --base-layout__spacing: 4px
+  --base-color__white: rgb(255, 255, 255)
+  --new-base-color__white: rgb(251, 251, 251)
+  --base-color__white25: rgba(255, 255, 255, 0.25)
+  --base-color__white30: rgba(255, 255, 255, 0.3)
+  --base-color__white35: rgba(255, 255, 255, 0.35)
+  --base-color__white40: rgba(255, 255, 255, 0.4)
+  --base-color__white50: rgba(255, 255, 255, 0.5)
+  --base-color__white80: rgba(255, 255, 255, 0.8)
+  --base-color__black: rgb(0, 0, 0)
+  --base-color__black30: rgba(0, 0, 0, 0.3)
+  --base-color__black50: rgba(0, 0, 0, 0.5)
+  --base-color__black70: rgba(0, 0, 0, 0.7)
+  --base-color__black80: rgba(0, 0, 0, 0.8)
+  --base-color__grey900: rgb(58, 58, 58)
+  --base-color__grey800: rgb(66, 66, 66)
+  --base-color__grey700: rgb(77, 77, 77)
+  --base-color__grey500: rgb(84, 84, 84)
+  --base-color__grey300: rgb(151, 151, 151)
+  --base-color__grey200: rgb(218, 218, 218)
+  --base-color__blue600: rgb(36, 102, 140)
+  --base-color__blue500: rgb(27, 127, 204)
+  --base-color__blue50080: rgb(27, 127, 204, 0.8)
+  --base-color__blue400: rgb(22, 142, 176)
+  --base-color__blue300: rgb(129, 212, 250)
+  --base-color__green300: rgb(165, 214, 167)
+  --base-color__orange300: rgb(255, 183, 77)
+  --base-color__orange900: rgb(230, 81, 0)
+  --base-color__brown200: rgb(161, 136, 127)
+  --base-color__red600: rgb(229, 57, 53)
+  --base-color__red500: #C80C00
+  --base-color__yellow500: rgb(255, 212, 0)
+
+  --base-color__background: rgb(238, 238, 238)
+  --base-color__text_light: rgba(51, 65, 79, 0.9)
+  --base-color__button: rgb(43, 132, 239)
+  --primary-color__background: rgb(183, 205, 241)
+  --primary2-color__background: rgb(216, 231, 243)
+  --second-color__background: rgb(117, 133, 238)
+  --violet-color__background: rgb(178, 157, 246)
+  --gold-color__background: rgb(245, 206, 125)
+
+  --base-color__success: rgba(71, 248, 127, 0.4)
+  --base-color__success2: rgb(161, 140, 92)
+
+  --base-color__warningRed: rgb(235, 94, 94)
+  --base-color__backgroundGray: rgba(241, 241, 241, 0.5)
+
+  --base-color__textDark: rgb(61, 61, 61)
+
+  --button__primary: rgb(100, 78, 215)
+  --button__secondary: rgb(234, 255, 150)
+  --button__darkGray: rgb(37, 37, 37)
+  --button__textWhite: rgb(245, 245, 245)
+  --button__textBlack: rgb(14, 14, 14)
+
+  --button__primary-hover: rgb(123, 97, 255)
+
+  // sizes
+  --sizes-pageWidth: 1880px
+  --sizes-landingPageWidth: 1280px
+  --sizes-navHeight: 48px
+
+  /* fonts */
+  --fonts-display: TWK Everett, Inter, 'Hevetica Neue', Helvetica, apple-system, sans-serif
+  --fonts-default: Inter, 'Hevetica Neue', Helvetica, apple-system, sans-serif
+
+body .ql-container
+  border-bottom-left-radius: 6px
+  border-bottom-right-radius: 6px
+
+body .ql-formats
+  margin-right: 12px !important
+
+body .ql-tooltip
+  z-index: 10000
+  left: unset !important

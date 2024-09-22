@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router';
 import Navbar from "./navbar/Navbar";
 import ContentBody from "./contentBody/ContentBody";
-import Header from "./header/Header";
 
 export type ProtectedRouteProps = {
     isAuthenticated: boolean;
@@ -23,13 +22,10 @@ export default function ProtectedRoute({isAuthenticated, authenticationPath, red
 
     if (isAuthenticated && redirectPath === currentLocation.pathname) {
         return (
-            <>
-                <Header/>
-                <ContentBody>
-                    <Navbar/>
-                    {outlet}
-                </ContentBody>
-            </>
+            <ContentBody>
+                <Navbar/>
+                {outlet}
+            </ContentBody>
         );
     } else {
         return <Navigate to={{ pathname: isAuthenticated ? redirectPath : authenticationPath }} />;

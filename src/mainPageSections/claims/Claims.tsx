@@ -95,7 +95,7 @@ const Claims: FC = () => {
     }
 
     const onAllAppealsClick = () => {
-        navigate('/myRequests')
+        navigate('/mySpace/myRequests')
     }
 
     const createTableRows = useCallback((claimItems: ClaimsItemResponse[]) => {

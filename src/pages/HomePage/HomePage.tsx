@@ -2,7 +2,6 @@ import React, {memo, useCallback} from "react";
 import styles from "./HomePage.module.sass";
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../../components/hooks/useAuth";
-import NotAuthHeader from "../../components/header/notAuthHeader/NotAuthHeader";
 import {BsChevronRight} from "react-icons/bs";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { CiBullhorn } from "react-icons/ci";
@@ -15,7 +14,7 @@ const HomePage = memo<HomePageProps>(() => {
     const navigate = useNavigate();
 
     const onCreateClick = useCallback(() => {
-        isAuth ? navigate('/newRequest') : navigate('/login')
+        isAuth ? navigate('/mySpace/newRequest') : navigate('/login')
     }, [isAuth, navigate])
 
     const onSignInClick = useCallback(() => {
@@ -24,7 +23,6 @@ const HomePage = memo<HomePageProps>(() => {
 
     return (
         <>
-            <NotAuthHeader />
             <div className={styles['home-page']}>
                 <div className={styles['greetings-section']}>
                     <div className={styles['content-container']}>

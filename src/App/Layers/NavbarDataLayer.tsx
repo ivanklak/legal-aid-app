@@ -1,7 +1,11 @@
-import React, {FC, useState} from "react";
+import React, {memo, useState} from "react";
 import NavbarContext from "../context/NavbarContext";
 
-const NavbarDataLayer: FC = ({children}) => {
+interface NavbarDataLayerProps {
+    children: React.ReactNode
+}
+
+const NavbarDataLayer = memo<NavbarDataLayerProps>(({children}) => {
 
     const [isNavbarClose, setIsNavbarClose] = useState(false);
 
@@ -10,6 +14,6 @@ const NavbarDataLayer: FC = ({children}) => {
             {children}
         </NavbarContext.Provider>
     )
-}
+})
 
 export default NavbarDataLayer;

@@ -1,4 +1,4 @@
-import React, {createContext, FC, useContext, useState} from "react";
+import React, {createContext, memo, useContext, useState} from "react";
 import {IReason} from "./newRequestForm/parts/newRequestReasonPart/NewRequestReasonPart";
 import {ISuggestions} from "./api/requests/GetOrganisationSuggestionsRequest";
 import {SavedOrgData} from "./createForm/manualForm/ManualForm";
@@ -32,7 +32,11 @@ export const useSafeNewRequestDataLayerContext = () => {
     return newRequestDataLayer;
 };
 
-const NewRequestDataLayerProvider: FC = ({ children}) => {
+interface NewRequestDataLayerProviderProps {
+    children: React.ReactNode
+}
+
+const NewRequestDataLayerProvider = memo<NewRequestDataLayerProviderProps>(({ children}) => {
     const [reason, setReason] = useState<IReason>(null);
     const [partnerId, setPartnerId] = useState<string>('');
     const [organisationData, setOrganisationData] = useState<IOrganisationData>(null);
@@ -70,6 +74,6 @@ const NewRequestDataLayerProvider: FC = ({ children}) => {
             {children}
         </NewRequestDataLayerContext.Provider>
     )
-}
+})
 
 export default NewRequestDataLayerProvider;

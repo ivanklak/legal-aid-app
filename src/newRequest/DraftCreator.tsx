@@ -1,4 +1,4 @@
-import React, {createContext, FC, useContext, useState} from "react";
+import React, {createContext, FC, memo, useContext, useState} from "react";
 import {ISuggestions} from "./api/requests/GetOrganisationSuggestionsRequest";
 import {useAuth} from "../components/hooks/useAuth";
 import {CreateDraftParams, CreateDraftResponse} from "./api/requests/CreateDraftRequest";
@@ -32,7 +32,11 @@ export const useDraftCreatorContext = () => {
     return draftData
 }
 
-const DraftCreator: FC = ({children}) => {
+interface DraftCreatorProps {
+    children: React.ReactNode
+}
+
+const DraftCreator = memo<DraftCreatorProps>(({children}) => {
     const {userData} = useAuth();
     const [draft, setDraft] = useState<CreateDraftResponse>(null);
 
@@ -69,6 +73,6 @@ const DraftCreator: FC = ({children}) => {
             {children}
         </DraftCreatorContext.Provider>
     )
-}
+})
 
 export default DraftCreator;

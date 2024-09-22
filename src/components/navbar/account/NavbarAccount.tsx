@@ -5,10 +5,14 @@ import { BsChevronDown } from "react-icons/bs";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import classNames from "classnames";
 import {Dropdown, MenuProps} from "antd";
-import { IoLogOutOutline } from "react-icons/io5";
 import {useAuth} from "../../hooks/useAuth";
+import { IoLogOutOutline } from "react-icons/io5";
+import { IoAccessibilityOutline } from "react-icons/io5";
+import { BsBoxes } from "react-icons/bs";
+
 
 enum AccountMenuItems {
+    account= 'account',
     logout = 'logout'
 }
 
@@ -20,7 +24,13 @@ const NavbarAccount = memo(() => {
 
     const items: MenuProps['items'] = [
         {
-            label: <span>что-то улетное</span>,
+            icon: <IoAccessibilityOutline size={16} />,
+            label: 'Аккаунт',
+            key: AccountMenuItems.account,
+        },
+        {
+            icon: <BsBoxes size={16} />,
+            label: 'Что-то улетное',
             key: '1',
         },
         {
@@ -34,12 +44,19 @@ const NavbarAccount = memo(() => {
     ];
 
     const onClick: MenuProps['onClick'] = ({ key }) => {
-        if (key === AccountMenuItems.logout) {
-            // --> logout
-            localStorage.removeItem('last_id');
-            setIsAuth(false);
-            setUserData(null);
-            navigate('/')
+        switch (key) {
+            case AccountMenuItems.logout: {
+                // --> logout
+                localStorage.removeItem('last_id');
+                setIsAuth(false);
+                setUserData(null);
+                navigate('/')
+                return;
+            }
+            case AccountMenuItems.account: {
+                navigate('/account');
+                return;
+            }
         }
     };
 

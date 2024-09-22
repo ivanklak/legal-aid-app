@@ -77,7 +77,7 @@ const Login = () => {
                 localStorage.setItem('last_id', userData.id);
                 setIsAuth(true);
                 setIsAuthInProgress(false);
-                navigate('/dashboard');
+                navigate('/mySpace/dashboard');
             } else {
                 setIsAuth(false);
                 setIsAuthInProgress(false);
@@ -147,7 +147,7 @@ const Login = () => {
         }
         // save in context
         setAuthData(response);
-        navigate('/dashboard', {replace: true});
+        navigate('/mySpace/dashboard', {replace: true});
         // save in storage
         localStorage.setItem("token", response.access_token);
         localStorage.setItem('id', response.sessionId);

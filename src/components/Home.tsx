@@ -15,6 +15,10 @@ import UseCasesPage from "../pages/UseCasesPage/UseCasesPage";
 import CategoriesPage from "../pages/CategoriesPage/CategoriesPage";
 import ContactsPage from "../pages/ContactsPage/ContactsPage";
 import SupportPage from "../pages/SupportPage/SupportPage";
+import MySpacePage from "../pages/MySpacePages/MySpacePage/MySpacePage";
+import MySpaceNewRequestPage from "../pages/MySpacePages/NewRequestPage/MySpaceNewRequestPage";
+import AccountPage from "../pages/MySpacePages/AccountPage/AccountPage";
+import SettingsAccountPage from "../pages/accountPages/settings/SettingsAccountPage";
 
 const Home: FC = () => {
     const {isAuth, isAuthInProgress} = useAuth();
@@ -46,12 +50,16 @@ const Home: FC = () => {
             <Route path='categories' element={<CategoriesPage />} />
             <Route path='support' element={<SupportPage />} />
             <Route path='contacts' element={<ContactsPage />} />
-            <Route path='dashboard' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MainPage/>} />} />
-            <Route path='category' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Categories/>} />} />
-            <Route path='myRequests' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MyRequests/>} />} />
-            <Route path='myRequests/:id' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<RequestItem/>} />} />
+            <Route path='/mySpace' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MySpacePage/>} />} />
+            <Route path='/mySpace/dashboard' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MainPage/>} />} />
+            <Route path='/mySpace/category' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Categories/>} />} />
+            <Route path='/mySpace/myRequests' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MyRequests/>} />} />
+            <Route path='/mySpace/myRequests/:id' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<RequestItem/>} />} />
+            <Route path='/mySpace/newRequest' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MySpaceNewRequestPage/>} />} />
+            <Route path='/mySpace/notifications' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Notifications/>} />} />
             <Route path='newRequest' element={<NewRequests/>} />
-            <Route path='notifications' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Notifications/>} />} />
+            <Route path='/account' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AccountPage/>} />} />
+            <Route path='/account/settings' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<SettingsAccountPage/>} />} />
         </Routes>
     )
 }
