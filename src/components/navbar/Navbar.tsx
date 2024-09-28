@@ -8,6 +8,7 @@ import { BsBoxes } from "react-icons/bs";
 import { IoDocumentOutline } from "react-icons/io5";
 import { HiOutlineDocumentPlus } from "react-icons/hi2";
 import { IoIosNotificationsOutline } from "react-icons/io"
+import {useAuth} from "../hooks/useAuth";
 
 enum Pathname {
     Home = "/mySpace/dashboard",
@@ -27,7 +28,7 @@ const Navbar: FC = () => {
 
     return (
         <aside className={styles['navbar']}>
-            <NavbarAccount />
+            <NavbarAccount onClick={() => {}} />
             <div className={styles['tabs-container']}>
                 <Tab
                     path='/mySpace/dashboard'

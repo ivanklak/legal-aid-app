@@ -9,6 +9,7 @@ import {useAuth} from "../../hooks/useAuth";
 import { IoLogOutOutline } from "react-icons/io5";
 import { IoAccessibilityOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
+import Button from "../../../controls/button/Button";
 
 
 enum AccountMenuItems {
@@ -16,7 +17,11 @@ enum AccountMenuItems {
     logout = 'logout'
 }
 
-const NavbarAccount = memo(() => {
+interface NavbarAccountProps {
+    onClick: () => void;
+}
+
+const NavbarAccount = memo<NavbarAccountProps>(({onClick: propsOnClick}) => {
     const location = useLocation();
     const navigate = useNavigate();
     const {userData, setIsAuth, setUserData} = useAuth();
@@ -43,18 +48,20 @@ const NavbarAccount = memo(() => {
         },
     ];
 
-    const onClick: MenuProps['onClick'] = ({ key }) => {
+    const handleClick: MenuProps['onClick'] = ({ key }) => {
         switch (key) {
             case AccountMenuItems.logout: {
                 // --> logout
                 localStorage.removeItem('last_id');
                 setIsAuth(false);
                 setUserData(null);
-                navigate('/')
+                navigate('/');
+                propsOnClick();
                 return;
             }
             case AccountMenuItems.account: {
                 navigate('/account');
+                propsOnClick();
                 return;
             }
         }
@@ -64,23 +71,53 @@ const NavbarAccount = memo(() => {
         setIsDropdownOpen(value)
     }, [])
 
+    const handleSignIn = useCallback(() => {
+        navigate('/login');
+        propsOnClick();
+    }, [navigate, propsOnClick])
+
+    const handleRegister = useCallback(() => {
+        navigate('/registration');
+        propsOnClick();
+    }, [navigate, propsOnClick])
+
     return (
         <div className={styles['navbar-account']}>
-            <Dropdown onOpenChange={handleOpenChange} menu={{ items, onClick }} trigger={['click']}>
-                <div className={classNames(styles['account-name'], isDropdownOpen && styles['_active'])}>
-                    <div>{`${userData.firstName} ${userData.lastLame}`}</div>
-                    <BsChevronDown size={10} />
-                </div>
-            </Dropdown>
-            <Link
-                to={'/account/settings'}
-                className={classNames(
-                    styles['account-settings'],
-                    location.pathname === '/account/settings' && styles['_active']
-                )}
-            >
-                <IoSettingsOutline size={16} />
-            </Link>
+            {!userData ? (
+                <>
+                    <Button
+                        className={styles['sign-in-button']}
+                        onClick={handleSignIn}
+                    >
+                        Войти
+                    </Button>
+                    <Button
+                        className={styles['reg-button']}
+                        onClick={handleRegister}
+                    >
+                        Регистрация
+                    </Button>
+                </>
+            ) : (
+                <>
+                    <Dropdown onOpenChange={handleOpenChange} menu={{ items, onClick: handleClick }} trigger={['click']}>
+                        <div className={classNames(styles['account-name'], isDropdownOpen && styles['_active'])}>
+                            <div>{`${userData.firstName} ${userData.lastLame}`}</div>
+                            <BsChevronDown size={10} />
+                        </div>
+                    </Dropdown>
+                    <Link
+                        to={'/account/settings'}
+                        className={classNames(
+                            styles['account-settings'],
+                            location.pathname === '/account/settings' && styles['_active']
+                        )}
+                        onClick={propsOnClick}
+                    >
+                        <IoSettingsOutline size={16} />
+                    </Link>
+                </>
+            )}
         </div>
     )
 })

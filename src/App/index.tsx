@@ -4,7 +4,7 @@ import AppRoutes from "./routes";
 import {AuthProvider} from "./Layers/AuthProvider";
 import {ConfigProvider} from "antd";
 import {HashRouter} from "react-router-dom";
-import NotAuthHeader from "../components/header/notAuthHeader/NotAuthHeader";
+import Header from "../components/header/Header";
 
 enum Roles {
     User = "USER",
@@ -24,7 +24,7 @@ const App: FC = () => {
             <div className={styles['wrapper']}>
                 <HashRouter>
                     <AuthProvider>
-                        <NotAuthHeader />
+                        <Header />
                         <AppRoutes />
                     </AuthProvider>
                 </HashRouter>

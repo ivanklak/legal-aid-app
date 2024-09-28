@@ -9,10 +9,18 @@ interface TabProps {
     icon: JSX.Element;
     isActive: boolean;
     onClick?: () => void;
+    disabled?: boolean;
 }
 
-const Tab: FC<TabProps> = ({path, name, icon, isActive, onClick}) => {
-    return (
+const Tab: FC<TabProps> = ({path, name, icon, isActive, onClick, disabled}) => {
+    return disabled ? (
+        <div className={classNames(styles.tab, styles.disabled)}>
+            <div className={styles.tab_body}>
+                <span className={styles.icon}>{icon}</span>
+                <div className={styles.name}>{name}</div>
+            </div>
+        </div>
+    ) : (
         <NavLink
             to={path}
             className={classNames(styles.tab, isActive && styles.active)}

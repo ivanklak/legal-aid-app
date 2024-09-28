@@ -10,13 +10,21 @@ import {IoIosNotificationsOutline} from "react-icons/io";
 import {useLocation} from "react-router-dom";
 import classNames from "classnames";
 import {IoClose} from "react-icons/io5";
+import { IoHelpCircleOutline } from "react-icons/io5";
+import { RiTeamLine } from "react-icons/ri";
+import { GoHome } from "react-icons/go";
+import {useAuth} from "../../hooks/useAuth";
 
 enum Pathname {
-    Home = "/dashboard",
-    Category = '/category',
-    MyRequests = '/myRequests',
-    NewRequest = '/newRequest',
-    Notifications = '/notifications'
+    Home = '/',
+    Dashboard = "/mySpace/dashboard",
+    Category = '/mySpace/category',
+    MyRequests = '/mySpace/myRequests',
+    NewRequest = '/mySpace/newRequest',
+    Notifications = '/mySpace/notifications',
+    Support = '/support',
+    UseCases = '/use-cases',
+    Contacts = '/contacts'
 }
 
 interface BurgerMenuProps {
@@ -26,7 +34,8 @@ interface BurgerMenuProps {
 
 const BurgerMenu = memo<BurgerMenuProps>(({open, onClose}) => {
     const location = useLocation();
-    const [currentPage, setCurrentPage] = useState<Pathname>(Pathname.Home)
+    const {userData} = useAuth();
+    const [currentPage, setCurrentPage] = useState<Pathname>(Pathname.Home);
 
     useEffect(() => {
         setCurrentPage(location.pathname as Pathname)
@@ -47,42 +56,80 @@ const BurgerMenu = memo<BurgerMenuProps>(({open, onClose}) => {
                     <IoClose size={24} />
                 </div>
                 <div className={styles['account-container']}>
-                    <NavbarAccount />
+                    <NavbarAccount onClick={handleTabClick} />
                 </div>
                 <div className={styles['tabs-container']}>
                     <Tab
-                        path='/dashboard'
+                        path='/'
                         name='Главная'
-                        icon={<RxDashboard size={16} />}
+                        icon={<GoHome size={16} />}
                         isActive={currentPage === Pathname.Home}
                         onClick={handleTabClick}
                     />
+                    {userData && <div className={styles['divider']} />}
                     <Tab
-                        path='/category'
-                        name='Категории'
+                        path='/mySpace/dashboard'
+                        name='Мое пространство'
+                        icon={<RxDashboard size={16} />}
+                        isActive={currentPage === Pathname.Dashboard}
+                        onClick={handleTabClick}
+                    />
+                    {userData && (
+                       <>
+                           <Tab
+                               path='/mySpace/category'
+                               name='Категории'
+                               icon={<BsBoxes size={16} />}
+                               isActive={currentPage === Pathname.Category}
+                               onClick={handleTabClick}
+                               disabled={!userData}
+                           />
+                           <Tab
+                               path='/mySpace/myRequests'
+                               name='Мои&nbsp;обращения'
+                               icon={<IoDocumentOutline size={16} />}
+                               isActive={currentPage === Pathname.MyRequests}
+                               onClick={handleTabClick}
+                               disabled={!userData}
+                           />
+                           <Tab
+                               path='/mySpace/newRequest'
+                               name='Новое&nbsp;обращение'
+                               icon={<HiOutlineDocumentPlus size={16} />}
+                               isActive={currentPage === Pathname.NewRequest}
+                               onClick={handleTabClick}
+                               disabled={!userData}
+                           />
+                           <Tab
+                               path={'/mySpace/notifications'}
+                               name={'Уведомления'}
+                               icon={<IoIosNotificationsOutline size={19} />}
+                               isActive={currentPage === Pathname.Notifications}
+                               onClick={handleTabClick}
+                               disabled={!userData}
+                           />
+                           <div className={styles['divider']} />
+                       </>
+                    )}
+                    <Tab
+                        path='/use-cases'
+                        name='Возможности'
                         icon={<BsBoxes size={16} />}
-                        isActive={currentPage === Pathname.Category}
+                        isActive={currentPage === Pathname.UseCases}
                         onClick={handleTabClick}
                     />
                     <Tab
-                        path='/myRequests'
-                        name='Мои&nbsp;обращения'
-                        icon={<IoDocumentOutline size={16} />}
-                        isActive={currentPage === Pathname.MyRequests}
+                        path='/support'
+                        name='Помощь'
+                        icon={<IoHelpCircleOutline size={16} />}
+                        isActive={currentPage === Pathname.Support}
                         onClick={handleTabClick}
                     />
                     <Tab
-                        path='/newRequest'
-                        name='Новое&nbsp;обращение'
-                        icon={<HiOutlineDocumentPlus size={16} />}
-                        isActive={currentPage === Pathname.NewRequest}
-                        onClick={handleTabClick}
-                    />
-                    <Tab
-                        path={'/notifications'}
-                        name={'Уведомления'}
-                        icon={<IoIosNotificationsOutline size={19} />}
-                        isActive={currentPage === Pathname.Notifications}
+                        path='/contacts'
+                        name='Контакты'
+                        icon={<RiTeamLine size={16} />}
+                        isActive={currentPage === Pathname.Contacts}
                         onClick={handleTabClick}
                     />
                 </div>

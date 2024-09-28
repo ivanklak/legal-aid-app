@@ -4,15 +4,17 @@ import classNames from "classnames";
 import {Input} from 'antd';
 import NotificationsModal from "./notificationsModal/NotificationsModal";
 import {IoIosNotificationsOutline} from "react-icons/io";
-import { IoSearchOutline } from "react-icons/io5";
+import {IoAccessibilityOutline, IoSearchOutline} from "react-icons/io5";
 import {useAuth} from "../hooks/useAuth";
-import NotAuthHeader from "./notAuthHeader/NotAuthHeader";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { IoMenuOutline } from "react-icons/io5";
 import BurgerMenu from "./burderMenu/BurgerMenu";
+import {BsBoxes} from "react-icons/bs";
+import Button from "../../controls/button/Button";
 
 const Header: FC = () => {
     const {isAuth} = useAuth();
+    const navigate = useNavigate();
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [openBurger, setOpenBurger] = useState<boolean>(false);
 
@@ -32,43 +34,70 @@ const Header: FC = () => {
         setOpenBurger(!openBurger)
     },[openBurger])
 
-    if (!isAuth) return <NotAuthHeader />
-
     return (
-        <header className={styles['header-content']}>
-            <Link to={'/'} className={styles['logo']}>доносы.ру</Link>
-            <div
-                className={styles['burger-button']}
-                onClick={handleBurger}
-            >
-                <IoMenuOutline size={24} />
-            </div>
-            <BurgerMenu open={openBurger} onClose={handleBurger} />
-            <div className={styles['center-header-panel']}>
-                <div className={styles['search']}>
-                    <IoSearchOutline size={16} />
-                    <Input
-                        placeholder="Поиск"
-                        bordered={false}
-                        onChange={onChange}
-                        style={{ width: 200 }}
-                    />
-                </div>
-            </div>
-            <div className={styles['right-header-panel']}>
+        <header className={styles['header']}>
+            <div className={styles['header-content']}>
+                <Link to={'/'} className={styles['logo']}>
+                    <BsBoxes size={22} className={styles['company-icon']} />
+                </Link>
                 <div
-                    className={classNames(
-                        styles['notification-button'],
-                        openModal && styles['notification-button-active']
-                    )}
-                    onClick={onNotificationsClick}
+                    className={styles['burger-button']}
+                    onClick={handleBurger}
                 >
-                    <IoIosNotificationsOutline size={20} />
+                    <IoMenuOutline size={24} />
                 </div>
-                <NotificationsModal
-                    setOpenModal={handleModal}
-                    open={openModal}
-                />
+                <BurgerMenu open={openBurger} onClose={handleBurger} />
+                <div className={styles['center-header-panel']}>
+                    {/*<div className={styles['search']}>*/}
+                    {/*    <IoSearchOutline size={16} />*/}
+                    {/*    <Input*/}
+                    {/*        placeholder="Поиск"*/}
+                    {/*        bordered={false}*/}
+                    {/*        onChange={onChange}*/}
+                    {/*        style={{ width: 200 }}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
+                    <div className={styles['navigation']}>
+                        {isAuth && <Link to={'/mySpace/dashboard'} className={styles['item']}>Мое пространство</Link>}
+                        <Link to={'/use-cases'} className={styles['item']}>Возможности</Link>
+                        <Link to={'/support'} className={styles['item']}>Поддержка</Link>
+                        <Link to={'/contacts'} className={styles['item']}>Контакты</Link>
+                    </div>
+                </div>
+                <div className={styles['right-header-panel']}>
+                    {isAuth ? (
+                        <>
+                            <div
+                                className={classNames(
+                                    styles['notification-button'],
+                                    openModal && styles['notification-button-active']
+                                )}
+                                onClick={onNotificationsClick}
+                            >
+                                <IoIosNotificationsOutline size={20} />
+                            </div>
+                            <NotificationsModal
+                                setOpenModal={handleModal}
+                                open={openModal}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <Button
+                                className={styles['sign-in-button']}
+                                onClick={() => navigate('/login')}
+                            >
+                                Войти
+                            </Button>
+                            <Button
+                                className={styles['reg-button']}
+                                onClick={() => navigate('/registration')}
+                            >
+                                Регистрация
+                            </Button>
+                        </>
+                    )}
+                </div>
             </div>
         </header>
     );
