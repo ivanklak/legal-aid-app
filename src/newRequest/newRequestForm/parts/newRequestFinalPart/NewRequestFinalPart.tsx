@@ -1,12 +1,12 @@
 import React, {memo, useState} from "react";
 import styles from "./NewRequestFinalPart.module.sass";
-import Button from "../../../../controls/button/Button";
+import Button from "../../../../designSystem/button/Button";
 import {IOrganisationData, useSafeNewRequestDataLayerContext} from "../../../NewRequestDataLayer";
-import {useAuth} from "../../../../components/hooks/useAuth";
+import {useAuth} from "../../../../app/hooks/useAuth";
 import {ISuggestions} from "../../../api/requests/GetOrganisationSuggestionsRequest";
 import OrganisationForm from "../../components/organisationForm/OrganisationForm";
 import {Modal} from "antd";
-import {LoaderCircle} from "../../../../components/loader/Loader.Circle";
+import {LoaderCircle} from "../../../../designSystem/loader/Loader.Circle";
 import {useNavigate} from "react-router-dom";
 import {IReason} from "../newRequestReasonPart/NewRequestReasonPart";
 import {formats} from "../../../../requestItem/textEditor/EditorToolbar";

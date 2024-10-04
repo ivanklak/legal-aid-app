@@ -10,12 +10,12 @@ import TextEditor from "./textEditor/TextEditor";
 import {sendComment} from "../service/network/requestItem/methods/sendComment";
 import DraftCreator from "../newRequest/DraftCreator";
 import {IFullRequestInfo} from "../newRequest/newRequestForm/parts/newRequestFinalPart/NewRequestFinalPart";
-import {LoaderCircle} from "../components/loader/Loader.Circle";
+import {LoaderCircle} from "../designSystem/loader/Loader.Circle";
 import classNames from "classnames";
 import {formats} from "./textEditor/EditorToolbar";
 import ReactQuill from "react-quill";
-import {useAuth} from "../components/hooks/useAuth";
-import {formatDate} from "../controls/dateUtils/dateUtils";
+import {useAuth} from "../app/hooks/useAuth";
+import {formatDate} from "../core/utils/dateUtils";
 
 const CAPTION = 'Читос или кузя лакомкин?';
 const ITEM_DESCRIPTION = 'Многие меня спрашивают читос или кузя лакомкин. Скажу по секрету, что между ними стоит еще один титан. Это русская картошка. ' +

@@ -1,9 +1,9 @@
 import React, {memo, useCallback} from "react";
 import styles from "./NotAuthHeader.module.sass";
-import Button from "../../../controls/button/Button";
+import Button from "../../../designSystem/button/Button";
 import {Link, useNavigate} from "react-router-dom";
 import { BsBoxes } from "react-icons/bs";
-import {useAuth} from "../../hooks/useAuth";
+import {useAuth} from "../../../app/hooks/useAuth";
 import { IoAccessibilityOutline } from "react-icons/io5";
 
 interface NotAuthHeaderProps {}

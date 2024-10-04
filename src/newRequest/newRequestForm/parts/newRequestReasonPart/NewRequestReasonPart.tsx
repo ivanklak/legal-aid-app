@@ -1,7 +1,7 @@
 import React, {memo, useState} from "react";
 import styles from "./NewRequestReasonPart.module.sass";
 import classNames from "classnames";
-import Button from "../../../../controls/button/Button";
+import Button from "../../../../designSystem/button/Button";
 import {useSafeNewRequestDataLayerContext} from "../../../NewRequestDataLayer";
 
 interface NewRequestReasonPartProps {

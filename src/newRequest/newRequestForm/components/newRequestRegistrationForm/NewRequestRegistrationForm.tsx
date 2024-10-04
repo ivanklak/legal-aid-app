@@ -1,9 +1,9 @@
 import React, {memo, useMemo, useState} from "react";
 import styles from "./NewRequestRegistrationForm.module.sass";
-import {Input, InputSize} from "../../../../components/input";
-import Button from "../../../../controls/button/Button";
-import {useAuth} from "../../../../components/hooks/useAuth";
-import {LoaderCircle} from "../../../../components/loader/Loader.Circle";
+import {Input, InputSize} from "../../../../designSystem/input";
+import Button from "../../../../designSystem/button/Button";
+import {useAuth} from "../../../../app/hooks/useAuth";
+import {LoaderCircle} from "../../../../designSystem/loader/Loader.Circle";
 
 type TRegPageId = 'credentials' | 'addUserData';
 

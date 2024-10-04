@@ -2,7 +2,7 @@ import React, {memo, useCallback} from "react";
 import styles from "./NoAuthorized.module.sass";
 import {useNavigate} from "react-router-dom";
 import {RiStackFill} from "react-icons/ri";
-import Button from "../../controls/button/Button";
+import Button from "../../designSystem/button/Button";
 import classNames from "classnames";
 
 interface NoAuthorizedProps {

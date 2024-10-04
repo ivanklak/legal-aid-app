@@ -1,6 +1,6 @@
 import React, {createContext, FC, memo, useContext, useState} from "react";
 import {ISuggestions} from "./api/requests/GetOrganisationSuggestionsRequest";
-import {useAuth} from "../components/hooks/useAuth";
+import {useAuth} from "../app/hooks/useAuth";
 import {CreateDraftParams, CreateDraftResponse} from "./api/requests/CreateDraftRequest";
 import {createDraft} from "./api/methods/requestCreateDraft";
 

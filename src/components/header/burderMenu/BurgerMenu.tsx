@@ -13,7 +13,7 @@ import {IoClose} from "react-icons/io5";
 import { IoHelpCircleOutline } from "react-icons/io5";
 import { RiTeamLine } from "react-icons/ri";
 import { GoHome } from "react-icons/go";
-import {useAuth} from "../../hooks/useAuth";
+import {useAuth} from "../../../app/hooks/useAuth";
 
 enum Pathname {
     Home = '/',

@@ -1,11 +1,11 @@
 import React, {memo, useCallback, useEffect, useState} from "react";
 import styles from "./NewRequestRequestInfoPart.module.sass";
-import Button from "../../../../controls/button/Button";
+import Button from "../../../../designSystem/button/Button";
 import TextEditor from "../../../../requestItem/textEditor/TextEditor";
 import classNames from "classnames";
 import {UploadFile} from "antd";
 import {useSafeNewRequestDataLayerContext} from "../../../NewRequestDataLayer";
-import {Input, InputSize} from "../../../../components/input";
+import {Input, InputSize} from "../../../../designSystem/input";
 
 interface NewRequestRequestInfoPartProps {
     onPrevPageClick: () => void;

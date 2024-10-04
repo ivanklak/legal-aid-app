@@ -13,7 +13,7 @@ import {CreateNewClaimParams} from "../api/requests/PostCreateNewClaimRequest";
 import {requestCreateNewClaim} from "../api/methods/requestCreateNewClaim";
 import { FiInfo } from "react-icons/fi";
 import { HiOutlineInbox } from "react-icons/hi2";
-import Button from "../../controls/button/Button";
+import Button from "../../designSystem/button/Button";
 import {useDraftCreatorContext} from "../DraftCreator";
 
 enum ModalType {

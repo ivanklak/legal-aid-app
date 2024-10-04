@@ -3,7 +3,7 @@ import styles from "./RightSideBar.module.sass";
 import {INotifications} from "../mainPage/MainPage";
 import {useNavigate} from "react-router-dom";
 import { BsPlusSquare } from "react-icons/bs";
-import AuthContext from "../../App/Layers/AuthProvider";
+import AuthContext from "../../app/Layers/AuthProvider";
 import {Button, notification} from "antd";
 
 interface RightSideBarProps {

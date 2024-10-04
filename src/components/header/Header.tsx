@@ -5,12 +5,12 @@ import {Input} from 'antd';
 import NotificationsModal from "./notificationsModal/NotificationsModal";
 import {IoIosNotificationsOutline} from "react-icons/io";
 import {IoAccessibilityOutline, IoSearchOutline} from "react-icons/io5";
-import {useAuth} from "../hooks/useAuth";
+import {useAuth} from "../../app/hooks/useAuth";
 import {Link, useNavigate} from "react-router-dom";
 import { IoMenuOutline } from "react-icons/io5";
 import BurgerMenu from "./burderMenu/BurgerMenu";
 import {BsBoxes} from "react-icons/bs";
-import Button from "../../controls/button/Button";
+import Button from "../../designSystem/button/Button";
 
 const Header: FC = () => {
     const {isAuth} = useAuth();

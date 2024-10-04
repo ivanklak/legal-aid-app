@@ -1,6 +1,6 @@
 import React, {ChangeEvent, memo, useCallback, useEffect, useMemo, useState} from "react";
 import styles from "./NewRequestOrganisationInfoPart.module.sass";
-import Button from "../../../../controls/button/Button";
+import Button from "../../../../designSystem/button/Button";
 import classNames from "classnames";
 import {Dropdown, Input, MenuProps} from "antd";
 import {IoIosSearch} from "react-icons/io";

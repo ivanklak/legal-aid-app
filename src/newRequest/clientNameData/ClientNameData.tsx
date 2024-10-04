@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useState} from "react";
-import {Input, InputSize} from "../../components/input";
+import {Input, InputSize} from "../../designSystem/input";
 import classNames from "classnames";
 import styles from "./ClientNameData.module.sass";
 import {Button} from "antd";

@@ -1,6 +1,6 @@
 import React, {FC, useCallback, useState} from "react";
 import styles from "./ClientProblem.module.sass";
-import {Input as DefaultInput, InputSize} from "../../components/input";
+import {Input as DefaultInput, InputSize} from "../../designSystem/input";
 import classNames from "classnames";
 import UploadFiles from "../../components/uploadFiles/UploadFiles";
 import SearchOrganisationForm from "../organisation/searchOrganisation/SearchOrganisationForm";

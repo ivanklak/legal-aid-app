@@ -8,7 +8,7 @@ import { Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {getDateFromString} from "../../handlers/getDateFromString";
 import {IFullRequestInfo} from "../../newRequest/newRequestForm/parts/newRequestFinalPart/NewRequestFinalPart";
-import Button from "../../controls/button/Button";
+import Button from "../../designSystem/button/Button";
 
 interface IUserInfo {
     first_name: string;

@@ -3,7 +3,7 @@ import styles from "./MainPage.module.sass";
 import MainWrapper from "../../components/mainWrapper/MainWrapper";
 import Claims from "../claims/Claims";
 import RightSideBar from "../rightSideBar/RightSideBar";
-import AuthContext from "../../App/Layers/AuthProvider";
+import AuthContext from "../../app/Layers/AuthProvider";
 
 export enum Status {
     success = "Решено",

@@ -5,11 +5,11 @@ import { BsChevronDown } from "react-icons/bs";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import classNames from "classnames";
 import {Dropdown, MenuProps} from "antd";
-import {useAuth} from "../../hooks/useAuth";
+import {useAuth} from "../../../app/hooks/useAuth";
 import { IoLogOutOutline } from "react-icons/io5";
 import { IoAccessibilityOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
-import Button from "../../../controls/button/Button";
+import Button from "../../../designSystem/button/Button";
 
 
 enum AccountMenuItems {

@@ -1,11 +1,11 @@
 import React, {memo, useState} from "react";
 import styles from "./NewRequestUserDataPart.module.sass";
-import Button from "../../../../controls/button/Button";
-import {Input, InputSize} from "../../../../components/input";
-import {LoaderCircle} from "../../../../components/loader/Loader.Circle";
+import Button from "../../../../designSystem/button/Button";
+import {Input, InputSize} from "../../../../designSystem/input";
+import {LoaderCircle} from "../../../../designSystem/loader/Loader.Circle";
 import {Checkbox, Segmented} from "antd";
-import {useAuth} from "../../../../components/hooks/useAuth";
-import {IUserData} from "../../../../login/api/AuthServise";
+import {useAuth} from "../../../../app/hooks/useAuth";
+import {IUserData} from "../../../../pages/loginPages/api/AuthServise";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 import NewRequestRegistrationForm, {
     TRegistrationPayload

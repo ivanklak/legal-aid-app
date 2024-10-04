@@ -1,0 +1,103 @@
+.registration
+  height: 100vh
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  background-color: #f8f8f8
+
+  .container
+    display: flex
+    justify-content: center
+    position: relative
+    background: var(--base-color__white)
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1)
+    border-radius: 10px
+    overflow: hidden
+    box-sizing: border-box
+
+    .info_container
+      display: flex
+      flex-direction: column
+      width: 400px
+      flex: 0 0 400px
+      background-color: rgba(246, 246, 246, 0.5)
+
+      .reg_icon
+        width: 100%
+        height: 100%
+        min-height: 400px
+        background: url("res/girl_with_key.svg") center/cover no-repeat
+
+    .inputs_container
+      display: flex
+      flex-direction: column
+      width: 400px
+      flex: 0 0 400px
+      padding: 25px
+
+      .caption
+        font-size: 22px
+        font-weight: 500
+        font-family: "Roboto", sans-serif
+        color: var(--base-color__black)
+        margin-bottom: 10px
+
+      .text
+        font-size: 14px
+        font-weight: 400
+        font-family: "Roboto", sans-serif
+        color: var(--base-color__black50)
+        margin-bottom: 20px
+
+      & > span
+        //margin-bottom: 12px
+
+      .pwd_description
+        min-height: 18px
+        font-size: 12px
+        font-weight: 400
+        font-family: "Roboto", sans-serif
+        color: var(--base-color__red500)
+
+      .checkbox_block
+        margin-top: 8px
+        //margin-bottom: 12px
+
+      .buttons_block
+        //margin-left: auto
+        margin-top: 12px
+        width: 100%
+
+        .button_body
+          width: 100%
+
+          .button_content
+            display: flex
+            align-items: center
+            justify-content: center
+            gap: 6px
+
+  .has_account
+    display: flex
+    gap: 4px
+    margin-top: 20px
+    font-size: 14px
+    font-weight: 400
+    font-family: "Roboto", sans-serif
+    color: var(--base-color__black)
+
+    .link
+      color: #1A73E8
+      text-decoration: none
+      text-underline: none
+
+.password-item
+  margin-bottom: 8px
+
+  .title
+    font-size: 12px
+    color: rgb(103 103 103)
+
+
+

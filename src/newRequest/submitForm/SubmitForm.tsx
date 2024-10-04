@@ -3,7 +3,7 @@ import styles from "./SubmitForm.module.sass";
 import {Button} from "antd";
 import {useSafeNewRequestDataLayerContext} from "../NewRequestDataLayer";
 import {requestCreateNewClaim} from "../api/methods/requestCreateNewClaim";
-import {useAuth} from "../../components/hooks/useAuth";
+import {useAuth} from "../../app/hooks/useAuth";
 import {CreateNewClaimParams} from "../api/requests/PostCreateNewClaimRequest";
 
 interface SubmitFormProps {
