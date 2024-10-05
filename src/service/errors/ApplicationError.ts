@@ -4,7 +4,6 @@ export default abstract class ApplicationError extends Error {
   public toJSON(): Record<string, unknown> {
     const keys = Object.keys(this);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const unsafeThis = this as Record<string, unknown>;
 
     const sentryData: Record<string, unknown> = {};

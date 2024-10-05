@@ -1,4 +1,3 @@
-// Глобальные настройки ts используемые во всех пакетах
 {
   "compilerOptions": {
     "isolatedModules": true,
@@ -33,6 +32,8 @@
       "ES2020"
       // Библиотека es2020 для новых вишек промисов
     ],
+    "baseUrl": "src",
+    "include": ["src", "src/global.d.ts"],
     "plugins": [
       {
         "name": "typescript-plugin-css-modules",

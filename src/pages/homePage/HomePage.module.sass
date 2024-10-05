@@ -1,3 +1,5 @@
+@import "src/variables.module.sass"
+
 .home-page
   display: flex
   flex-direction: column
@@ -68,17 +70,23 @@
       width: 100%
       max-width: 1200px
       will-change: transform, opacity
-      padding: 0 2rem
+      padding: 0 16px
       margin-left: auto
       margin-right: auto
       position: relative
       z-index: 0
       overflow: hidden
+      @include respond-to('md')
+        padding: 0 2rem
 
       .row
         display: flex
+        flex-direction: column
         width: 100%
-        gap: 24px
+        gap: 16px
+        @include respond-to('md')
+          flex-direction: row
+          gap: 24px
 
         .item
           flex: 1

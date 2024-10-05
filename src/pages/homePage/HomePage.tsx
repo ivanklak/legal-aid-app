@@ -1,8 +1,11 @@
 import React, {memo, useCallback} from "react";
-import styles from "./HomePage.module.sass";
 import {Link, useNavigate} from "react-router-dom";
+import styles from "./HomePage.module.sass";
 import {useAuth} from "../../app/hooks/useAuth";
-import {BsChevronRight} from "react-icons/bs";
+import {ScrollablePanel} from "../../controls/panel/ScrollablePanel";
+import {ScrollBarVisibility} from "../../controls/scrollArea";
+// icons
+import { BsChevronRight } from "react-icons/bs";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { CiBullhorn } from "react-icons/ci";
 import { HiOutlineBuildingLibrary } from "react-icons/hi2";
@@ -22,7 +25,10 @@ const HomePage = memo<HomePageProps>(() => {
     }, [navigate])
 
     return (
-        <>
+        <ScrollablePanel
+            vScroll={ScrollBarVisibility.autoWhenScrollOverArea}
+            hScroll={ScrollBarVisibility.auto}
+        >
             <div className={styles['home-page']}>
                 <div className={styles['greetings-section']}>
                     <div className={styles['content-container']}>
@@ -93,7 +99,7 @@ const HomePage = memo<HomePageProps>(() => {
                     </div>
                 </div>
             </div>
-        </>
+        </ScrollablePanel>
     )
 })
 

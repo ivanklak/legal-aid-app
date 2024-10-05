@@ -1,0 +1,120 @@
+@import "../view.setting.module.sass"
+
+.scrollbar
+	display: flex
+	user-select: none
+	outline: none
+
+	&__button
+		border-radius: $scrollBarButtonBorderRadius
+		width: $scrollBarSize
+		height: $scrollBarSize
+		cursor: pointer
+		display: flex
+		justify-content: center
+		flex-shrink: 0
+		&:hover
+			background-color: $scrollBarColor
+			opacity: $scrollBarHoverOpacity
+		&._selected
+			background-color: $scrollBarColor
+			opacity: $scrollBarSelectedOpacity
+		&._decrease
+			align-self: flex-start
+		&._increase
+			align-self: flex-end
+		&._disabled
+			pointer-events: none
+			opacity: 0.5
+
+		& > *
+			width: 0
+			max-width: 0
+			height: 0
+			max-height: 0
+			align-self: center
+			opacity: $scrollBarDefaultOpacity
+
+		&:hover > *
+			opacity: $scrollBarSelectedOpacity
+
+	&._horizontal &__button._decrease > *
+		border-top: $scrollBarButtonArrowSize solid transparent
+		border-bottom: $scrollBarButtonArrowSize solid transparent
+		border-right: $scrollBarButtonArrowSize solid $scrollBarButtonArrowColor
+		margin-left: -1px
+	&._horizontal &__button._decrease._selected, &._horizontal &__button:hover > *
+		border-right-color: $scrollBarButtonArrowSelectedColor
+
+	&._vertical &__button._increase > *
+		border-left: $scrollBarButtonArrowSize solid transparent
+		border-right: $scrollBarButtonArrowSize solid transparent
+		border-top: $scrollBarButtonArrowSize solid $scrollBarButtonArrowColor
+		margin-bottom: -1px
+	&._vertical &__button._increase._selected, &._vertical &__button:hover > *
+		border-top-color: $scrollBarButtonArrowSelectedColor
+
+
+	&._vertical &__button._decrease > *
+		border-left: $scrollBarButtonArrowSize solid transparent
+		border-right: $scrollBarButtonArrowSize solid transparent
+		border-bottom: $scrollBarButtonArrowSize solid $scrollBarButtonArrowColor
+	&._vertical &__button._decrease._selected, &._vertical &__button:hover > *
+		border-bottom-color: $scrollBarButtonArrowSelectedColor
+
+	&._horizontal &__button._increase > *
+		border-top: $scrollBarButtonArrowSize solid transparent
+		border-bottom: $scrollBarButtonArrowSize solid transparent
+		border-left: $scrollBarButtonArrowSize solid $scrollBarButtonArrowColor
+	&._horizontal &__button._increase._selected, &._horizontal &__button:hover > *
+		border-left-color: $scrollBarButtonArrowSelectedColor
+
+
+	&__thumb-panel
+		background-color: transparent
+		flex-grow: 1
+		position: relative
+
+		&__thumb
+			background-color: $scrollBarColor
+			opacity: $scrollBarDefaultOpacity
+			border-radius: $scrollBarThumbBorderRadius
+			display: block
+			cursor: pointer
+			& > *
+				display: none // если захочется иконку
+			&._disabled
+				pointer-events: none
+				opacity: 0.5
+
+			&._selected
+				opacity: $scrollBarSelectedOpacity !important
+
+		&:hover &__thumb
+			opacity: $scrollBarHoverOpacity
+
+	&:focus &__thumb-panel__thumb
+		opacity: $scrollBarHoverOpacity
+
+
+	&._horizontal
+		height: $scrollBarSize
+	&._horizontal &__thumb-panel__thumb
+		min-width: $scrollBarThumbMinSize
+		height: $scrollBarSize
+	&._horizontal &__button
+		&._decrease
+			margin-right: $scrollBarButtonMargin
+		&._increase
+			margin-left: $scrollBarButtonMargin
+
+	&._vertical
+		width: $scrollBarSize
+	&._vertical &__thumb-panel__thumb
+		min-height: $scrollBarThumbMinSize
+		width: $scrollBarSize
+	&._vertical &__button
+		&._decrease
+			margin-bottom: $scrollBarButtonMargin
+		&._increase
+			margin-top: $scrollBarButtonMargin

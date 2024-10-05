@@ -1,0 +1,101 @@
+@import "./scrollBar.module"
+
+// по максимому избавляемся от штатных скроллов
+%override-default-scroll
+	scrollbar-width: none	// FF
+	&::-webkit-scrollbar
+		display: none
+
+// стили измерения штатного скролла
+.measure-default-scroll
+	@extend %override-default-scroll
+	visibility: hidden
+	overflow: scroll
+	msOverflowStyle: scrollbar	// IE
+	position: absolute
+	left: -100px
+	top: -100px
+	width: 50px
+	height: 50px
+
+// сам контрол прокрутки
+.scroll-area
+	border: none
+	overflow: hidden
+	position: relative
+	outline: none
+	display: grid
+	grid-template-columns: 100%
+	grid-template-rows: 100%
+	height: 100%
+	flex-grow: 1
+	&.has-horizontal-scroll
+		grid-template-rows: calc(100% - #{$scrollBarSize}) $scrollBarSize
+	&.has-vertical-scroll
+		grid-template-columns: calc(100% - #{$scrollBarSize}) $scrollBarSize
+
+	// новое окошко прокрутки
+	&__view-port
+		border: none
+		overflow: hidden
+		position: relative
+		outline: none
+		margin: 0
+		padding: 0
+		width: 100%
+		height: 100%
+		grid-column: 1 / 1
+		grid-row: 1 / 1
+
+		// окошко прокрутки по умолчанию от браузера (только скрыты скролы, т.к. находятся за пределами видимости)
+		&__default
+			@extend %override-default-scroll
+			border: none
+			overflow: hidden
+			position: relative
+			outline: none
+			margin: 0
+			padding: 0
+			width: 100%
+			height: 100%
+			&._horizontal-overflow
+				overflow-x: scroll
+				overscroll-behavior-x: none
+			&._vertical-overflow
+				overflow-y: scroll
+				overscroll-behavior-y: none
+
+	// полосы прокрутки
+	&__scrollbar
+		position: relative
+		margin: 0
+		padding: 0
+
+		&._horizontal
+			grid-row: 2 / 2
+			grid-column: 1 / 1
+		&._vertical
+			grid-column: 2 / 2
+			grid-row: 1 / 1
+
+		&._horizontal-over
+			position: absolute
+			left: 0
+			right: 0
+			bottom: 0
+		&._vertical-over
+			position: absolute
+			right: 0
+			top: 0
+			bottom: 0
+
+		opacity: 1
+		transition-property: opacity
+		transition-duration: 0.1s
+		transition-delay: 0s
+	&__scrollbar._hide._ignore-hover:not(:hover)
+		opacity: 0
+		transition-delay: 1.5s
+	&:not(:hover) &__scrollbar._hide:not(._ignore-hover)
+		opacity: 0
+		transition-delay: 1.5s
