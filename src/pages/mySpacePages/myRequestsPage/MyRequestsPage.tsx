@@ -8,6 +8,8 @@ import {formats} from "../../../requestItem/textEditor/EditorToolbar";
 import ReactQuill from "react-quill";
 import {IOrganisationData} from "../../../newRequest/NewRequestDataLayer";
 import {useNavigate} from "react-router-dom";
+import {ScrollBarVisibility} from "../../../controls/scrollArea";
+import {ScrollablePanel} from "../../../controls/panel/ScrollablePanel";
 
 const MyRequestsPage = () => {
     const navigate = useNavigate();
@@ -127,9 +129,12 @@ const MyRequestsPage = () => {
     }
 
     return !isReady ? <LoaderCircle /> : (
-        <MainWrapper>
+        <ScrollablePanel
+            vScroll={ScrollBarVisibility.autoWhenScrollOverArea}
+            hScroll={ScrollBarVisibility.auto}
+        >
             <div className={styles['my-requests']}>
-                <div className={styles['scroll-area']}>
+                <div className={styles['list']}>
                     <div className={styles['title']}>Мои обращения</div>
                     <div className={styles['requests-container']}>
                         {!!requests.length
@@ -139,7 +144,7 @@ const MyRequestsPage = () => {
                     </div>
                 </div>
             </div>
-        </MainWrapper>
+        </ScrollablePanel>
     );
 }
 

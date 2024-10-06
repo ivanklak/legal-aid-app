@@ -1,6 +1,6 @@
 import React, {memo, useCallback, useState} from "react";
 import {Modal} from "antd";
-import {INotifications, NotificationsTitle} from "../../../mainPageSections/mainPage/MainPage";
+import {INotifications, NotificationsTitle} from "../../../pages/mySpacePages/dashboardPage/DashboardPage";
 import styles from "./NotificationsModal.module.sass";
 import classNames from "classnames";
 import {useNavigate} from "react-router-dom";

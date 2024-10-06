@@ -1,5 +1,7 @@
 import React, {memo} from "react";
 import styles from "./MainWrapper.module.sass";
+import {ScrollBarVisibility} from "../../controls/scrollArea";
+import {ScrollablePanel} from "../../controls/panel/ScrollablePanel";
 
 interface MainWrapperProps {
     children: React.ReactNode

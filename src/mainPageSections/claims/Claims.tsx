@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useEffect, useState} from "react";
-import {StatusV2} from "../mainPage/MainPage";
+import {StatusV2} from "../../pages/mySpacePages/dashboardPage/DashboardPage";
 import styles from "./Claims.module.sass";
 import {Link, useNavigate} from "react-router-dom";
 import getClaimsRequest from "../api/metods/getClaimsRequest";

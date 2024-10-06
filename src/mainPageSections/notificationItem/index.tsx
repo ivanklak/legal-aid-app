@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import styles from "./NotificationItem.module.css";
-import {INotifications} from "../mainPage/MainPage";
+import {INotifications} from "../../pages/mySpacePages/dashboardPage/DashboardPage";
 import classNames from "classnames";
 
 interface NotificationItemProps {

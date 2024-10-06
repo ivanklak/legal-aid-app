@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import styles from "./AppealsItem.module.css";
-import {StatusV2} from "../mainPage/MainPage";
+import {StatusV2} from "../../pages/mySpacePages/dashboardPage/DashboardPage";
 import {HiOutlineBuildingLibrary} from "react-icons/hi2";
 import {ClaimsItemResponse} from "../api/requests/GetClaimsRequest";
 import {getDateFromString} from "../../handlers/getDateFromString";

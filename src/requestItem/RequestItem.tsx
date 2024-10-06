@@ -16,6 +16,8 @@ import {formats} from "./textEditor/EditorToolbar";
 import ReactQuill from "react-quill";
 import {useAuth} from "../app/hooks/useAuth";
 import {formatDate} from "../core/utils/dateUtils";
+import {ScrollBarVisibility} from "../controls/scrollArea";
+import {ScrollablePanel} from "../controls/panel/ScrollablePanel";
 
 const CAPTION = 'Читос или кузя лакомкин?';
 const ITEM_DESCRIPTION = 'Многие меня спрашивают читос или кузя лакомкин. Скажу по секрету, что между ними стоит еще один титан. Это русская картошка. ' +
@@ -275,50 +277,55 @@ const RequestItem = () => {
     if (!data) return null;
 
     return isLoading && !data ? <LoaderCircle /> : (
-        <MainWrapper>
+        <ScrollablePanel
+            vScroll={ScrollBarVisibility.autoWhenScrollOverArea}
+            hScroll={ScrollBarVisibility.auto}
+        >
             <DraftCreator>
-                <div className={styles.main_info}>
-                    <div className={styles.form}>
-                        <div className={styles.caption}>{data.name}</div>
-                        <div className={styles.description}>Описание</div>
-                        <ReactQuill
-                            className={classNames(
-                                styles.description_text
-                            )}
-                            theme="snow"
-                            onChange={() => {}}
-                            value={data.text || ''}
-                            formats={formats}
-                            modules={{toolbar: null}}
-                            readOnly={true}
-                        />
-                        <div className={styles.attachments}>Вложения</div>
-                        <div className={styles.attachment_items}>
-                            <div className={styles.attach_item}>
-                                .doc
-                            </div>
-                            <div className={styles.attach_item}>
-                                .pdf
+                <div className={styles['request-item']}>
+                    <div className={styles.main_info}>
+                        <div className={styles.form}>
+                            <div className={styles.caption}>{data.name}</div>
+                            <div className={styles.description}>Описание</div>
+                            <ReactQuill
+                                className={classNames(
+                                    styles.description_text
+                                )}
+                                theme="snow"
+                                onChange={() => {}}
+                                value={data.text || ''}
+                                formats={formats}
+                                modules={{toolbar: null}}
+                                readOnly={true}
+                            />
+                            <div className={styles.attachments}>Вложения</div>
+                            <div className={styles.attachment_items}>
+                                <div className={styles.attach_item}>
+                                    .doc
+                                </div>
+                                <div className={styles.attach_item}>
+                                    .pdf
+                                </div>
                             </div>
                         </div>
+                        <div className={styles.actions}>
+                            <div className={styles.title}>Активность</div>
+                            <TextEditor saveComment={handleTestSaveComment} />
+                            {data.comments?.length ? (
+                                <ClaimActions actions={data.comments} id={id}/>
+                            ) : (
+                                <div className={styles.no_activities}>Нет активности</div>
+                            )}
+                        </div>
                     </div>
-                    <div className={styles.actions}>
-                        <div className={styles.title}>Активность</div>
-                        <TextEditor saveComment={handleTestSaveComment} />
-                        {data.comments?.length ? (
-                            <ClaimActions actions={data.comments} id={id}/>
-                        ) : (
-                            <div className={styles.no_activities}>Нет активности</div>
-                        )}
-                    </div>
+                    <AdditionalInfo
+                        id={data.genId}
+                        author={`${userData.firstName} ${userData.lastLame}`}
+                        org={fullInfo.org}
+                    />
                 </div>
-                <AdditionalInfo
-                    id={data.genId}
-                    author={`${userData.firstName} ${userData.lastLame}`}
-                    org={fullInfo.org}
-                />
             </DraftCreator>
-        </MainWrapper>
+        </ScrollablePanel>
     )
 }
 export default RequestItem;

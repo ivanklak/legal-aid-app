@@ -1,6 +1,6 @@
 import React, {FC, useCallback, useContext} from "react";
 import styles from "./RightSideBar.module.sass";
-import {INotifications} from "../mainPage/MainPage";
+import {INotifications} from "../../pages/mySpacePages/dashboardPage/DashboardPage";
 import {useNavigate} from "react-router-dom";
 import { BsPlusSquare } from "react-icons/bs";
 import AuthContext from "../../app/Layers/AuthProvider";

@@ -99,6 +99,11 @@ const HomePage = memo<HomePageProps>(() => {
                     </div>
                 </div>
             </div>
+            <div className={styles['footer-section']}>
+                <div className={styles['content-container']}>
+                    <div>тут будуь контакты и логотипы партнеров</div>
+                </div>
+            </div>
         </ScrollablePanel>
     )
 })

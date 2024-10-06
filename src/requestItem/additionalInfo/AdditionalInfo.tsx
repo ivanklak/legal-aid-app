@@ -1,6 +1,6 @@
 import React, {memo, useCallback, useEffect, useState} from "react";
 import styles from "./AdditionalInfo.module.sass";
-import {StatusV2} from "../../mainPageSections/mainPage/MainPage";
+import {StatusV2} from "../../pages/mySpacePages/dashboardPage/DashboardPage";
 import {Dropdown, MenuProps, Tag} from "antd";
 import {BsChevronDown} from "react-icons/bs";
 import {IOrganisationData} from "../../newRequest/NewRequestDataLayer";

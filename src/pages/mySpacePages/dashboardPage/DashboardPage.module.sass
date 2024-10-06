@@ -1,0 +1,59 @@
+@import "src/variables.module.sass"
+
+.main-page
+    display: flex
+    flex-direction: column
+    height: 100%
+    width: 100%
+    max-width: 3840px
+    overflow: auto
+    margin: 0 auto 0
+
+.status-container
+    display: flex
+    width: 100%
+    margin: 28px 0
+    padding: 0 20px
+    gap: 16px
+    overflow-x: scroll
+    scroll-behavior: smooth
+    scrollbar-width: none
+
+    .status-item
+        display: flex
+        flex: 1 1
+        max-width: 240px
+        flex-direction: column
+        padding: 16px
+        border-radius: 6px
+        background: rgba(241, 241, 241, 0.5)
+        border: 1px solid rgba(241, 241, 241, 0.7)
+        box-shadow: 0 2px 5px 0 rgba(197, 201, 206, 0.2)
+
+        .status-item-caption
+            font-family: var(--fonts-default)
+            font-size: 16px
+            font-weight: 500
+            margin-bottom: 8px
+            white-space: nowrap
+
+        .status-item-number
+            font-family: var(--fonts-default)
+            font-size: 24px
+            font-weight: 600
+
+.main-section
+    display: flex
+    flex-direction: column-reverse
+    width: 100%
+    @include respond-to('md')
+        flex-direction: row
+
+    .appeals
+        max-width: 900px
+        padding: 0 16px
+        overflow: scroll
+        @include respond-to('md')
+            flex: 2
+            padding: 0 20px
+            max-height: calc(100vh - 30px)

@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState} from "react";
 import {Route, Routes} from "react-router-dom";
 import {useLocation} from "react-router";
 import {useAuth} from "../hooks/useAuth";
-import MainPage from "../../mainPageSections/mainPage/MainPage";
+import DashboardPage from "../../pages/mySpacePages/dashboardPage/DashboardPage";
 import MyRequests from "../../pages/mySpacePages/myRequestsPage/MyRequestsPage";
 import NewRequests from "../../newRequest/NewRequest";
 import Notifications from "../../pages/notificationsPage/Notifications";
@@ -54,7 +54,7 @@ const AppRoutes: FC = () => {
             <Route path='/support' element={<SupportPage />} />
             <Route path='/contacts' element={<ContactsPage />} />
             <Route path='/mySpace' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MySpacePage/>} />} />
-            <Route path='/mySpace/dashboard' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MainPage/>} />} />
+            <Route path='/mySpace/dashboard' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<DashboardPage/>} />} />
             <Route path='/mySpace/category' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Categories/>} />} />
             <Route path='/mySpace/myRequests' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<MyRequests/>} />} />
             <Route path='/mySpace/myRequests/:id' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<RequestItem/>} />} />
