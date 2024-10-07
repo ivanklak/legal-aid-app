@@ -10,10 +10,8 @@ import {FiEyeOff} from 'react-icons/fi';
 import {requestLogin} from "./api/methods/requestLogin";
 import {LoginResponse} from "./api/requests/PostLoginRequest";
 import classNames from "classnames";
-import {
-    TRegistrationPayload
-} from "../../newRequest/newRequestForm/components/newRequestRegistrationForm/NewRequestRegistrationForm";
 import {LoaderCircle} from "../../designSystem/loader/Loader.Circle";
+import {IUserLoginResponse, testUserLogin} from "../../app/auth/methods/testUserLogin";
 
 const Login = () => {
     const {
@@ -59,19 +57,19 @@ const Login = () => {
             //     applyLoginResponse(response);
             // }
 
-            const userData: TRegistrationPayload = await testUserLogin(email, pwd);
+            const userData: IUserLoginResponse = await testUserLogin({email: email, password: pwd});
             if (userData) {
                 setUserData({
                     firstName: userData.name,
-                    lastLame: userData.lastName,
+                    lastLame: '',
                     patronymic: '', // отчество что ли ?
                     id: Number(userData.id),
                     email: userData.email,
                     phone: '',
-                    address: userData.address,
-                    inn: userData.inn,
+                    address: '',
+                    inn: '',
                     status: '',
-                    passNumber: userData.passNumber
+                    passNumber: ''
                 });
                 // обязательно - для восстановления сессии
                 localStorage.setItem('last_id', userData.id);
@@ -94,49 +92,6 @@ const Login = () => {
             }
             setIsAuthInProgress(false);
         }
-    }
-
-    const testUserLogin = (email: string, pwd: string): Promise<TRegistrationPayload> => {
-        return new Promise((resolve, reject) => {
-            if (!email) {
-                reject();
-                return;
-            }
-
-            window.setTimeout(() => {
-                const existedUsersString = localStorage.getItem('reg_users');
-
-                let existedUsersArray: TRegistrationPayload[] = [];
-
-                try {
-                    if (existedUsersString) {
-                        const parsedRegUsers: TRegistrationPayload[] = JSON.parse(existedUsersString) || [];
-
-                        if (parsedRegUsers?.length) {
-                            existedUsersArray.push(...parsedRegUsers);
-                        }
-                    }
-                } catch (e) {
-                    console.error('Cannot parse reg_users in LoginForm -> existedUsersString', existedUsersString);
-                }
-
-                if (!existedUsersArray.length) {
-                    resolve(null);
-                } else {
-                    const reqUserData: TRegistrationPayload = existedUsersArray.find((data) => data.email === email);
-
-                    if (!reqUserData) {
-                        resolve(null);
-                    } else {
-                        if (reqUserData.password !== pwd) {
-                            resolve(null);
-                        } else {
-                            resolve(reqUserData);
-                        }
-                    }
-                }
-            }, 1500)
-        })
     }
 
     const applyLoginResponse = (response: LoginResponse) => {
@@ -162,12 +117,12 @@ const Login = () => {
                 <div className={login_styles.forms}>
                     {/*login */}
                     <div className={classNames(login_styles.form, login_styles.login)}>
-                        <span className={login_styles.title}>Login</span>
+                        <span className={login_styles.title}>Логин</span>
                         <form className="loginForm" onSubmit={handleLoginSubmit}>
                             <div className={login_styles.input_field}>
                                 <input className="login__email"
                                        type="email"
-                                       placeholder="Enter your email"
+                                       placeholder="Email"
                                        onChange={(e) => setEmail(e.target.value)}
                                        required/>
                                 <i className={login_styles.icon}><FiMail/></i>
@@ -176,7 +131,7 @@ const Login = () => {
                                 <input
                                     type={!isPwShow ? "password" : "text"}
                                     className="login__password password"
-                                    placeholder="Enter password"
+                                    placeholder="Пароль"
                                     onChange={(e) => setPwd(e.target.value)}
                                     required
                                 />
@@ -188,12 +143,12 @@ const Login = () => {
                             <div className={login_styles.checkbox_text}>
                                 <div className={login_styles.checkbox_content}>
                                     <input type="checkbox" id="logCheck"/>
-                                    <label htmlFor="logCheck" className={login_styles.text}>Remember me</label>
+                                    <label htmlFor="logCheck" className={login_styles.text}>Запомнить</label>
                                 </div>
-                                <a href="src/pages/loginPages/Login#" className={login_styles.text}>Forgot password?</a>
+                                <a href="src/pages/loginPages/Login#" className={login_styles.text}>Забыли пароль?</a>
                             </div>
                             <div className={classNames(login_styles.input_field, login_styles.button)}>
-                                <input type="submit" value="Login Now" className="loginButton"/>
+                                <input type="submit" value="Войти" className="loginButton"/>
                                 <small
                                     ref={errRefLogin}
                                     className={classNames(
@@ -206,8 +161,8 @@ const Login = () => {
                         </form>
 
                         <div className={login_styles.login_signup}>
-                            <span className={login_styles.text}>Not a member?&nbsp;
-                                <Link to={'/registration'} className={login_styles.text}>Регистрация</Link>
+                            <span className={login_styles.text}>Нет аккаунта?&nbsp;
+                                <Link to={'/registration'} className={login_styles.text}>Зарегистрироваться</Link>
                             </span>
                         </div>
                     </div>

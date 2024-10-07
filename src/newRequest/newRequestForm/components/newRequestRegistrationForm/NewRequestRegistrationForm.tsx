@@ -4,20 +4,13 @@ import {Input, InputSize} from "../../../../designSystem/input";
 import Button from "../../../../designSystem/button/Button";
 import {useAuth} from "../../../../app/hooks/useAuth";
 import {LoaderCircle} from "../../../../designSystem/loader/Loader.Circle";
+import {
+    CreateAccountParams,
+    IUserRegistrationResponse,
+    testUserRegistration
+} from "../../../../app/auth/methods/testUserRegistration";
 
 type TRegPageId = 'credentials' | 'addUserData';
-
-type TUserDataToSend = {
-    name: string;
-    lastName: string;
-    email: string;
-    password: string;
-    inn: string;
-    address: string;
-    passNumber: string;
-}
-
-export type TRegistrationPayload = {id: string} & TUserDataToSend
 
 interface NewRequestRegistrationFormProps {}
 
@@ -126,22 +119,16 @@ const NewRequestRegistrationForm = memo<NewRequestRegistrationFormProps>(({}) =>
             return;
         }
 
-        const payload: TUserDataToSend = {name, lastName, email, password, inn, address, passNumber};
+        const payload: CreateAccountParams = {name, email, password, agreementCheckbox: true};
 
         testUserRegistration(payload)
-            .then((data: TRegistrationPayload) => {
+            .then((data: IUserRegistrationResponse) => {
                 setIsLoading(false);
                 setUserData({
+                    id: data.id,
+                    role: data.role,
                     firstName: data.name,
-                    lastLame: data.lastName,
-                    patronymic: '', // отчество что ли ?
-                    id: Number(data.id),
-                    email: data.email,
-                    phone: '',
-                    address: data.address,
-                    inn: data.inn,
-                    status: '',
-                    passNumber: data.passNumber
+                    email: data.email
                 });
                 setIsAuth(true);
                 setError('');
@@ -150,49 +137,6 @@ const NewRequestRegistrationForm = memo<NewRequestRegistrationFormProps>(({}) =>
                 setError('Ошибка регистрации');
                 setIsLoading(false);
             })
-    }
-
-    const testUserRegistration = (payload: TUserDataToSend): Promise<TRegistrationPayload> => {
-        setIsLoading(true);
-
-        return new Promise((resolve, reject) => {
-            if (!payload) reject();
-
-            // 4 digit number
-            const testNewUserId = String(Math.floor(1000 + Math.random() * 9000));
-
-            const newUserData: TRegistrationPayload = {
-                ...payload,
-                id: testNewUserId
-            }
-
-            const existedUsersString = localStorage.getItem('reg_users');
-
-            let existedUsersArray: TRegistrationPayload[] = [];
-
-            try {
-                if (existedUsersString) {
-                    const parsedRegUsers: TRegistrationPayload[] = JSON.parse(existedUsersString) || [];
-
-                    if (parsedRegUsers?.length) {
-                        existedUsersArray.push(...parsedRegUsers);
-                    }
-                }
-            } catch (e) {
-                console.error('Cannot parse reg_users in RegistrationForm -> existedUsersString', existedUsersString);
-            }
-
-            existedUsersArray.push(newUserData);
-
-            const usersToSave = JSON.stringify(existedUsersArray);
-
-            localStorage.setItem('reg_users', usersToSave);
-            localStorage.setItem('last_id', testNewUserId);
-
-            window.setTimeout(() => {
-                resolve(newUserData)
-            }, 1500)
-        })
     }
 
     const renderCredentialsPage = () => {

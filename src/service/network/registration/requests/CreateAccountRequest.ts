@@ -2,7 +2,7 @@ import PostRequest from "../../../api/requests/PostRequest";
 import JSONResponseHandler from "../../../api/handlers/JSONResponseHandler";
 
 export interface CreateAccountParams {
-    firstName: string;
+    name: string;
     email: string;
     password: string;
     agreementCheckbox: boolean;

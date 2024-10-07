@@ -1,5 +1,6 @@
 import {instance} from "../../../api.config";
 import {AxiosResponse} from "axios";
+import {UserRole} from "../../../app/auth/types/types";
 
 export interface IAuthData {
     sessionId: string;
@@ -15,15 +16,16 @@ export interface IInfoResponse {
 }
 
 export interface IUserData {
-    id: number;
+    id: string;
+    role: UserRole;
     firstName: string;
-    lastLame: string;
-    patronymic: string;
+    lastLame?: string;
+    patronymic?: string;
     email: string;
-    phone: string;
-    address: string;
-    inn: string;
-    status: string;
+    phone?: string;
+    address?: string;
+    inn?: string;
+    status?: string;
     passNumber?: string;
 }
 

@@ -2,9 +2,7 @@ import React, {createContext, memo, useEffect, useState} from "react";
 import {AuthService, IAuthData, IUserData} from "../../pages/loginPages/api/AuthServise";
 import {useLocation, useNavigate} from "react-router-dom";
 import {requestInfo} from "../../pages/loginPages/api/methods/requestInfo";
-import {
-    TRegistrationPayload
-} from "../../newRequest/newRequestForm/components/newRequestRegistrationForm/NewRequestRegistrationForm";
+import {IUserRestoreResponse, testRestoreUserSession} from "../auth/methods/testRestoreUserSession";
 
 export interface IAuthContext {
     isAuth: boolean;
@@ -42,7 +40,7 @@ export const AuthProvider = memo<AuthProviderProps>(({ children }) => {
         setIsAuthInProgress(true);
         const token = localStorage.getItem('token');
         if (!!token) {
-            await requestGetInfo();
+            // await requestGetInfo();
         } else {
             console.log('no token ==> go to login');
             location.pathname !== '/' && navigate('/login');
@@ -53,24 +51,25 @@ export const AuthProvider = memo<AuthProviderProps>(({ children }) => {
     const testCheckAuth = () => {
         setIsAuthInProgress(true);
 
-        restoreUserSession()
-            .then((data: TRegistrationPayload) => {
+        testRestoreUserSession()
+            .then((data: IUserRestoreResponse) => {
                 if (!data) {
                     setIsAuth(false);
                     console.log('не получилось восстановить сессию')
                 } else {
                     setIsAuth(true);
                     setUserData({
+                        role: data.role,
                         firstName: data.name,
-                        lastLame: data.lastName,
-                        patronymic: '', // отчество что ли ?
-                        id: Number(data.id),
+                        lastLame: '',
+                        patronymic: '',
+                        id: data.id,
                         email: data.email,
                         phone: '',
-                        address: data.address,
-                        inn: data.inn,
+                        address: '',
+                        inn: '',
                         status: '',
-                        passNumber: data.passNumber
+                        passNumber: ''
                     });
                     console.log('=== сессия успешно восстановлена ===')
                 }
@@ -82,44 +81,6 @@ export const AuthProvider = memo<AuthProviderProps>(({ children }) => {
             })
     }
 
-    const restoreUserSession = (): Promise<TRegistrationPayload> => {
-        return new Promise((resolve, reject) => {
-            const lastUserId = localStorage.getItem('last_id');
-            const existedUsersString = localStorage.getItem('reg_users');
-
-            if (!lastUserId || !existedUsersString) {
-                reject(null);
-                return;
-            }
-
-            let existedUsersArray: TRegistrationPayload[] = [];
-
-            try {
-                if (existedUsersString) {
-                    const parsedRegUsers: TRegistrationPayload[] = JSON.parse(existedUsersString) || [];
-
-                    if (parsedRegUsers?.length) {
-                        existedUsersArray.push(...parsedRegUsers);
-                    }
-                }
-            } catch (e) {
-                console.error('Cannot parse reg_users in AuthProvider -> existedUsersString', existedUsersString);
-            }
-
-            if (!existedUsersArray.length) {
-                resolve(null);
-            } else {
-                const reqUserData: TRegistrationPayload = existedUsersArray.find((data) => data.id === lastUserId);
-
-                if (!reqUserData) {
-                    resolve(null);
-                } else {
-                    window.setTimeout(() =>  resolve(reqUserData), 500)
-                }
-            }
-        })
-    }
-
     const requestGetInfo = async () => {
         try {
             const sessionId = localStorage.getItem('id');
@@ -127,7 +88,7 @@ export const AuthProvider = memo<AuthProviderProps>(({ children }) => {
             const response = await requestInfo(sessionId, email);
             if (response) {
                 console.log('getInfo response', response)
-                setUserData(response.user);
+                // setUserData(response.user);
                 setAuthData({ sessionId: response.sessionId });
                 setIsAuth(true);
                 setIsAuthInProgress(false);

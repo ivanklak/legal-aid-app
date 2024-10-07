@@ -5,11 +5,9 @@ import {Input, InputSize} from "../../../../designSystem/input";
 import {LoaderCircle} from "../../../../designSystem/loader/Loader.Circle";
 import {Checkbox, Segmented} from "antd";
 import {useAuth} from "../../../../app/hooks/useAuth";
-import {IUserData} from "../../../../pages/loginPages/api/AuthServise";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
-import NewRequestRegistrationForm, {
-    TRegistrationPayload
-} from "../../components/newRequestRegistrationForm/NewRequestRegistrationForm";
+import NewRequestRegistrationForm from "../../components/newRequestRegistrationForm/NewRequestRegistrationForm";
+import {IUserLoginResponse, testUserLogin} from "../../../../app/auth/methods/testUserLogin";
 
 interface NewRequestUserDataPartProps {
     onPrevPageClick: () => void;
@@ -21,31 +19,6 @@ type TPageId = 'login' | 'registration';
 const pages = [
     {label: 'Логин', value: 'login'},
     {label: 'Регистрация', value: 'registration'},
-]
-
-const MOCK_USERS: IUserData[] = [
-    {
-        firstName: "Райан",
-        lastLame: "Гослинг",
-        address: "125363 Nelidovskaya street 21, Calabasas, CA, USA",
-        email: "test@test.com",
-        id: 7007,
-        inn: "007",
-        patronymic: "",
-        phone: "+7999-999-99-99",
-        status: "ken"
-    },
-    {
-        firstName: "Оптимус",
-        lastLame: "Прайм",
-        address: "125363 Putilkovskoe shosse 3, Vancouver, Canada",
-        email: "test@gmail.com",
-        id: 9009,
-        inn: "009",
-        patronymic: "",
-        phone: "+7999-777-77-77",
-        status: "autobot"
-    }
 ]
 
 const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageClick, onNextPageClick}) => {
@@ -82,23 +55,17 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
             return;
         }
 
-        testUserLogin(email)
-            .then((userData: TRegistrationPayload) => {
-                if (!userData) {
+        testUserLogin({email: email, password: password})
+            .then((data: IUserLoginResponse) => {
+                if (!data) {
                     setError('Не верный email или пароль');
                     setIsAuth(false);
                 } else {
                     setUserData({
-                        firstName: userData.name,
-                        lastLame: userData.lastName,
-                        patronymic: '', // отчество что ли ?
-                        id: Number(userData.id),
-                        email: userData.email,
-                        phone: '',
-                        address: userData.address,
-                        inn: userData.inn,
-                        status: '',
-                        passNumber: userData.passNumber
+                        id: data.id,
+                        role: data.role,
+                        firstName: data.name,
+                        email: data.email,
                     });
                     // обязательно - для восстановления сессии
                     localStorage.setItem('last_id', userData.id);
@@ -113,47 +80,6 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
                 setError('Не верный email или пароль');
                 console.log('error', error)
             })
-    }
-
-    const testUserLogin = (value: string): Promise<TRegistrationPayload> => {
-        setIsLoading(true);
-
-        return new Promise((resolve, reject) => {
-            if (!value) {
-                reject();
-                return;
-            }
-
-            window.setTimeout(() => {
-                const existedUsersString = localStorage.getItem('reg_users');
-
-                let existedUsersArray: TRegistrationPayload[] = [];
-
-                try {
-                    if (existedUsersString) {
-                        const parsedRegUsers: TRegistrationPayload[] = JSON.parse(existedUsersString) || [];
-
-                        if (parsedRegUsers?.length) {
-                            existedUsersArray.push(...parsedRegUsers);
-                        }
-                    }
-                } catch (e) {
-                    console.error('Cannot parse reg_users in LoginForm -> existedUsersString', existedUsersString);
-                }
-
-                if (!existedUsersArray.length) {
-                    resolve(null);
-                } else {
-                    const reqUserData: TRegistrationPayload = existedUsersArray.find((data) => data.email === value);
-
-                    if (!reqUserData) {
-                        resolve(null);
-                    } else {
-                        resolve(reqUserData);
-                    }
-                }
-            }, 1500)
-        })
     }
 
     const handlePageChange = (value: any) => {
@@ -213,7 +139,7 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
             <div className={styles['login-container']}>
                 {isAuth && userData ? (
                     <div className={styles['login-user-data']}>
-                        <div className={styles['name']}>{userData.firstName} {userData.lastLame}</div>
+                        <div className={styles['name']}>{userData.firstName}</div>
                         <div className={styles['data-item']}>Адресс: {userData.address}</div>
                         <div className={styles['data-item']}>Email: {userData.email}</div>
                         {userData.passNumber && <div className={styles['data-item']}>Номер паспорта: {userData.passNumber}</div>}

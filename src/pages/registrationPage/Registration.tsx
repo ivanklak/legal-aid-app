@@ -61,7 +61,7 @@ const Registration = () => {
     const onSubmitForm = async (values: IRegisterFormData) => {
         try {
             const response = await requestCreateAccount({
-                firstName: name,
+                name: name,
                 email: email,
                 password: password,
                 agreementCheckbox: checkboxValue

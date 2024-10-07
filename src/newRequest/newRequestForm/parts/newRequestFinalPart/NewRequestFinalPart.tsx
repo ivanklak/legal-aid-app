@@ -168,7 +168,7 @@ const NewRequestFinalPart = memo<NewRequestFinalPartProps>(({onPrevPageClick}) =
                     <div className={styles['block-caption']}>Контакты</div>
                     <div className={styles['block-description']}>
                         <div className={styles['login-user-data']}>
-                            <div className={styles['name']}>{userData.firstName} {userData.lastLame}</div>
+                            <div className={styles['name']}>{userData.firstName}</div>
                             <div className={styles['data-item']}>Адресс: {userData.address}</div>
                             <div className={styles['data-item']}>Email: {userData.email}</div>
                             {userData.passNumber && <div className={styles['data-item']}>Номер паспорта: {userData.passNumber}</div>}

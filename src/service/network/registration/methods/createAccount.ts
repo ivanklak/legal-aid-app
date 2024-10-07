@@ -1,9 +1,13 @@
 import CreateAccountRequest, {CreateAccountParams, CreateAccountResponse} from "../requests/CreateAccountRequest";
+import {IUserRegistrationResponse, testUserRegistration} from "../../../../app/auth/methods/testUserRegistration";
 
-export const requestCreateAccount = async (params: CreateAccountParams): Promise<CreateAccountResponse> => {
+//TODO registration убрать testUserRegistration
+
+export const requestCreateAccount = async (params: CreateAccountParams): Promise<IUserRegistrationResponse> => {
     const createAccountRequest = new CreateAccountRequest(params);
 
-    const data: CreateAccountResponse = await createAccountRequest.send();
+    // const data: CreateAccountResponse = await createAccountRequest.send();
+    const data = await testUserRegistration(params, 300);
 
-    return data
+    return data;
 }
