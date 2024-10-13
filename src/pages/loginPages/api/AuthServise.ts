@@ -17,16 +17,18 @@ export interface IInfoResponse {
 
 export interface IUserData {
     id: string;
-    role: UserRole;
-    firstName: string;
-    lastLame?: string;
-    patronymic?: string;
+    role: UserRole,
+    name?: string;
     email: string;
+    password?: string;
     phone?: string;
     address?: string;
-    inn?: string;
-    status?: string;
-    passNumber?: string;
+    dateOfBirth?: string;
+    companyName?: string;
+    taxId?: string;
+    integrationId?: string;
+    licenseNumber?: string;
+    specialization?: string;
 }
 
 export interface IRefreshData {

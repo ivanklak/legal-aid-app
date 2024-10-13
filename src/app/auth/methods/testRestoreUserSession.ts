@@ -1,12 +1,7 @@
 import {TRegistrationPayload} from "./testUserRegistration";
-import {UserRole} from "../types/types";
+import {IUserData} from "../../../pages/loginPages/api/AuthServise";
 
-export interface IUserRestoreResponse {
-    id: string;
-    role: UserRole,
-    name: string;
-    email: string;
-}
+export interface IUserRestoreResponse extends IUserData {}
 
 export const testRestoreUserSession = (): Promise<IUserRestoreResponse> => {
     return new Promise((resolve, reject) => {
@@ -41,12 +36,7 @@ export const testRestoreUserSession = (): Promise<IUserRestoreResponse> => {
                 resolve(null);
             } else {
                 window.setTimeout(() =>  {
-                    resolve({
-                        id: reqUserData.id,
-                        role: reqUserData.role,
-                        name: reqUserData.name,
-                        email: reqUserData.email
-                    });
+                    resolve(reqUserData);
                 }, 500)
             }
         }

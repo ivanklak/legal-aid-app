@@ -8,7 +8,7 @@ type IUserTitle = {
 
 export interface IUserInfo {
     first_name: string;
-    last_name: string;
+    last_name?: string;
     title?: IUserTitle;
 }
 

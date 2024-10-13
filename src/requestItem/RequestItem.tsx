@@ -138,8 +138,7 @@ const RequestItem = () => {
             createdAt: formatDate(new Date().getTime(), 'DD/MM/YYYY'),
             id: Math.floor(1000 + Math.random() * 9000),
             user: {
-                first_name: userData.firstName,
-                last_name: userData.lastLame
+                first_name: userData.name,
             }
         }
         // добаляем новый коммент к старым
@@ -320,7 +319,7 @@ const RequestItem = () => {
                     </div>
                     <AdditionalInfo
                         id={data.genId}
-                        author={`${userData.firstName} ${userData.lastLame}`}
+                        author={userData.name}
                         org={fullInfo.org}
                     />
                 </div>

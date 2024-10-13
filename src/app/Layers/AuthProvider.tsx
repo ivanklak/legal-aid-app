@@ -58,19 +58,7 @@ export const AuthProvider = memo<AuthProviderProps>(({ children }) => {
                     console.log('не получилось восстановить сессию')
                 } else {
                     setIsAuth(true);
-                    setUserData({
-                        role: data.role,
-                        firstName: data.name,
-                        lastLame: '',
-                        patronymic: '',
-                        id: data.id,
-                        email: data.email,
-                        phone: '',
-                        address: '',
-                        inn: '',
-                        status: '',
-                        passNumber: ''
-                    });
+                    setUserData(data);
                     console.log('=== сессия успешно восстановлена ===')
                 }
                 setIsAuthInProgress(false);

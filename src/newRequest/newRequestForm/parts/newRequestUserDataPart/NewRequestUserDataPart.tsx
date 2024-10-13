@@ -64,7 +64,7 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
                     setUserData({
                         id: data.id,
                         role: data.role,
-                        firstName: data.name,
+                        name: data.name,
                         email: data.email,
                     });
                     // обязательно - для восстановления сессии
@@ -139,11 +139,10 @@ const NewRequestUserDataPart = memo<NewRequestUserDataPartProps>(({onPrevPageCli
             <div className={styles['login-container']}>
                 {isAuth && userData ? (
                     <div className={styles['login-user-data']}>
-                        <div className={styles['name']}>{userData.firstName}</div>
-                        <div className={styles['data-item']}>Адресс: {userData.address}</div>
+                        <div className={styles['name']}>{userData.name}</div>
+                        {userData.address && <div className={styles['data-item']}>Адресс: {userData.address}</div>}
                         <div className={styles['data-item']}>Email: {userData.email}</div>
-                        {userData.passNumber && <div className={styles['data-item']}>Номер паспорта: {userData.passNumber}</div>}
-                        <div className={styles['data-item']}>ИНН: {userData.inn}</div>
+                        {userData.phone && <div className={styles['data-item']}>Телефон: {userData.phone}</div>}
                     </div>
                 ) : (
                     <div className={styles['login-form']}>

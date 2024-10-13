@@ -127,7 +127,7 @@ const NewRequestRegistrationForm = memo<NewRequestRegistrationFormProps>(({}) =>
                 setUserData({
                     id: data.id,
                     role: data.role,
-                    firstName: data.name,
+                    name: data.name,
                     email: data.email
                 });
                 setIsAuth(true);

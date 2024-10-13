@@ -57,22 +57,11 @@ const Login = () => {
             //     applyLoginResponse(response);
             // }
 
-            const userData: IUserLoginResponse = await testUserLogin({email: email, password: pwd});
-            if (userData) {
-                setUserData({
-                    firstName: userData.name,
-                    lastLame: '',
-                    patronymic: '', // отчество что ли ?
-                    id: Number(userData.id),
-                    email: userData.email,
-                    phone: '',
-                    address: '',
-                    inn: '',
-                    status: '',
-                    passNumber: ''
-                });
+            const data: IUserLoginResponse = await testUserLogin({email: email, password: pwd});
+            if (data) {
+                setUserData(data);
                 // обязательно - для восстановления сессии
-                localStorage.setItem('last_id', userData.id);
+                localStorage.setItem('last_id', data.id);
                 setIsAuth(true);
                 setIsAuthInProgress(false);
                 navigate('/mySpace/dashboard');

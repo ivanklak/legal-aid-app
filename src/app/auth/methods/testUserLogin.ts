@@ -1,19 +1,11 @@
-import {UserRole} from "../types/types";
-import {TRegistrationPayload} from "./testUserRegistration";
+import {IUserData} from "../../../pages/loginPages/api/AuthServise";
 
 export interface ILoginParams {
     email: string;
     password: string;
 }
 
-export type TLoginPayload = TRegistrationPayload;
-
-export interface IUserLoginResponse {
-    id: string;
-    role: UserRole,
-    name: string;
-    email: string;
-}
+export interface IUserLoginResponse extends IUserData {}
 
 const TIMEOUT = 1500;
 
@@ -27,11 +19,11 @@ export const testUserLogin = (params: ILoginParams, timeout?: number): Promise<I
         window.setTimeout(() => {
             const existedUsersString = localStorage.getItem('reg_users');
 
-            let existedUsersArray: TLoginPayload[] = [];
+            let existedUsersArray: IUserLoginResponse[] = [];
 
             try {
                 if (existedUsersString) {
-                    const parsedRegUsers: TLoginPayload[] = JSON.parse(existedUsersString) || [];
+                    const parsedRegUsers: IUserLoginResponse[] = JSON.parse(existedUsersString) || [];
 
                     if (parsedRegUsers?.length) {
                         existedUsersArray.push(...parsedRegUsers);
@@ -44,18 +36,13 @@ export const testUserLogin = (params: ILoginParams, timeout?: number): Promise<I
             if (!existedUsersArray.length) {
                 resolve(null);
             } else {
-                const reqUserData: TLoginPayload = existedUsersArray.find((data) => data.email === params.email);
+                const reqUserData: IUserLoginResponse = existedUsersArray.find((data) => data.email === params.email);
 
                 if (!reqUserData) {
                     resolve(null);
                 } else {
                     if (reqUserData.password === params.password) {
-                        resolve({
-                            id: reqUserData.id,
-                            role: reqUserData.role,
-                            name: reqUserData.name,
-                            email: reqUserData.email
-                        });
+                        resolve(reqUserData);
                     } else {
                         resolve(null);
                     }

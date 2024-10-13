@@ -9,6 +9,10 @@ import type { ColumnsType } from 'antd/es/table';
 import {getDateFromString} from "../../handlers/getDateFromString";
 import {IFullRequestInfo} from "../../newRequest/newRequestForm/parts/newRequestFinalPart/NewRequestFinalPart";
 import Button from "../../designSystem/button/Button";
+import {isPartner} from "../../app/auth/types/types";
+import {useAuth} from "../../app/hooks/useAuth";
+import {IOrganisationData} from "../../newRequest/NewRequestDataLayer";
+import {ISuggestions} from "../../newRequest/api/requests/GetOrganisationSuggestionsRequest";
 
 interface IUserInfo {
     first_name: string;
@@ -35,6 +39,8 @@ interface ClaimRowData {
 
 const Claims: FC = () => {
     const navigate = useNavigate();
+    //
+    const {userData} = useAuth();
     const [claims, setClaims] = useState<ClaimsItemResponse[]>([]);
     const [rows, setRows] = useState<ClaimRowData[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -90,8 +96,26 @@ const Claims: FC = () => {
                 return;
             }
 
-            resolve(existedRequestsArray);
+            if (!isPartner(userData)) {
+                resolve(existedRequestsArray);
+                return;
+            }
+
+            const resultArr: IFullRequestInfo[] = [];
+
+            existedRequestsArray.forEach((request) => {
+                const organisation = request.org;
+                if (isSuggestion(organisation) && organisation.id === userData.integrationId) {
+                    resultArr.push(request);
+                }
+            });
+
+            resolve(resultArr);
         })
+    }
+
+    const isSuggestion = (info: IOrganisationData): info is ISuggestions => {
+        return info && Boolean((info as ISuggestions).data) && Boolean((info as ISuggestions).value)
     }
 
     const onAllAppealsClick = () => {
@@ -200,7 +224,7 @@ const Claims: FC = () => {
                 <div className={styles['expand-data']}>{claimRowData.comments.length} ответов</div>
                 <div className={styles['text']} dangerouslySetInnerHTML={{__html: claimRowData.text}} />
                 <Link
-                    to={{pathname: `/myRequests/${claimRowData.id}`}}
+                    to={{pathname: `/mySpace/myRequests/${claimRowData.id}`}}
                     className={styles['expand-link']}
                 >
                     Перейти к обращению

@@ -57,6 +57,64 @@ export const testUserRegistration = (payload: CreateAccountParams, timout?: numb
 
         existedUsersArray.push(newUserData);
 
+        const newUserData1: TRegistrationPayload & {integrationId: string} = {
+            id: String(Math.floor(1000 + Math.random() * 9000)),
+            role: UserRole.partner,
+            name: 'Яндекс маркет',
+            email: 'yandex@test.com',
+            password: 'qwerty90',
+            agreementCheckbox: true,
+            integrationId: 'y4nd3x-p4r1n3r-1d'
+        }
+
+        const newUserData0: TRegistrationPayload & {integrationId: string} = {
+            id: String(Math.floor(1000 + Math.random() * 9000)),
+            role: UserRole.partner,
+            name: 'Сбер',
+            email: 'sber@test.com',
+            password: 'qwerty90',
+            agreementCheckbox: true,
+            integrationId: 's6er-p4r1n3r-1d'
+        }
+
+        const newUserData2: TRegistrationPayload = {
+            id: String(Math.floor(1000 + Math.random() * 9000)),
+            role: UserRole.lawyer,
+            name: 'Агент Сеймур Симонс',
+            email: 'lawyer1@test.com',
+            password: 'qwerty90',
+            agreementCheckbox: true
+        }
+
+        const newUserData3: TRegistrationPayload = {
+            id: String(Math.floor(1000 + Math.random() * 9000)),
+            role: UserRole.lawyer,
+            name: 'Бамблби',
+            email: 'lawyer2@test.com',
+            password: 'qwerty90',
+            agreementCheckbox: true
+        }
+
+        const newUserData4: TRegistrationPayload = {
+            id: String(Math.floor(1000 + Math.random() * 9000)),
+            role: UserRole.admin,
+            name: 'Сэм Уиткики',
+            email: 'admin1@test.com',
+            password: 'qwerty90',
+            agreementCheckbox: true
+        }
+
+        const newUserData5: TRegistrationPayload = {
+            id: String(Math.floor(1000 + Math.random() * 9000)),
+            role: UserRole.admin,
+            name: 'Микаэла Бейнс',
+            email: 'admin2@test.com',
+            password: 'qwerty90',
+            agreementCheckbox: true
+        }
+
+        existedUsersArray.push(...[newUserData0, newUserData1, newUserData2, newUserData3, newUserData4, newUserData5]);
+
         const usersToSave = JSON.stringify(existedUsersArray);
 
         localStorage.setItem('reg_users', usersToSave);

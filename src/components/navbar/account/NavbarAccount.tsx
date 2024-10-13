@@ -102,7 +102,7 @@ const NavbarAccount = memo<NavbarAccountProps>(({onClick: propsOnClick}) => {
                 <>
                     <Dropdown onOpenChange={handleOpenChange} menu={{ items, onClick: handleClick }} trigger={['click']}>
                         <div className={classNames(styles['account-name'], isDropdownOpen && styles['_active'])}>
-                            <div>{userData.firstName}</div>
+                            <div>{userData.name}</div>
                             <BsChevronDown size={10} />
                         </div>
                     </Dropdown>

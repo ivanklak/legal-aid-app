@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import MainWrapper from "../../../components/mainWrapper/MainWrapper";
 import styles from "./MyRequestsPage.module.sass";
 import {LoaderCircle} from "../../../designSystem/loader/Loader.Circle";
 import {ISuggestions} from "../../../newRequest/api/requests/GetOrganisationSuggestionsRequest";
@@ -10,13 +9,25 @@ import {IOrganisationData} from "../../../newRequest/NewRequestDataLayer";
 import {useNavigate} from "react-router-dom";
 import {ScrollBarVisibility} from "../../../controls/scrollArea";
 import {ScrollablePanel} from "../../../controls/panel/ScrollablePanel";
+import {useAuth} from "../../../app/hooks/useAuth";
+import {isPartner} from "../../../app/auth/types/types";
+import {Tabs, TabsProps} from "antd";
+
+enum IRequestsPageId {
+    inbox = 'inbox',
+    sent = 'sent'
+}
 
 const MyRequestsPage = () => {
     const navigate = useNavigate();
+    //
+    const {userData} = useAuth();
     const [isReady, setIsReady] = useState<boolean>(false);
     const [requests, setRequests] = useState<IFullRequestInfo[]>([]);
+    const [currentPageId, setCurrentPageId] = useState<IRequestsPageId>(IRequestsPageId.inbox);
 
     useEffect(() => {
+        setIsReady(false);
         getAllClaims()
             .then((data: IFullRequestInfo[]) => {
                 if (!data?.length) {
@@ -31,7 +42,7 @@ const MyRequestsPage = () => {
                 console.log('нет обращений', e);
                 setIsReady(true);
             })
-    }, [])
+    }, [currentPageId])
 
     const getAllClaims = (): Promise<IFullRequestInfo[]> => {
         return new Promise((resolve, reject) => {
@@ -56,8 +67,30 @@ const MyRequestsPage = () => {
 
             window.setTimeout(() => {
                 resolve(existedRequestsArray);
-            }, 1000)
+            }, 300)
         })
+    }
+
+    const getInboxes = (): IFullRequestInfo[] => {
+        if (!requests) return [];
+
+        if (!isPartner(userData)) return requests;
+
+        const resultArr: IFullRequestInfo[] = [];
+
+        requests.forEach((request) => {
+            const organisation = request.org;
+            if (isSuggestion(organisation) && organisation.id === userData.integrationId) {
+                resultArr.push(request);
+            }
+        });
+
+        return resultArr;
+    }
+
+    const getSentRequests = (): IFullRequestInfo[] => {
+        //TODO сделать исходящие обращения для компании
+        return []
     }
 
     const renderOrg = (name: string, address: string, inn: string) => {
@@ -87,11 +120,11 @@ const MyRequestsPage = () => {
         return info && Boolean((info as ISuggestions).data) && Boolean((info as ISuggestions).value)
     }
 
-    const renderRequests = (): JSX.Element => {
+    const renderRequests = (items: IFullRequestInfo[]): React.JSX.Element => {
         return (
             <>
-                {requests.map((requestItem: IFullRequestInfo, index) => {
-                    const statusMessage = requestItem.status === 'created' ? 'Создано' : 'Создано';
+                {items.map((requestItem: IFullRequestInfo, index) => {
+                    const statusMessage = requestItem.status === 'created' ? 'Создано' : 'Другой';
 
                     const firstIndex = requestItem.requestText.indexOf('<p>');
                     const lastIndex = requestItem.requestText.indexOf('</p>');
@@ -128,23 +161,72 @@ const MyRequestsPage = () => {
         );
     }
 
-    return !isReady ? <LoaderCircle /> : (
-        <ScrollablePanel
-            vScroll={ScrollBarVisibility.autoWhenScrollOverArea}
-            hScroll={ScrollBarVisibility.auto}
-        >
-            <div className={styles['my-requests']}>
-                <div className={styles['list']}>
-                    <div className={styles['title']}>Мои обращения</div>
-                    <div className={styles['requests-container']}>
-                        {!!requests.length
-                            ? renderRequests()
-                            : <div>У вас пока что нет обращений</div>
+    const renderInbox = () => {
+        if (!isReady) return null;
+
+        const inboxes = getInboxes();
+        return (
+            <div className={styles['requests-container']}>
+                {!!requests.length
+                    ? renderRequests(inboxes)
+                    : <div>У вас пока что нет обращений</div>
+                }
+            </div>
+        )
+    }
+
+    const renderSent = () => {
+        if (!isReady) return null;
+
+        const sentRequests = getSentRequests();
+        return (
+            <div className={styles['requests-container']}>
+                {!!sentRequests.length
+                    ? renderRequests(sentRequests)
+                    : <div>У вас пока что нет обращений</div>
+                }
+            </div>
+        )
+    }
+
+    const items: TabsProps['items'] = [
+        { key: IRequestsPageId.inbox, label: 'Входящие', children: renderInbox() },
+        { key: IRequestsPageId.sent, label: 'Отправленные', children: renderSent() },
+    ];
+
+    const handleTabsChange = (key: IRequestsPageId) => {
+        setCurrentPageId(key);
+    }
+
+    return (
+        <>
+            {!isReady && <LoaderCircle />}
+            <ScrollablePanel
+                vScroll={ScrollBarVisibility.autoWhenScrollOverArea}
+                hScroll={ScrollBarVisibility.auto}
+            >
+                <div className={styles['my-requests']}>
+                    <div className={styles['list']}>
+                        {isPartner(userData)
+                            ?  (
+                                <Tabs
+                                    defaultActiveKey={IRequestsPageId.inbox}
+                                    items={items}
+                                    onChange={handleTabsChange}
+                                    rootClassName={styles['tabs']}
+                                />
+                            )
+                            : (
+                                <>
+                                    <div className={styles['title']}>Мои обращения</div>
+                                    {renderInbox()}
+                                </>
+                            )
                         }
                     </div>
                 </div>
-            </div>
-        </ScrollablePanel>
+            </ScrollablePanel>
+        </>
     );
 }
 
